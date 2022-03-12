@@ -6,7 +6,7 @@
         <field name="inherit_id" ref="stock.view_picking_form"/>
         <field name="arch" type="xml">
             <xpath expr="//field[@name='partner_id']" position="before">
-                <field name="stock.view_picking_form"/>
+                <field name="is_entry"/>
             </xpath>
         </field>
     </record>
