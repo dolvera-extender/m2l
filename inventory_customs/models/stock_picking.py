@@ -34,14 +34,10 @@ class StockPickingCustom(models.Model):
         pass
 
     def _get_product_mult_domain(self):
-        domain = []
-        _log.info("______________ CONTEXT :::: %s " % self.env.context)
-        _log.info("___________picking:: %s " % self)
-        _log.info("Lineas del picking:: %s " % self.move_ids_without_package)
-        move_product_ids = self.move_ids_without_package.ids if self.move_ids_without_package else []
+        move_product_ids = self.move_ids_without_package.mapped('product_id').ids if self.move_ids_without_package else []
         if len(move_product_ids) > 0:
-            domain.append(('id', 'in', move_product_ids))
             self.product_tm_domain = [(6, 0, move_product_ids)]
+            self.env.cr.commit()
 
 
 class StockPickingTypeCustom(models.Model):
