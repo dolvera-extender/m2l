@@ -6,8 +6,17 @@
         <field name="inherit_id" ref="stock.view_picking_form"/>
         <field name="arch" type="xml">
             <xpath expr="//field[@name='name']" position="after">
-                <field name="use_multiplier"/>
+                <field name="use_multiplier" invisible="1"/>
             </xpath>
+            <xpath expr="//field[@name='name']" position="after">
+                <group attrs="{'invisible':[('use_multiplier', '=', False)]}">
+                    <field name="product_to_multiply"/>
+                    <field name="product_pack_qty"/>
+                    <field name="product_av_qty"/>
+                    <button name="multiply_product" string="Multiplicar" type="object" class="btn-primary" data-hotkey="m"/>
+                </group>
+            </xpath>
+
         </field>
     </record>
 
