@@ -8,7 +8,7 @@
             <xpath expr="//field[@name='name']" position="after">
                 <field name="use_multiplier" invisible="1"/>
             </xpath>
-            <xpath expr="//field[@name='name']" position="after">
+            <xpath expr="//field[@name='origin']" position="after">
                 <group attrs="{'invisible':[('use_multiplier', '=', False)]}">
                     <field name="product_to_multiply"/>
                     <field name="product_pack_qty"/>
