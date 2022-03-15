@@ -9,7 +9,9 @@
                 <field name="use_multiplier" invisible="1"/>
             </xpath>
             <xpath expr="//field[@name='origin']" position="after">
-                <field name="product_to_multiply" attrs="{'invisible':[('use_multiplier', '=', False)]}"/>
+                <field name="product_to_multiply"
+                       domain="[('id', 'in', move_ids_without_package.mapped(product_id).ids)]"
+                       attrs="{'invisible':[('use_multiplier', '=', False)]}"/>
                 <field name="product_pack_qty" attrs="{'invisible':[('use_multiplier', '=', False)]}"/>
                 <field name="product_av_qty" attrs="{'invisible':[('use_multiplier', '=', False)]}"/>
                 <button name="multiply_product" attrs="{'invisible':[('use_multiplier', '=', False)]}"
