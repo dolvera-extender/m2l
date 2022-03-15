@@ -9,8 +9,8 @@ class StockPickingCustom(models.Model):
     _inherit = "stock.picking"
 
     use_multiplier = fields.Boolean(string="Usar multiplicador", compute="_check_use_multiplier", store=False)
-    product_to_multiply = fields.Many2one('product.product', string="Producto a multiplicar",
-                                          domain=lambda self: self._get_product_mult_domain())
+    product_to_multiply = fields.Many2one('product.product', string="Producto a multiplicar")
+    product_tm_domain = fields.One2many('product.product', 'product_multiplier_domain', string="Product tm domain")
     product_pack_qty = fields.Integer(string="Cantidad por paquete")
     product_av_qty = fields.Integer(string="Cantidad a empaquetar")
 
@@ -48,3 +48,9 @@ class StockPickingTypeCustom(models.Model):
     _inherit = "stock.picking.type"
 
     use_multiplier = fields.Boolean(string="Usa multiplicador", default=False)
+
+
+class ProductProductMultiply(models.Model):
+    _inherit = "product.product"
+
+    product_multiplier_domain = fields.Many2one('stock.picking', 'Movimiento multiplicado')
