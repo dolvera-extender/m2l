@@ -9,7 +9,8 @@ class StockPickingCustom(models.Model):
     _inherit = "stock.picking"
 
     use_multiplier = fields.Boolean(string="Usar multiplicador", compute="_check_use_multiplier", store=False)
-    product_to_multiply = fields.Many2one('product.product', string="Producto a multiplicar")
+    product_to_multiply = fields.Many2one('product.product', string="Producto a multiplicar",
+                                          domain=lambda self: self._get_product_mult_domain())
     product_pack_qty = fields.Integer(string="Cantidad por paquete")
     product_av_qty = fields.Integer(string="Cantidad a empaquetar")
 
@@ -20,7 +21,8 @@ class StockPickingCustom(models.Model):
 
     def multiply_product(self):
         """
-        Method that create packages with computed number of lots for stock picking
+        Method that create packages with computed number of lots for stock picking.
+        Use the field move_ids_without_package
         :return:
         """
         _log.info("Usando multiplicador.")
@@ -29,6 +31,15 @@ class StockPickingCustom(models.Model):
     @api.onchange('product_to_multiply')
     def default_product_av_qty(self):
         pass
+
+    def _get_product_mult_domain(self):
+        domain = []
+        _log.info("___________picking:: %s " % self)
+        _log.info("Lineas del picking:: %s " % self.move_ids_without_package)
+        move_product_ids = self.move_ids_without_package.ids if self.move_ids_without_package else []
+        if len(move_product_ids) > 0:
+            domain.append(('id', 'in', move_product_ids))
+        return domain
 
 
 class StockPickingTypeCustom(models.Model):
