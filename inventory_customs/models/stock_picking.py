@@ -35,6 +35,7 @@ class StockPickingCustom(models.Model):
 
     def _get_product_mult_domain(self):
         move_product_ids = self.move_ids_without_package.mapped('product_id').ids
+        _log.info(" MOVE PRODUCT IDS ::::: %s " % move_product_ids)
         if len(move_product_ids) > 0:
             self.product_tm_domain = [(6, 0, move_product_ids)]
             self.env.cr.commit()
