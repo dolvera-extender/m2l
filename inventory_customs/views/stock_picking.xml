@@ -14,8 +14,6 @@
                        options="{'no_create': True}" attrs="{'invisible':[('use_multiplier', '=', False)]}"/>
                 <field name="product_pack_qty" attrs="{'invisible':[('use_multiplier', '=', False)]}"/>
                 <field name="product_av_qty" attrs="{'invisible':[('use_multiplier', '=', False)]}"/>
-                <button name="multiply_product" attrs="{'invisible':[('use_multiplier', '=', False)]}"
-                        string="Multiplicar" type="object" class="btn-primary" data-hotkey="m"/>
             </xpath>
 
         </field>
@@ -27,7 +25,7 @@
         <field name="inherit_id" ref="stock.view_picking_type_form"/>
         <field name="arch" type="xml">
             <xpath expr="//field[@name='name']" position="after">
-                <field name="use_multiplier"/>
+                <field name="use_multiplier" widget="boolean_toggle"/>
             </xpath>
         </field>
     </record>

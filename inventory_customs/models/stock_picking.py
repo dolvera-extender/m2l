@@ -29,9 +29,9 @@ class StockPickingCustom(models.Model):
         _log.info("Usando multiplicador.")
         pass
 
-    @api.onchange('product_to_multiply')
-    def default_product_av_qty(self):
-        pass
+    # @api.onchange('product_to_multiply')
+    # def default_product_av_qty(self):
+    #     pass
 
     def _get_product_mult_domain(self):
         move_product_ids = self.move_ids_without_package.mapped('product_id').ids
