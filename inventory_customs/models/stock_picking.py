@@ -27,6 +27,7 @@ class StockPickingCustom(models.Model):
         :return:
         """
         _log.info("Usando multiplicador.")
+        _log.info("LINEAS::: %s" % self.move_ids_without_package)
         pass
 
     # @api.onchange('product_to_multiply')
