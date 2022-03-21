@@ -28,6 +28,9 @@ class StockPickingCustom(models.Model):
         """
         move_id_multiply = self.move_ids_without_package.filtered(lambda li: li.product_id.id == self.product_to_multiply.id)
 
+        for line in move_id_multiply.move_line_nosuggest_ids:
+            _log.info("\n\nqty_done:: %s \n\nproduct_uom_qty:: %s \n\nstate:: %s \n\npicking_code:: %s " % (line.qty_done, line.product_uom_qty, line.state, line.picking_code))
+        """
         qty_for_done = move_id_multiply.product_uom_qty - move_id_multiply.quantity_done
         qty_iterations = int(qty_for_done/self.product_qty_pack)
         qty_residual = qty_for_done%self.product_qty_pack
@@ -55,7 +58,6 @@ class StockPickingCustom(models.Model):
                 'location_dest_id': self.location_dest_id.id,
                 'lot_name': "A%s Lote_ejemplo_codigo" % iteracion,
                 'qty_done': qty_done,
-                'product_uom_qty':qty_done,
                 'product_uom_id': move_id_multiply.product_uom.id,
                 'location_id': self.location_id.id, 
                 'state': "done",
@@ -70,7 +72,7 @@ class StockPickingCustom(models.Model):
                 qty_residual = 0
         _log.info(" DATOS A INSERTAR::: %s " % moves_for_add)
         move_id_multiply.move_line_nosuggest_ids = moves_for_add
-
+        """
     # @api.onchange('product_to_multiply')
     # def default_product_av_qty(self):
     #     pass
