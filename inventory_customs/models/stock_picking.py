@@ -48,12 +48,13 @@ class StockPickingCustom(models.Model):
                 break
  
             # Making new records 
+
+                # 'result_package_id': (0, 0, {
+                #     'name': "A%s PAQ CODE EJEMPLO " % iteracion  
+                # }),
             new_pack = {
                 'location_dest_id': self.location_dest_id.id,
                 'lot_name': "A%s Lote_ejemplo_codigo" % iteracion,
-                'result_package_id': (0, 0, {
-                    'name': "A%s PAQ CODE EJEMPLO " % iteracion  
-                }),
                 'qty_done': qty_done
             }
             moves_for_add.append((0, 0, new_pack))
@@ -63,6 +64,7 @@ class StockPickingCustom(models.Model):
                 qty_iterations -= 1
             elif qty_iterations == 0 and qty_residual >0:
                 qty_residual = 0
+        _log.info(" DATOS A INSERTAR::: %s " % moves_for_add)
         move_id_multiply.move_line_nosuggest_ids = moves_for_add
 
 
