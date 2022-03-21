@@ -27,16 +27,12 @@ class StockPickingCustom(models.Model):
         :return:
         """
         move_id_multiply = self.move_ids_without_package.filtered(lambda li: li.product_id.id == self.product_to_multiply.id)
-        cntxt = self._context
-        _log.info("\n\n Contexto ::: %s" % cntxt)
-        for line in move_id_multiply.move_line_nosuggest_ids:
-            _log.info("\n\n LOCATION:: %s  Location name: %s" % (line.location_id, line.location_id.name))
 
         qty_for_done = move_id_multiply.product_uom_qty - move_id_multiply.quantity_done
         qty_iterations = int(qty_for_done/self.product_qty_pack)
         qty_residual = qty_for_done%self.product_qty_pack
         # move_id_multiply.move_line_nosuggest_ids = ()
-        """
+        
         moves_for_add = []
         iteracion = 0
         while True:
@@ -59,7 +55,8 @@ class StockPickingCustom(models.Model):
                 'location_dest_id': self.location_dest_id.id,
                 'lot_name': "A%s Lote_ejemplo_codigo" % iteracion,
                 'qty_done': qty_done,
-                'product_uom_id': move_id_multiply.product_uom.id
+                'product_uom_id': move_id_multiply.product_uom.id,
+                'location_id': self.location_id.id
             }
             moves_for_add.append((0, 0, new_pack))
 
@@ -70,7 +67,6 @@ class StockPickingCustom(models.Model):
                 qty_residual = 0
         _log.info(" DATOS A INSERTAR::: %s " % moves_for_add)
         move_id_multiply.move_line_nosuggest_ids = moves_for_add
-        """
 
     # @api.onchange('product_to_multiply')
     # def default_product_av_qty(self):
