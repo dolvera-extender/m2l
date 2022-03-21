@@ -14,7 +14,6 @@ class StockPickingCustom(models.Model):
     product_tm_domain = fields.One2many('product.product', 'product_multiplier_domain',
                                         string="Product tm domain", compute="_get_product_mult_domain", store=False)
     product_qty_pack = fields.Integer(string="Cantidad por paquete")
-    product_av_qty = fields.Integer(string="Cantidad a empaquetar")
 
     def _check_use_multiplier(self):
         use_multiplier = True if self.picking_type_id and self.picking_type_id.use_multiplier else False
@@ -37,10 +36,20 @@ class StockPickingCustom(models.Model):
             return
         qty_iterations = int(qty_for_done/self.product_qty_pack)
         qty_residual = qty_for_done%self.product_qty_pack
-        # move_id_multiply.move_line_nosuggest_ids = ()
-        
         moves_for_add = []
         iteracion = 0
+
+        # Prepare secuences.
+
+        julian_today = fields.Datetime.now().strftime("%j")
+        _log.info("\nDIA JULIANO ::: %s " % julian_today)
+        # Search the last seq 
+        last_move = self.env['stock.move.line'].search([('julian_day','=', int(julian_today))], order='julian_day_seq asc')[-1:]
+        if not last_move:
+            st_seq = 0
+        else:
+            st_seq = last_move.julian_day_seq
+
         while True:
 
             # Set counters and finish case. 
@@ -51,27 +60,27 @@ class StockPickingCustom(models.Model):
                 qty_done = qty_residual
             else:
                 break
+            st_seq += 1
  
             # Making new records 
             package_id = self.env['stock.quant.package'].create({
-                'name': "A%s Ejemplo pack desde codigo" % iteracion
+                'name': "CNT-%s-%s" % (julian_today, st_seq)
             })
             new_pack = {
                 'picking_id': self.id,
                 'package_level_id': False,
                 'package_id': False, 
                 'location_dest_id': self.location_dest_id.id,
-                'lot_name': "A%s Lote_ejemplo_codigo" % iteracion,
+                'lot_name': "%s-%s" % (julian_today, st_seq),
                 'result_package_id': package_id.id,
                 'qty_done': qty_done,
                 'company_id': self.company_id.id,
                 'product_id': move_id_multiply.product_id.id,
-                # 'product_uom_qty': 0,
                 'product_uom_id': move_id_multiply.product_uom.id,
-                'location_id': self.location_id.id, 
-                # 'state': "confirmed",
-                # 'is_locked': True,
-                # 'picking_code': "incoming"
+                'location_id': self.location_id.id,
+                'julian_day': int(julian_today),
+                'julian_day_seq': st_seq
+
             }
             moves_for_add.append((0, 0, new_pack))
 
@@ -80,8 +89,11 @@ class StockPickingCustom(models.Model):
                 qty_iterations -= 1
             elif qty_iterations == 0 and qty_residual >0:
                 qty_residual = 0
-        _log.info(" DATOS A INSERTAR::: %s " % moves_for_add)
+        _log.info("\nDatos a agregar::: %s ")
         move_id_multiply.move_line_nosuggest_ids = moves_for_add
+        self.product_to_multiply = False
+        self.product_qty_pack = 0
+
         
         
     # @api.onchange('product_to_multiply')
@@ -108,11 +120,14 @@ class ProductProductMultiply(models.Model):
     product_multiplier_domain = fields.Many2one('stock.picking', 'Movimiento multiplicado')
 
 
-class StockMOveLineC(models.Model):
+class StockMoveLineCu(models.Model):
     _inherit = "stock.move.line"
 
-    @api.model_create_multi
-    def create(self, vals_list):
-        _log.info(" CREANDO NUEVA LINEA CON LOS VALORES:::  %s " % vals_list)
-        result = super(StockMOveLineC, self).create(vals_list)
-        return result
+    julian_day = fields.Integer(string="Dia juliano")
+    julian_day_seq = fields.Integer(string="Secuencia del día")
+
+#     @api.model_create_multi
+#     def create(self, vals_list):
+#         _log.info(" CREANDO NUEVA LINEA CON LOS VALORES:::  %s " % vals_list)
+#         result = super(StockMoveLineCu, self).create(vals_list)
+#         return result

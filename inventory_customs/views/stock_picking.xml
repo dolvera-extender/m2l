@@ -13,7 +13,6 @@
                 <field name="product_to_multiply" domain="[('id', 'in', product_tm_domain)]"
                        options="{'no_create': True}" attrs="{'invisible':[('use_multiplier', '=', False)]}"/>
                 <field name="product_qty_pack" attrs="{'invisible':[('use_multiplier', '=', False)]}"/>
-                <field name="product_av_qty" attrs="{'invisible':[('use_multiplier', '=', False)]}"/>
                 <button name="multiply_product" attrs="{'invisible':[('use_multiplier', '=', False)]}"
                         string="Multiplicar" type="object" class="btn-primary" data-hotkey="m"/>
             </xpath>
