@@ -87,7 +87,6 @@ class StockPickingCustom(models.Model):
                 qty_iterations -= 1
             elif qty_iterations == 0 and qty_residual >0:
                 qty_residual = 0
-        _log.info("\nDatos a agregar::: %s ")
         move_id_multiply.move_line_nosuggest_ids = moves_for_add
         self.product_to_multiply = False
         self.product_qty_pack = 0
