@@ -28,7 +28,8 @@ class StockPickingCustom(models.Model):
         """
         _log.info("Usando multiplicador.")
         _log.info("LINEAS::: %s" % self.move_ids_without_package)
-        pass
+        move_id_multiply = self.move_ids_without_package.filtered(lambda li: li.product_id.id == self.product_to_multiply.id)
+        _log.info("\n LINEA A MULTIPLICAR:: %s \nCon el producto:: %s" % (move_id_multiply, move_id_multiply.product_id.name))
 
     # @api.onchange('product_to_multiply')
     # def default_product_av_qty(self):
