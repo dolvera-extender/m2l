@@ -54,7 +54,7 @@ class StockPickingCustom(models.Model):
                 # 'result_package_id': (0, 0, {
                 #     'name': "A%s PAQ CODE EJEMPLO " % iteracion  
                 # }),
-            package_id = self.env[''].create({
+            package_id = self.env['stock.quant.package'].create({
                 'name': "A%s Ejemplo pack desde codigo" % iteracion
             })
             new_pack = {
