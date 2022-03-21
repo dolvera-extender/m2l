@@ -56,7 +56,9 @@ class StockPickingCustom(models.Model):
                 'lot_name': "A%s Lote_ejemplo_codigo" % iteracion,
                 'qty_done': qty_done,
                 'product_uom_id': move_id_multiply.product_uom.id,
-                'location_id': self.location_id.id
+                'location_id': self.location_id.id, 
+                'state': "done",
+                'is_locked': True
             }
             moves_for_add.append((0, 0, new_pack))
 
