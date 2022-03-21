@@ -55,6 +55,7 @@ class StockPickingCustom(models.Model):
                 'location_dest_id': self.location_dest_id.id,
                 'lot_name': "A%s Lote_ejemplo_codigo" % iteracion,
                 'qty_done': qty_done,
+                'product_uom_qty':qty_done,
                 'product_uom_id': move_id_multiply.product_uom.id,
                 'location_id': self.location_id.id, 
                 'state': "done",
