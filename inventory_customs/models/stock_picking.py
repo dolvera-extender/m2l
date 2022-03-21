@@ -12,7 +12,7 @@ class StockPickingCustom(models.Model):
     product_to_multiply = fields.Many2one('product.product', string="Producto a multiplicar")
     product_tm_domain = fields.One2many('product.product', 'product_multiplier_domain',
                                         string="Product tm domain", compute="_get_product_mult_domain", store=False)
-    product_pack_qty = fields.Integer(string="Cantidad por paquete")
+    product_qty_pack = fields.Integer(string="Cantidad por paquete")
     product_av_qty = fields.Integer(string="Cantidad a empaquetar")
 
     def _check_use_multiplier(self):
@@ -26,12 +26,45 @@ class StockPickingCustom(models.Model):
         Use the field move_ids_without_package
         :return:
         """
-        _log.info("Usando multiplicador.")
-        _log.info("LINEAS::: %s" % self.move_ids_without_package)
         move_id_multiply = self.move_ids_without_package.filtered(lambda li: li.product_id.id == self.product_to_multiply.id)
         _log.info("\n LINEA A MULTIPLICAR:: %s \nCon el producto:: %s" % (move_id_multiply, move_id_multiply.product_id.name))
-        _log.info("\nNGS LINE IDS ::  %s " % move_id_multiply.move_line_nosuggest_ids)
-        _log.info("\nMOVE LINE IDS :: %s " % move_id_multiply.move_line_ids)
+        
+        qty_for_done = move_id_multiply.product_uom_qty - move_id_multiply.quantity_done
+        qty_iterations = int(qty_for_done/self.product_qty_pack)
+        qty_residual = qty_for_done%self.product_qty_pack
+        _log.info("\n\n FALTAN %s UNIDADES DE PRODUCTO ... " % qty_for_done)
+        # move_id_multiply.move_line_nosuggest_ids = ()
+        moves_for_add = []
+        iteracion = 0
+        while True:
+
+            # Set counters and finish case. 
+            iteracion += 1
+            if qty_iterations > 0:
+                qty_done = self.product_qty_pack
+            elif qty_iterations == 0 and qty_residual > 0:
+                qty_done = qty_residual
+            else:
+                break
+ 
+            # Making new records 
+            new_pack = {
+                'location_dest_id': self.location_dest_id.id,
+                'lot_name': "A%s Lote_ejemplo_codigo" % iteracion,
+                'result_package_id': (0, 0, {
+                    'name': "A%s PAQ CODE EJEMPLO " % iteracion  
+                }),
+                'qty_done': qty_done
+            }
+            moves_for_add.append((0, 0, new_pack))
+
+            # Decrease counters
+            if qty_iterations > 0:
+                qty_iterations -= 1
+            elif qty_iterations == 0 and qty_residual >0:
+                qty_residual = 0
+        move_id_multiply.move_line_nosuggest_ids = moves_for_add
+
 
     # @api.onchange('product_to_multiply')
     # def default_product_av_qty(self):
