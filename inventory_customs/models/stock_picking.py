@@ -28,8 +28,8 @@ class StockPickingCustom(models.Model):
         """
         move_id_multiply = self.move_ids_without_package.filtered(lambda li: li.product_id.id == self.product_to_multiply.id)
 
-        for line in move_id_multiply.move_line_nosuggest_ids:
-            _log.info("\n\nqty_done:: %s \n\nproduct_uom_qty:: %s \n\nstate:: %s \n\npicking_code:: %s " % (line.qty_done, line.product_uom_qty, line.state, line.picking_code))
+        # for line in move_id_multiply.move_line_nosuggest_ids:
+        #     _log.info("\n\nqty_done:: %s \n\nproduct_uom_qty:: %s \n\nstate:: %s \n\npicking_code:: %s " % (line.qty_done, line.product_uom_qty, line.state, line.picking_code))
         
         qty_for_done = move_id_multiply.product_uom_qty - move_id_multiply.quantity_done
         if qty_for_done <= 0:
@@ -40,9 +40,7 @@ class StockPickingCustom(models.Model):
         iteracion = 0
 
         # Prepare secuences.
-
         julian_today = fields.Datetime.now().strftime("%j")
-        _log.info("\nDIA JULIANO ::: %s " % julian_today)
         # Search the last seq 
         last_move = self.env['stock.move.line'].search([('julian_day','=', int(julian_today))], order='julian_day_seq asc')[-1:]
         if not last_move:
@@ -101,7 +99,7 @@ class StockPickingCustom(models.Model):
     #     pass
 
     def _get_product_mult_domain(self):
-        move_product_ids = self.move_ids_without_package.mapped('product_id').ids
+        move_product_ids = self.move_ids_without_package.mapped('product_id').filtered(lambda x: x.product_uom_qty-x.quantity_done > 0).ids
         if len(move_product_ids) > 0:
             self.write({
                 'product_tm_domain': [(6, 0, move_product_ids)]
