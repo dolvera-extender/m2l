@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from cgitb import reset
 from odoo import models, fields, api
 import logging
 _log = logging.getLogger("___name: %s" % __name__)
@@ -52,10 +53,6 @@ class StockPickingCustom(models.Model):
                 break
  
             # Making new records 
-
-                # 'result_package_id': (0, 0, {
-                #     'name': "A%s PAQ CODE EJEMPLO " % iteracion  
-                # }),
             package_id = self.env['stock.quant.package'].create({
                 'name': "A%s Ejemplo pack desde codigo" % iteracion
             })
@@ -64,7 +61,9 @@ class StockPickingCustom(models.Model):
                 'lot_name': "A%s Lote_ejemplo_codigo" % iteracion,
                 'result_package_id': package_id.id,
                 'qty_done': qty_done,
-                'product_uom_qty': qty_done,
+                'company_id': self.company_id.id,
+                'product_id': move_id_multiply.product_id.id,
+                'product_uom_qty': 0,
                 'product_uom_id': move_id_multiply.product_uom.id,
                 'location_id': self.location_id.id, 
                 'state': "confirmed",
@@ -104,3 +103,13 @@ class ProductProductMultiply(models.Model):
     _inherit = "product.product"
 
     product_multiplier_domain = fields.Many2one('stock.picking', 'Movimiento multiplicado')
+
+
+class StockMOveLineC(models.Model):
+    _inherit = "stock.move.line"
+
+    @api.model_create_multi
+    def create(self, vals_list):
+        _log.info(" CREANDO NUEVA LINEA CON LOS VALORES:::  %s " % vals_list)
+        result = super(StockMOveLineC, self).create(vals_list)
+        return result
