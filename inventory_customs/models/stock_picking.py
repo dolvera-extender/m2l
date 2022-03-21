@@ -57,18 +57,21 @@ class StockPickingCustom(models.Model):
                 'name': "A%s Ejemplo pack desde codigo" % iteracion
             })
             new_pack = {
+                'picking_id': self.id,
+                'package_level_id': False,
+                'package_id': False, 
                 'location_dest_id': self.location_dest_id.id,
                 'lot_name': "A%s Lote_ejemplo_codigo" % iteracion,
                 'result_package_id': package_id.id,
                 'qty_done': qty_done,
                 'company_id': self.company_id.id,
                 'product_id': move_id_multiply.product_id.id,
-                'product_uom_qty': 0,
+                # 'product_uom_qty': 0,
                 'product_uom_id': move_id_multiply.product_uom.id,
                 'location_id': self.location_id.id, 
-                'state': "confirmed",
-                'is_locked': True,
-                'picking_code': "incoming"
+                # 'state': "confirmed",
+                # 'is_locked': True,
+                # 'picking_code': "incoming"
             }
             moves_for_add.append((0, 0, new_pack))
 
