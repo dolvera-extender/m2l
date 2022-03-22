@@ -1,0 +1,77 @@
+Traceback (most recent call last):
+  File "/home/odoo/src/odoo/odoo/api.py", line 886, in get
+    return field_cache[record._ids[0]]
+KeyError: 9
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/odoo/src/odoo/odoo/fields.py", line 1057, in __get__
+    value = env.cache.get(record, self)
+  File "/home/odoo/src/odoo/odoo/api.py", line 889, in get
+    raise CacheMiss(record, field)
+odoo.exceptions.CacheMiss: 'stock.picking(9,).product_tm_domain'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/odoo/src/odoo/odoo/api.py", line 886, in get
+    return field_cache[record._ids[0]]
+KeyError: 9
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/odoo/src/odoo/odoo/fields.py", line 1110, in __get__
+    value = env.cache.get(record, self)
+  File "/home/odoo/src/odoo/odoo/api.py", line 889, in get
+    raise CacheMiss(record, field)
+odoo.exceptions.CacheMiss: 'stock.picking(9,).product_tm_domain'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/odoo/src/odoo/odoo/addons/base/models/ir_http.py", line 237, in _dispatch
+    result = request.dispatch()
+  File "/home/odoo/src/odoo/odoo/http.py", line 688, in dispatch
+    result = self._call_function(**self.params)
+  File "/home/odoo/src/odoo/odoo/http.py", line 360, in _call_function
+    return checked_call(self.db, *args, **kwargs)
+  File "/home/odoo/src/odoo/odoo/service/model.py", line 94, in wrapper
+    return f(dbname, *args, **kwargs)
+  File "/home/odoo/src/odoo/odoo/http.py", line 349, in checked_call
+    result = self.endpoint(*a, **kw)
+  File "/home/odoo/src/odoo/odoo/http.py", line 917, in __call__
+    return self.method(*args, **kw)
+  File "/home/odoo/src/odoo/odoo/http.py", line 536, in response_wrap
+    response = f(*args, **kw)
+  File "/home/odoo/src/odoo/addons/web/controllers/main.py", line 1348, in call_kw
+    return self._call_kw(model, method, args, kwargs)
+  File "/home/odoo/src/odoo/addons/web/controllers/main.py", line 1340, in _call_kw
+    return call_kw(request.env[model], method, args, kwargs)
+  File "/home/odoo/src/odoo/odoo/api.py", line 464, in call_kw
+    result = _call_kw_multi(method, model, args, kwargs)
+  File "/home/odoo/src/odoo/odoo/api.py", line 451, in _call_kw_multi
+    result = method(recs, *args, **kwargs)
+  File "/home/odoo/src/odoo/odoo/models.py", line 3227, in read
+    return self._read_format(fnames=fields, load=load)
+  File "/home/odoo/src/odoo/odoo/models.py", line 3247, in _read_format
+    vals[name] = convert(record[name], record, use_name_get)
+  File "/home/odoo/src/odoo/odoo/models.py", line 5885, in __getitem__
+    return self._fields[key].__get__(self, type(self))
+  File "/home/odoo/src/odoo/odoo/fields.py", line 3389, in __get__
+    return super().__get__(records, owner)
+  File "/home/odoo/src/odoo/odoo/fields.py", line 2603, in __get__
+    return super().__get__(records, owner)
+  File "/home/odoo/src/odoo/odoo/fields.py", line 1113, in __get__
+    raise ValueError("Compute method failed to assign %s.%s" % (record, self.name))
+Exception
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/odoo/src/odoo/odoo/http.py", line 644, in _handle_exception
+    return super(JsonRequest, self)._handle_exception(exception)
+  File "/home/odoo/src/odoo/odoo/http.py", line 302, in _handle_exception
+    raise exception.with_traceback(None) from new_cause
+ValueError: Compute method failed to assign stock.picking(9,).product_tm_domain
