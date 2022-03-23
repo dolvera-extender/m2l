@@ -11,8 +11,7 @@ class StockPickingCustom(models.Model):
 
     use_multiplier = fields.Boolean(string="Usar multiplicador", compute="_check_use_multiplier", store=False)
     product_to_multiply = fields.Many2one('product.product', string="Producto a multiplicar")
-    product_tm_domain = fields.One2many('product.product', 'product_multiplier_domain',
-                                        string="Product tm domain", compute="_get_product_mult_domain", store=False)
+    product_tm_domain = fields.One2many('product.product', 'product_multiplier_domain', string="Product tm domain")
     product_qty_pack = fields.Integer(string="Cantidad por paquete")
 
     def _check_use_multiplier(self):
@@ -91,21 +90,17 @@ class StockPickingCustom(models.Model):
         self.product_to_multiply = False
         self.product_qty_pack = 0
 
-        
-        
-    # @api.onchange('product_to_multiply')
-    # def default_product_av_qty(self):
-    #     pass
-
+    @api.depends('move_ids_without_package')
     def _get_product_mult_domain(self):
-        # move_product_ids = self.move_ids_without_package.filtered(lambda x: x.product_uom_qty-x.quantity_done > 0).mapped('product_id').ids
-        move_product_ids = []
-        for pl in self.move_ids_without_package:
-            difference = pl.product_uom_qty-pl.quantity_done
-            if difference > 0:
-                if not pl.product_id:
-                    continue
-                move_product_ids.append(pl.product_id.id)
+        _log.info(" COMPUTANDO EL DOMINIO...")
+        move_product_ids = self.move_ids_without_package.filtered(lambda x: x.product_uom_qty-x.quantity_done > 0).mapped('product_id').ids
+        # move_product_ids = []
+        # for pl in self.move_ids_without_package:
+        #     difference = pl.product_uom_qty-pl.quantity_done
+        #     if difference > 0:
+        #         if not pl.product_id:
+        #             continue
+        #         move_product_ids.append(pl.product_id.id)
         # move_product_ids = self.move_ids_without_package.mapped('product_id').ids
         if len(move_product_ids) > 0:
             self.write({
