@@ -116,6 +116,9 @@ class StockPickingCustom(models.Model):
             _log.info("\n Antes de asignar")
             self.product_tm_domain = [(6, 0, move_product_ids)]
             _log.info("\n Después de asignar")
+        else:
+            _log.info("Estableciendo como vacío.. ")
+            self.product_tm_domain = []
 
 
 class StockPickingTypeCustom(models.Model):
