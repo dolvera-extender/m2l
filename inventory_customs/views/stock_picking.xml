@@ -9,7 +9,7 @@
                 <field name="use_multiplier" invisible="1"/>
             </xpath>
             <xpath expr="//field[@name='origin']" position="after">
-                <field name="product_tm_domain" widget="many2many_tags" invisible="1"/>
+                <field name="product_tm_domain" widget="many2many_tags" invisible="0"/>
                 <field name="product_to_multiply" domain="[('id', 'in', product_tm_domain)]"
                        options="{'no_create': True}" attrs="{'invisible':[('use_multiplier', '=', False)]}"/>
                 <field name="product_qty_pack" attrs="{'invisible':[('use_multiplier', '=', False)]}"/>

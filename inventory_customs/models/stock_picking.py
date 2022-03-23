@@ -99,7 +99,14 @@ class StockPickingCustom(models.Model):
 
     def _get_product_mult_domain(self):
         # move_product_ids = self.move_ids_without_package.filtered(lambda x: x.product_uom_qty-x.quantity_done > 0).mapped('product_id').ids
-        move_product_ids = self.move_ids_without_package.mapped('product_id').ids
+        move_product_ids = []
+        for pl in self.move_ids_without_package:
+            difference = pl.product_uom_qty-pl.quantity_done
+            if difference > 0:
+                if not pl.product_id:
+                    continue
+                move_product_ids.append(pl.product_id.id)
+        # move_product_ids = self.move_ids_without_package.mapped('product_id').ids
         if len(move_product_ids) > 0:
             self.write({
                 'product_tm_domain': [(6, 0, move_product_ids)]
