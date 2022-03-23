@@ -15,7 +15,7 @@
                        attrs="{'invisible':['|', ('use_multiplier', '=', False), ('state', '!=', 'assigned')]}"/>
                 <field name="product_qty_pack" attrs="{'invisible':['|', ('use_multiplier', '=', False), ('state', '!=', 'assigned')]}"/>
                 <button name="multiply_product" attrs="{'invisible':['|', ('use_multiplier', '=', False), ('state', '!=', 'assigned')]}"
-                        string="Multiplicar" type="object" class="btn-primary" data-hotkey="m"/>
+                        string="Dividir" type="object" class="btn-primary" data-hotkey="m"/>
             </xpath>
 
         </field>
