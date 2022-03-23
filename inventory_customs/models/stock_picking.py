@@ -27,10 +27,6 @@ class StockPickingCustom(models.Model):
         :return:
         """
         move_id_multiply = self.move_ids_without_package.filtered(lambda li: li.product_id.id == self.product_to_multiply.id)
-
-        # for line in move_id_multiply.move_line_nosuggest_ids:
-        #     _log.info("\n\nqty_done:: %s \n\nproduct_uom_qty:: %s \n\nstate:: %s \n\npicking_code:: %s " % (line.qty_done, line.product_uom_qty, line.state, line.picking_code))
-        
         qty_for_done = move_id_multiply.product_uom_qty - move_id_multiply.quantity_done
         if qty_for_done <= 0:
             return
@@ -48,6 +44,8 @@ class StockPickingCustom(models.Model):
         else:
             st_seq = last_move.julian_day_seq
 
+        str_div = "/%s/" % self.picking_type_id.sequence_code
+        picking_seq = self.name.split(str_div)[1]
         while True:
 
             # Set counters and finish case. 
@@ -69,7 +67,7 @@ class StockPickingCustom(models.Model):
                 'package_level_id': False,
                 'package_id': False, 
                 'location_dest_id': self.location_dest_id.id,
-                'lot_name': "%s-%s" % (julian_today, st_seq),
+                'lot_name': "%s-%s" % (julian_today, picking_seq),
                 'result_package_id': package_id.id,
                 'qty_done': qty_done,
                 'company_id': self.company_id.id,
@@ -91,20 +89,8 @@ class StockPickingCustom(models.Model):
         self.product_to_multiply = False
         self.product_qty_pack = 0
 
-    # @api.onchange('product_to_multiply')
-    # def default_product_av_qty(self):
-    #     pass
-
     def _get_product_mult_domain(self):
         move_product_ids = self.move_ids_without_package.filtered(lambda x: x.product_uom_qty-x.quantity_done > 0).mapped('product_id').ids
-        # move_product_ids = []
-        #
-        # for pl in self.move_ids_without_package:
-        #     difference = pl.product_uom_qty-pl.quantity_done
-        #     if difference > 0:
-        #         if not pl.product_id:
-        #             continue
-        #         move_product_ids.append(pl.product_id.id)
         if len(move_product_ids) > 0:
             self.product_tm_domain = [(6, 0, move_product_ids)]
         else:
