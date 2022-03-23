@@ -90,7 +90,7 @@ class StockPickingCustom(models.Model):
         self.product_to_multiply = False
         self.product_qty_pack = 0
 
-    @api.depends('move_ids_without_package')
+    @api.onchange('move_ids_without_package', 'state')
     def _get_product_mult_domain(self):
         _log.info(" COMPUTANDO EL DOMINIO...")
         move_product_ids = self.move_ids_without_package.filtered(lambda x: x.product_uom_qty-x.quantity_done > 0).mapped('product_id').ids
