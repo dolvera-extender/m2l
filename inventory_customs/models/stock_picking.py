@@ -26,6 +26,8 @@ class StockPickingCustom(models.Model):
         Use the field move_ids_without_package
         :return:
         """
+        if self.product_qty_pack <= 0:
+            return
         move_id_multiply = self.move_ids_without_package.filtered(lambda li: li.product_id.id == self.product_to_multiply.id)
         qty_for_done = move_id_multiply.product_uom_qty - move_id_multiply.quantity_done
         if qty_for_done <= 0:
