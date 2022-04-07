@@ -9,8 +9,8 @@ _log = logging.getLogger("___name: %s" % __name__)
 class StockPickingCustom(models.Model):
     _inherit = "stock.picking"
 
-    use_multiplier = fields.Boolean(string="Usar multiplicador", compute="_check_use_multiplier", store=False)
-    product_to_multiply = fields.Many2one('product.product', string="Producto a multiplicar")
+    use_multiplier = fields.Boolean(string="Usar divisor", compute="_check_use_multiplier", store=False)
+    product_to_multiply = fields.Many2one('product.product', string="Producto a dividir")
     product_tm_domain = fields.One2many('product.product', 'product_multiplier_domain',
                                         string="Product tm domain", compute='_get_product_mult_domain', store=False)
     product_qty_pack = fields.Integer(string="Cantidad por paquete")
@@ -102,13 +102,13 @@ class StockPickingCustom(models.Model):
 class StockPickingTypeCustom(models.Model):
     _inherit = "stock.picking.type"
 
-    use_multiplier = fields.Boolean(string="Usa multiplicador", default=False)
+    use_multiplier = fields.Boolean(string="Usa divisor", default=False)
 
 
 class ProductProductMultiply(models.Model):
     _inherit = "product.product"
 
-    product_multiplier_domain = fields.Many2one('stock.picking', 'Movimiento multiplicado')
+    product_multiplier_domain = fields.Many2one('stock.picking', 'Movimiento dividido')
 
 
 class StockMoveLineCu(models.Model):
