@@ -62,7 +62,7 @@ class StockPickingCustom(models.Model):
  
             # Making new records 
             package_id = self.env['stock.quant.package'].create({
-                'name': "CNT-%s-%s" % (julian_today, str(st_seq).zfill(6))
+                'name': "CNT-%s-%s" % (julian_today, str(st_seq).zfill(4))
             })
             new_pack = {
                 'picking_id': self.id,
