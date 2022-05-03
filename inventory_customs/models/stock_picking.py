@@ -2,6 +2,7 @@
 
 from cgitb import reset
 from odoo import models, fields, api
+import time
 import logging
 _log = logging.getLogger("___name: %s" % __name__)
 
@@ -85,8 +86,9 @@ class StockPickingCustom(models.Model):
             # Decrease counters
             if qty_iterations > 0:
                 qty_iterations -= 1
-            elif qty_iterations == 0 and qty_residual >0:
+            elif qty_iterations == 0 and qty_residual > 0:
                 qty_residual = 0
+            time.sleep(2)
         move_id_multiply.move_line_nosuggest_ids = moves_for_add
         self.product_to_multiply = False
         self.product_qty_pack = 0
