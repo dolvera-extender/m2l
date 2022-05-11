@@ -92,13 +92,13 @@ class StockPickingCustom(models.Model):
             packages_list.append(mln_data)
 
         # Inverse creation order
-        packages_list.reverse()
+        # packages_list.reverse()
         for pak in packages_list:
             package_id = self.env['stock.quant.package'].create({'name': pak['pack_name']})
             line_data = pak['line_data']
             line_data['result_package_id'] = package_id.id
             moves_for_add.append((0, 0, line_data))
-
+        moves_for_add.reverse()
         move_id_multiply.move_line_nosuggest_ids = moves_for_add
         self.product_to_multiply = False
         self.product_qty_pack = 0
