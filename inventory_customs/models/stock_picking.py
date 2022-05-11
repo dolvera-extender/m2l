@@ -49,8 +49,9 @@ class StockPickingCustom(models.Model):
 
         str_div = "/%s/" % self.picking_type_id.sequence_code
         picking_seq = self.name.split(str_div)[1]
+        packages_list = [] # To invert the create order.
         while True:
-
+            mln_data = {}
             # Set counters and finish case. 
             iteracion += 1
             if qty_iterations > 0:
@@ -61,17 +62,17 @@ class StockPickingCustom(models.Model):
                 break
             st_seq += 1
  
-            # Making new records 
-            package_id = self.env['stock.quant.package'].create({
-                'name': "CNT-%s-%s" % (julian_today, str(st_seq).zfill(4))
-            })
-            new_pack = {
+            # Making new records
+            mln_data['pack_name'] = "CNT-%s-%s" % (julian_today, str(st_seq).zfill(4))
+            # package_id = self.env['stock.quant.package'].create(pack_data)
+            # Create line data without pack.
+            line_data = {
                 'picking_id': self.id,
                 'package_level_id': False,
                 'package_id': False, 
                 'location_dest_id': self.location_dest_id.id,
                 'lot_name': "%s-%s" % (julian_today, picking_seq),
-                'result_package_id': package_id.id,
+                # 'result_package_id': package_id.id,
                 'qty_done': qty_done,
                 'company_id': self.company_id.id,
                 'product_id': move_id_multiply.product_id.id,
@@ -79,16 +80,25 @@ class StockPickingCustom(models.Model):
                 'location_id': self.location_id.id,
                 'julian_day': int(julian_today),
                 'julian_day_seq': st_seq
-
             }
-            moves_for_add.append((0, 0, new_pack))
-
+            mln_data['line_data'] = line_data
+            # moves_for_add.append((0, 0, line_data))
             # Decrease counters
             if qty_iterations > 0:
                 qty_iterations -= 1
             elif qty_iterations == 0 and qty_residual > 0:
                 qty_residual = 0
-            time.sleep(2)
+            # time.sleep(2)
+            packages_list.append(mln_data)
+
+        # Inverse creation order
+        packages_list.reverse()
+        for pak in packages_list:
+            package_id = self.env['stock.quant.package'].create(pak['pack_name'])
+            line_data = pak['line_data']
+            line_data['result_package_id'] = package_id.id
+            moves_for_add.append((0, 0, line_data))
+
         move_id_multiply.move_line_nosuggest_ids = moves_for_add
         self.product_to_multiply = False
         self.product_qty_pack = 0
