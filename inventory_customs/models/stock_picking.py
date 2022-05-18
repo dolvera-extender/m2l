@@ -63,7 +63,7 @@ class StockPickingCustom(models.Model):
             st_seq += 1
  
             # Making new records
-            mln_data['pack_name'] = "CNT-%s-%s" % (julian_today, str(st_seq).zfill(4))
+            mln_data['pack_name'] = "CNT-%s-%s-%s" % (fields.Datetime.now().strftime("%y"), julian_today, str(st_seq).zfill(4))
             # package_id = self.env['stock.quant.package'].create(pack_data)
             # Create line data without pack.
             line_data = {
