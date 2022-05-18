@@ -71,7 +71,7 @@ class StockPickingCustom(models.Model):
                 'package_level_id': False,
                 'package_id': False, 
                 'location_dest_id': self.location_dest_id.id,
-                'lot_name': "%s-%s" % (julian_today, picking_seq),
+                'lot_name': "%s-%s-%s" % (fields.Datetime.now().strftime("%y"), julian_today, picking_seq),
                 # 'result_package_id': package_id.id,
                 'qty_done': qty_done,
                 'company_id': self.company_id.id,
