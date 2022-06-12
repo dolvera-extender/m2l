@@ -1,0 +1,4 @@
+1.- Un paquete puede contener diferentes productos, por lo cual únicamente se considerará
+    el primero que coincida con la lista de productos en el pedido de venta.
+2.- La única forma de considerar paquetes completos es calcular la cantidad de producto
+    en base a los paquetes seleccionados.
