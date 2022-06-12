@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+		<record id="view_sale_order_mps_inherit" model="ir.ui.view">
+			<field name="name">sale.order.mps.form.inherit</field>
+			<field name="model">sale.order</field>
+			<field name="inherit_id" ref="sale.view_order_form"/>
+			<field name="arch" type="xml">
+				<xpath expr="//page[@name='other_information']" position="after">
+					<page string="Paquetes">
+						<field name="manual_package_ids">
+							<tree>
+								<field name="selected" widget="boolean_toggle"/>
+								<field name="sale_id"/>
+								<field name="package_id"/>
+								<field name="product_id"/>
+							</tree>
+						</field>
+					</page>
+				</xpath>
+			</field>
+		</record>
+	</data>
+</odoo>
