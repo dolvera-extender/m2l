@@ -7,7 +7,7 @@
     'description': "Selección manual de paquetes en el pedido de venta.",
     'author': 'Ing. Isaac Chávez Arroyo',
     'website': 'https://isaaccv.ml',
-    "depends": ["base", "sale"],
+    "depends": ["base", "sale", "sale_stock"],
     "data": [
         "security/ir.model.access.csv",
         "views/sale.xml"

@@ -2,3 +2,5 @@
     el primero que coincida con la lista de productos en el pedido de venta.
 2.- La única forma de considerar paquetes completos es calcular la cantidad de producto
     en base a los paquetes seleccionados.
+3.- Al seleccionar de forma automática el paquete en el albarán, se considerará el primer
+    número de serie del mismo paquete.

@@ -13,12 +13,18 @@ class SaleOrderInherit(models.Model):
 
     @api.onchange('order_line')
     def calc_packages(self):
+        """
+        Método que calcula las opciones de paquetes para que el usuario pueda escoger.
+        :return:
+        """
+        wh_stock_id = self.warehouse_id.lot_stock_id
         line_product_ids = self.order_line.mapped('product_id')
         self.manual_package_ids = False
         stock_quant_ids = self.env['stock.quant'].search([
             ('package_id', '!=', False),
             ('product_id', 'in', line_product_ids.ids),
-            ('quantity', '>', 0)
+            ('quantity', '>', 0),
+            ('location_id', '=', wh_stock_id.id)
         ])
         if not stock_quant_ids:
             return
@@ -41,3 +47,8 @@ class SaleOrderInherit(models.Model):
                 pa_data['product_id'] = fproduct_id
             packages.append((0, 0, pa_data))
         self.manual_package_ids = packages
+
+    def action_confirm(self):
+        self = self.with_context(mps_sale_id=self.id)
+        res = super(SaleOrderInherit, self).action_confirm()
+        return res
