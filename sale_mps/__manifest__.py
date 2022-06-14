@@ -10,7 +10,8 @@
     "depends": ["base", "sale", "sale_stock"],
     "data": [
         "security/ir.model.access.csv",
-        "views/sale.xml"
+        "views/sale.xml",
+        "views/picking.xml"
     ],
     'application': False,
     'installable': True,

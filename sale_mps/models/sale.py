@@ -10,6 +10,16 @@ class SaleOrderInherit(models.Model):
     _inherit = "sale.order"
 
     manual_package_ids = fields.One2many('sale.mps', 'sale_id', string="Selección manual de paquetes")
+    mps_product_domain = fields.Many2many('product.product', string="Dominio del producto",
+                                          compute="_compute_mpsp_domain", store=False)
+    mps_product_id = fields.Many2one("product.product", string="Producto a filtrar")
+
+    def _compute_mpsp_domain(self):
+        sale_product_ids = self.order_line.mapped('product_id').ids
+        if len(sale_product_ids) > 0:
+            self.mps_product_domain = [(6, 0, sale_product_ids)]
+        else:
+            self.mps_product_domain = False
 
     @api.onchange('order_line')
     def calc_packages(self):

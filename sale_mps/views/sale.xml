@@ -10,6 +10,10 @@
 					<page string="Paquetes">
 						<group>
 							<field name="warehouse_id" invisible="1"/>
+							<field name="mps_product_domain" widget="many2many_tags" invisible="0"/>
+							<field name="mps_product_id"
+								   options="{'no_create': True}"
+								   domain="[('id', 'in', mps_product_domain)]"/>
 							<field name="manual_package_ids">
 								<tree create="false" delete="false" string="Paquetes disponibles" editable="top">
 									<field name="selected" widget="boolean_toggle"/>
