@@ -81,3 +81,48 @@ class StockPickingMps(models.Model):
             # self = self.with_context(context)
 
         return picking
+
+    def action_assign(self):
+        """ Check availability of picking moves.
+        This has the effect of changing the state and reserve quants on available moves, and may
+        also impact the state of the picking as it is computed based on move's states.
+        @return: True
+        """
+        self.filtered(lambda picking: picking.state == 'draft').action_confirm()
+        moves = self.mapped('move_lines').filtered(lambda move: move.state not in ('draft', 'cancel', 'done')).sorted(
+            key=lambda move: (-int(move.priority), not bool(move.date_deadline), move.date_deadline, move.date, move.id)
+        )
+        if not moves:
+            raise UserError(_('Nothing to check the availability for.'))
+        # If a package level is done when confirmed its location can be different than where it will be reserved.
+        # So we remove the move lines created when confirmed to set quantity done to the new reserved ones.
+        package_level_done = self.mapped('package_level_ids').filtered(lambda pl: pl.is_done and pl.state == 'confirmed')
+        package_level_done.write({'is_done': False})
+        if not self.sale_order_id:
+            _log.info("SIN SALE")
+            moves._action_assign()
+        else:
+            _log.info("con sale")
+            self.mps_manual_reserve()
+        package_level_done.write({'is_done': True})
+
+    def mps_manual_reserve(self):
+        self.move_line_ids_without_package = False
+        mlids = []
+        for pack in self.sale_order_id.manual_package_selected_ids:
+            lot_id = pack.package_id.quant_ids.mapped('lot_id')[0]
+            qty = sum(pack.package_id.quant_ids.filtered(lambda x: x.product_id.id == pack.product_id.id).mapped('quantity'))
+            ml_data = {
+                'product_id': pack.product_id.id,
+                'package_id': pack.package_id.id,
+                'result_package_id': pack.package_id.id,
+                'lot_id': lot_id.id,
+                'product_uom_qty': qty,
+                'location_id': self.location_id.id,
+                'location_dest_id': self.location_dest_id.id,
+                'product_uom_id': lot_id.product_uom_id.id
+            }
+            mlids.append((0, 0, ml_data))
+        _log.info("\n move lines ::: %s " % mlids)
+        self.move_line_ids_without_package = mlids
+
