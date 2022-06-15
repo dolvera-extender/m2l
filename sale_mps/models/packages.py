@@ -9,30 +9,33 @@ _log = logging.getLogger("\n ===============[%s]===============" % __name__)
 class SaleMps(models.Model):
     _name = "sale.mps"
     _description = "Movimiento manual de paquetes"
+    # _order = "package_id asc"
 
-    selected = fields.Boolean(string="Selecto")
-    sale_id = fields.Many2one('sale.order', string="Pedido de venta")
+    # selected = fields.Boolean(string="Selecto")
+    sale_id_av = fields.Many2one('sale.order', string="Pedido de venta")
+    sale_id_se = fields.Many2one('sale.order', string="Pedido de venta")
     package_id = fields.Many2one('stock.quant.package', string="Paquete")
     product_id = fields.Many2one('product.product', string="producto")
 
-    def write(self, vals):
-        _log.info(" VALS in WRITE::: %s " % vals)
-        res = super(SaleMps, self).write(vals)
-        if 'selected' in vals:
-            self.recalc_product_line_qty()
-        return res
+    def mps_select(self):
+        self.sale_id_se = self.sale_id_av.id
+        self.sale_id_av = False
+        self.update_qty_selected()
 
-    def recalc_product_line_qty(self):
-        # Recalc product qty
-        if self.sale_id.state not in ['draft']:
-            return
-        selected_quants = self.sale_id.manual_package_ids.\
-            filtered(lambda x: x.product_id.id == self.product_id.id and x.selected is True).\
-            mapped('package_id').mapped('quant_ids').filtered(lambda x: x.product_id.id == self.product_id.id)
-        total_qty = sum(selected_quants.mapped('quantity'))
-        _log.info(" cantidad de producto ::: %s" % total_qty)
-        sale_line = self.sale_id.order_line.filtered(lambda x: x.product_id.id == self.product_id.id)
-        sale_line.product_uom_qty = total_qty
+    def mps_unselect(self):
+        self.sale_id_av = self.sale_id_se.id
+        self.sale_id_se = False
+        self.update_qty_selected()
+
+    def update_qty_selected(self):
+        so = self.sale_id_se if self.sale_id_se else self.sale_id_av
+        ol = so.order_line.filtered(lambda x: x.product_id.id == self.product_id.id)
+        quants_used = so.manual_package_selected_ids \
+            .mapped('package_id') \
+            .mapped('quant_ids') \
+            .filtered(lambda x: x.product_id.id == self.product_id.id)
+        quantity = sum(quants_used.mapped('quantity'))
+        ol.product_uom_qty = quantity
 
 
 class StockPickingMps(models.Model):

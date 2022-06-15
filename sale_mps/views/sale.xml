@@ -10,16 +10,30 @@
 					<page string="Paquetes">
 						<group>
 							<field name="warehouse_id" invisible="1"/>
-							<field name="mps_product_domain" widget="many2many_tags" invisible="0"/>
+							<field name="mps_product_domain" widget="many2many_tags" invisible="1"/>
 							<field name="mps_product_id"
 								   options="{'no_create': True}"
 								   domain="[('id', 'in', mps_product_domain)]"/>
-							<field name="manual_package_ids">
-								<tree create="false" delete="false" string="Paquetes disponibles" editable="top">
-									<field name="selected" widget="boolean_toggle"/>
-									<field name="sale_id" readonly="1" force_save="1"/>
+							<field name="manual_package_available_ids">
+								<tree create="false" delete="false"
+									  default_order="package_id asc"
+									  string="Paquetes disponibles" editable="top">
+<!--									<field name="selected"/>-->
+									<field name="sale_id_av" readonly="1" force_save="1" invisible="1"/>
 									<field name="package_id" readonly="1" force_save="1"/>
 									<field name="product_id" readonly="1" force_save="1"/>
+									<button name="mps_select" string="Añadir" type="object"/>
+								</tree>
+							</field>
+							<field name="manual_package_selected_ids">
+								<tree create="false" delete="false"
+									  default_order="package_id asc"
+									  string="Paquetes disponibles" editable="top">
+<!--									<field name="selected"/>-->
+									<field name="sale_id_se" readonly="1" force_save="1" invisible="1"/>
+									<field name="package_id" readonly="1" force_save="1"/>
+									<field name="product_id" readonly="1" force_save="1"/>
+									<button name="mps_unselect" string="Quitar" type="object"/>
 								</tree>
 							</field>
 						</group>
