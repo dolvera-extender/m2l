@@ -104,12 +104,12 @@ class StockPickingMps(models.Model):
         # So we remove the move lines created when confirmed to set quantity done to the new reserved ones.
         package_level_done = self.mapped('package_level_ids').filtered(lambda pl: pl.is_done and pl.state == 'confirmed')
         package_level_done.write({'is_done': False})
-        if not self.sale_order_id:
-            _log.info("SIN SALE")
-            moves._action_assign()
-        else:
-            _log.info("con sale")
-            self.mps_manual_reserve()
+        # if not self.sale_order_id:
+        #     _log.info("SIN SALE")
+        moves._action_assign()
+        # else:
+        #     _log.info("con sale")
+        #     self.mps_manual_reserve()
         package_level_done.write({'is_done': True})
 
     def mps_manual_reserve(self):
