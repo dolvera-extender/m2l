@@ -813,9 +813,9 @@ class StockQuantMps(models.Model):
         if package_ids is not None:
             _log.info("package_ids:: %s " % package_ids)
             res = res.filtered(lambda x: x.package_id.id in package_ids.ids)
-        else:
-            if len(res.ids) > 5:
-                x=1/0
+        # else:
+        #     if len(res.ids) > 5:
+        #         x=1/0
         for r in res:
             _log.info("\n QUANT: %s IN PACK:: %s-%s" % (r, r.package_id, r.package_id.name))
         return res
@@ -887,7 +887,8 @@ class StockQuantMps(models.Model):
         if float_compare(quantity, 0, precision_rounding=rounding) > 0:
             # if we want to reserve
             available_quantity = self._get_available_quantity(product_id, location_id, lot_id=lot_id,
-                                                              package_id=package_id, owner_id=owner_id, strict=strict)
+                                                              package_id=package_id, owner_id=owner_id,
+                                                              strict=strict, package_ids=package_ids)
             if float_compare(quantity, available_quantity, precision_rounding=rounding) > 0:
                 raise UserError(_('It is not possible to reserve more products of %s than you have in stock.',
                                   product_id.display_name))
