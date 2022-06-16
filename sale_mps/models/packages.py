@@ -666,42 +666,6 @@ class StockMoveMPs(models.Model):
         self.mapped('picking_id')._check_entire_pack()
         StockMove.browse(moves_to_redirect).move_line_ids._apply_putaway_strategy()
 
-    # def _prepare_move_line_vals(self, quantity=None, reserved_quant=None):
-    #     _log.info("_____ quantity :: %s  reserverd ::: %s " % (quantity, reserved_quant))
-    #     self.ensure_one()
-    #     vals = {
-    #         'move_id': self.id,
-    #         'product_id': self.product_id.id,
-    #         'product_uom_id': self.product_uom.id,
-    #         'location_id': self.location_id.id,
-    #         'location_dest_id': self.location_dest_id.id,
-    #         'picking_id': self.picking_id.id,
-    #         'company_id': self.company_id.id,
-    #     }
-    #     if quantity:
-    #         rounding = self.env['decimal.precision'].precision_get('Product Unit of Measure')
-    #         uom_quantity = self.product_id.uom_id._compute_quantity(quantity, self.product_uom,
-    #                                                                 rounding_method='HALF-UP')
-    #         uom_quantity = float_round(uom_quantity, precision_digits=rounding)
-    #         uom_quantity_back_to_product_uom = self.product_uom._compute_quantity(uom_quantity, self.product_id.uom_id,
-    #                                                                               rounding_method='HALF-UP')
-    #         if float_compare(quantity, uom_quantity_back_to_product_uom, precision_digits=rounding) == 0:
-    #             vals = dict(vals, product_uom_qty=uom_quantity)
-    #         else:
-    #             vals = dict(vals, product_uom_qty=quantity, product_uom_id=self.product_id.uom_id.id)
-    #     package = None
-    #     if reserved_quant:
-    #         package = reserved_quant.package_id
-    #         vals = dict(
-    #             vals,
-    #             location_id=reserved_quant.location_id.id,
-    #             lot_id=reserved_quant.lot_id.id or False,
-    #             package_id=package.id or False,
-    #             owner_id=reserved_quant.owner_id.id or False,
-    #         )
-    #
-    #     return vals
-
     def _update_reserved_quantity(self, need, available_quantity, location_id, lot_id=None, package_id=None, owner_id=None, strict=True):
         """ Create or update move lines.
         """
@@ -755,14 +719,6 @@ class StockMoveMPs(models.Model):
                             self.product_id, location_id, taken_quantity, lot_id=lot_id,
                             package_id=package_id, owner_id=owner_id, strict=strict
                         )
-                    # if self.picking_id.sale_order_id:
-                    #     new_quants = []
-                    #     for sq in self.picking_id.sale_order_id.manual_package_selected_ids.mapped('package_id').mapped('quant_ids'):
-                    #         sq.reserved_quantity = sq.quantity
-                    #         new_quants.append((sq, sq.quantity))
-                    #     for q in quants:
-                    #         q[0].reserved_quantity = 0
-                    #     quants = new_quants
                     _log.info("\n PICKING.... :%s " % self.picking_id)
                     _log.info("\n 444  QUANTSSSS :: %s" % quants)
         except UserError:
@@ -835,10 +791,7 @@ class StockQuantMps(models.Model):
         removal_strategy_order = self._get_removal_strategy_order(removal_strategy)
 
         domain = [('product_id', '=', product_id.id)]
-        # if not strict and package_ids:
-        #     domain = expression.AND([[('package_id', 'in', package_ids.ids)], domain])
-        #     _log.info("Custom domain:::: %s " % domain)
-        # elif not strict and package_ids is None:
+
         if not strict:
             if lot_id:
                 domain = expression.AND([[('lot_id', '=', lot_id.id)], domain])
@@ -860,6 +813,9 @@ class StockQuantMps(models.Model):
         if package_ids is not None:
             _log.info("package_ids:: %s " % package_ids)
             res = res.filtered(lambda x: x.package_id.id in package_ids.ids)
+        else:
+            if len(res.ids) > 5:
+                x=1/0
         for r in res:
             _log.info("\n QUANT: %s IN PACK:: %s-%s" % (r, r.package_id, r.package_id.name))
         return res
