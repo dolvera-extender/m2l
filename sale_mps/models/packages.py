@@ -24,13 +24,13 @@ class SaleMps(models.Model):
     product_id = fields.Many2one('product.product', string="producto")
     product_qty = fields.Float(string="Cantidad disponible", compute="_compute_quantity_pack", store=False)
 
-    @api.onchange("selected")
-    def select_pack(self):
-        # _log.info("\n\n SELECCIONANDO :::: %s con valor:: %s" % (self, self.selected))
-        if self.selected:
-            self.mps_select()
-        else:
-            self.mps_unselect()
+    # @api.onchange("selected")
+    # def select_pack(self):
+    #     # _log.info("\n\n SELECCIONANDO :::: %s con valor:: %s" % (self, self.selected))
+    #     if self.selected:
+    #         self.mps_select()
+    #     else:
+    #         self.mps_unselect()
 
     def mps_select(self):
         # _log.info("SELECTING...")
