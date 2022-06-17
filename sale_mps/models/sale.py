@@ -15,6 +15,7 @@ class SaleOrderInherit(models.Model):
                                           compute="_compute_mpsp_domain", store=False)
     mps_product_id = fields.Many2one("product.product", string="Producto a filtrar")
 
+    @api.onchage('order_line')
     def _compute_mpsp_domain(self):
         sale_product_ids = self.order_line.mapped('product_id').ids
         if len(sale_product_ids) > 0:
@@ -25,19 +26,7 @@ class SaleOrderInherit(models.Model):
     @api.onchange('mps_product_id')
     def calc_packages(self):
         """
-        La idea es tener dos listas de paquetes,una oculta y otra que se muestra.
-        la que se muestra estará siempre filtrada por el producto seleccionado arriba,
-        y se reecalculará en base a ese producto.
-        La oculta solo guardará los paquetes (misma estructura) que hayan sido seleccionados
-        en la que se muestra, de la misma forma los quitará cuando en la lista mostrada se marquen
-        como no seleccionados.
-        Para esto cada que se calcule la vista de arriba consultará la lista de paquetes ya marcados
-        para marcarlos como seleccionados.
-        :return:
-        """
-        """
-        Método que calcula las opciones de paquetes para que el usuario pueda escoger.
-        :return:
+        Método que calcula los paquetes disponibles por producto filtrado.
         """
         wh_stock_id = self.warehouse_id.lot_stock_id
         wh_stock_leaf_ids = wh_stock_id.child_ids
