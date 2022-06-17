@@ -17,7 +17,7 @@ class SaleMps(models.Model):
     _description = "Movimiento manual de paquetes"
     # _order = "package_id asc"
 
-    # selected = fields.Boolean(string="Selecto")
+    selected = fields.Boolean(string="Selecto")
     sale_id_av = fields.Many2one('sale.order', string="Pedido de venta")
     sale_id_se = fields.Many2one('sale.order', string="Pedido de venta")
     package_id = fields.Many2one('stock.quant.package', string="Paquete")
