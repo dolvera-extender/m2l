@@ -40,13 +40,15 @@ class SaleOrderInherit(models.Model):
         :return:
         """
         wh_stock_id = self.warehouse_id.lot_stock_id
+        wh_stock_leaf_ids = wh_stock_id.child_ids
+        wh_dom = wh_stock_leaf_ids.ids.append(wh_stock_id.id)
         # line_product_ids = self.order_line.mapped('product_id')
         self.manual_package_available_ids = False
         stock_quant_ids = self.env['stock.quant'].search([
             ('package_id', '!=', False),
             ('product_id', '=', self.mps_product_id.id),
             ('quantity', '>', 0),
-            ('location_id', '=', wh_stock_id.id)
+            ('location_id', 'in', wh_dom)
         ])
         if not stock_quant_ids:
             return
