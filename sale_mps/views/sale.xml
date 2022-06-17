@@ -22,7 +22,7 @@
 									<field name="manual_package_available_ids">
 										<tree create="false" delete="false"
 											  default_order="package_id asc"
-											  string="Paquetes disponibles" editable="top">
+											  string="Paquetes disponibles">
 											<field name="sale_id_av" readonly="1" force_save="1" invisible="1"/>
 											<field name="package_id" readonly="1" force_save="1"/>
 											<field name="product_id" readonly="1" force_save="1"/>
@@ -36,7 +36,7 @@
 									<field name="manual_package_selected_ids">
 										<tree create="false" delete="false"
 											  default_order="package_id asc"
-											  string="Paquetes disponibles" editable="top">
+											  string="Paquetes disponibles">
 											<field name="sale_id_se" readonly="1" force_save="1" invisible="1"/>
 											<field name="package_id" readonly="1" force_save="1"/>
 											<field name="product_id" readonly="1" force_save="1"/>

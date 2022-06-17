@@ -25,11 +25,13 @@ class SaleMps(models.Model):
     product_qty = fields.Float(string="Cantidad disponible", compute="_compute_quantity_pack", store=False)
 
     def mps_select(self):
+        _log.info("SELECTING...")
         self.sale_id_se = self.sale_id_av.id
         self.sale_id_av = False
         self.update_qty_selected()
 
     def mps_unselect(self):
+        _log.info("NOOO SELECTING...")
         self.sale_id_av = self.sale_id_se.id
         self.sale_id_se = False
         self.update_qty_selected()
