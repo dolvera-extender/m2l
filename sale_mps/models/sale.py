@@ -15,7 +15,7 @@ class SaleOrderInherit(models.Model):
                                           compute="_compute_mpsp_domain", store=False)
     mps_product_id = fields.Many2one("product.product", string="Producto a filtrar")
 
-    @api.onchage('order_line')
+    @api.onchange('order_line')
     def _compute_mpsp_domain(self):
         sale_product_ids = self.order_line.mapped('product_id').ids
         if len(sale_product_ids) > 0:
