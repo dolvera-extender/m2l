@@ -45,7 +45,9 @@ class SaleMps(models.Model):
         ol.product_uom_qty = quantity
 
     def _compute_quantity_pack(self):
-        self.product_qty = sum(self.package_id.mapped('quant_ids').mapped('quantity'))
+        for rec in self:
+            rec.product_qty = sum(rec.package_id.mapped('quant_ids').mapped('quantity'))
+
 
 class StockPickingMps(models.Model):
     _inherit = "stock.picking"
