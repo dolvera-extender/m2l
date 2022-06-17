@@ -22,6 +22,7 @@ class SaleMps(models.Model):
     sale_id_se = fields.Many2one('sale.order', string="Pedido de venta")
     package_id = fields.Many2one('stock.quant.package', string="Paquete")
     product_id = fields.Many2one('product.product', string="producto")
+    product_qty = fields.Float(string="Cantidad disponible", compute="_compute_quantity_pack", store=False)
 
     def mps_select(self):
         self.sale_id_se = self.sale_id_av.id
@@ -43,6 +44,8 @@ class SaleMps(models.Model):
         quantity = sum(quants_used.mapped('quantity'))
         ol.product_uom_qty = quantity
 
+    def _compute_quantity_pack(self):
+        self.product_qty = sum(self.package_id.mapped('quant_ids').mapped('quantity'))
 
 class StockPickingMps(models.Model):
     _inherit = "stock.picking"

@@ -26,6 +26,7 @@
 											<field name="sale_id_av" readonly="1" force_save="1" invisible="1"/>
 											<field name="package_id" readonly="1" force_save="1"/>
 											<field name="product_id" readonly="1" force_save="1"/>
+											<field name="product_qty"/>
 											<button name="mps_select" string="Añadir" type="object" attrs="{'invisible': [('parent.state', '!=', 'draft')]}"/>
 										</tree>
 									</field>
@@ -39,6 +40,7 @@
 											<field name="sale_id_se" readonly="1" force_save="1" invisible="1"/>
 											<field name="package_id" readonly="1" force_save="1"/>
 											<field name="product_id" readonly="1" force_save="1"/>
+											<field name="product_qty"/>
 											<button name="mps_unselect" string="Quitar" type="object" attrs="{'invisible': [('parent.state', '!=', 'draft')]}"/>
 										</tree>
 									</field>
