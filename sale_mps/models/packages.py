@@ -17,7 +17,7 @@ class SaleMps(models.Model):
     _description = "Movimiento manual de paquetes"
     # _order = "package_id asc"
 
-    selected = fields.Boolean(string="Selecto")
+    # selected = fields.Boolean(string="Selecto")
     sale_id_av = fields.Many2one('sale.order', string="Pedido de venta")
     sale_id_se = fields.Many2one('sale.order', string="Pedido de venta")
     package_id = fields.Many2one('stock.quant.package', string="Paquete")
@@ -26,20 +26,20 @@ class SaleMps(models.Model):
 
     @api.onchange("selected")
     def select_pack(self):
-        _log.info("\n\n SELECCIONANDO :::: %s con valor:: %s" % (self, self.selected))
+        # _log.info("\n\n SELECCIONANDO :::: %s con valor:: %s" % (self, self.selected))
         if self.selected:
             self.mps_select()
         else:
             self.mps_unselect()
 
     def mps_select(self):
-        _log.info("SELECTING...")
+        # _log.info("SELECTING...")
         self.sale_id_se = self.sale_id_av
         self.sale_id_av = False
         # self.update_qty_selected()
 
     def mps_unselect(self):
-        _log.info("NOOO SELECTING...")
+        # _log.info("NOOO SELECTING...")
         self.sale_id_av = self.sale_id_se
         self.sale_id_se = False
         # self.update_qty_selected()
