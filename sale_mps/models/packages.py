@@ -34,15 +34,15 @@ class SaleMps(models.Model):
 
     def mps_select(self):
         _log.info("SELECTING...")
-        self.sale_id_se = self.sale_id_av.id
+        self.sale_id_se = self.sale_id_av
         self.sale_id_av = False
-        self.update_qty_selected()
+        # self.update_qty_selected()
 
     def mps_unselect(self):
         _log.info("NOOO SELECTING...")
-        self.sale_id_av = self.sale_id_se.id
+        self.sale_id_av = self.sale_id_se
         self.sale_id_se = False
-        self.update_qty_selected()
+        # self.update_qty_selected()
 
     def update_qty_selected(self):
         so = self.sale_id_se if self.sale_id_se else self.sale_id_av
