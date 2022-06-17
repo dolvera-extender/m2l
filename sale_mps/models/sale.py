@@ -65,7 +65,6 @@ class SaleOrderInherit(models.Model):
             packages.append((0, 0, pa_data))
         self.manual_package_available_ids = packages
         self.mps_product_id = False
-        self.env.cr.savepoint()
 
     def action_confirm(self):
         self = self.with_context(mps_sale_id=self.id)
