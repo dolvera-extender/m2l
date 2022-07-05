@@ -10,7 +10,8 @@
                             <strong>Dirección de facturación:</strong>
                             <div t-field="doc_sale.partner_invoice_id"
                                 t-options='{"widget": "contact", "fields": ["address", "name", "phone"], "no_marker": True, "phone_icons": True}'/>
-                            <p t-if="doc_sale.partner_invoice_id.sudo().vat"><t t-esc="o.company_id.country_id.vat_label or 'Tax ID'"/>: <span t-field="doc_sale.partner_invoice_id.sudo().vat"/></p>
+                            <t t-if="doc_sale.partner_invoice_id.sudo().vat">
+                                rfc:<span t-field="doc_sale.partner_invoice_id.sudo().vat"/></t>
 
                         </div>
                         <div class="col-6" t-if="doc_sale.partner_shipping_id">
