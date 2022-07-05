@@ -2,27 +2,28 @@
     <template id="report_m2l_delivery_document" inherit_id="stock.report_delivery_document">
         <xpath expr="//div[@name='div_outgoing_address']" position="replace">
 
-            <div class="row" name="div_outgoing_address" style="font-size: 12px; background-color:yellow;">
+            <div class="row" name="div_outgoing_address">
                 <t t-if="o.sale_order_id and o.picking_type_id.code=='outgoing'">
                     <t t-set="doc_sale" t-value="o.sale_order_id"/>
-                    <div class="col-6" t-if="doc_sale.partner_invoice_id">
-                        <strong>Dirección de facturación:</strong>
-                        <div t-field="doc_sale.partner_invoice_id"
-                            t-options='{"widget": "contact", "fields": ["address", "name", "phone"], "no_marker": True, "phone_icons": True}'/>
-                        <p t-if="doc_sale.partner_invoice_id.sudo().vat"><t t-esc="o.company_id.country_id.vat_label or 'Tax ID'"/>: <span t-field="doc_sale.partner_invoice_id.sudo().vat"/></p>
+                    <div name="div_outgoing_address" style="font-size: 12px; background-color:yellow;">
+                        <div class="col-6" t-if="doc_sale.partner_invoice_id">
+                            <strong>Dirección de facturación:</strong>
+                            <div t-field="doc_sale.partner_invoice_id"
+                                t-options='{"widget": "contact", "fields": ["address", "name", "phone"], "no_marker": True, "phone_icons": True}'/>
+                            <p t-if="doc_sale.partner_invoice_id.sudo().vat"><t t-esc="o.company_id.country_id.vat_label or 'Tax ID'"/>: <span t-field="doc_sale.partner_invoice_id.sudo().vat"/></p>
 
+                        </div>
+                        <div class="col-6" t-if="doc_sale.partner_shipping_id">
+                            <strong>Dirección de entrega:</strong>
+                            <div t-field="doc_sale.partner_shipping_id"
+                                t-options='{"widget": "contact", "fields": ["address", "name", "phone"], "no_marker": True, "phone_icons": True}'/>
+                        </div>
                     </div>
-                    <div class="col-6" t-if="doc_sale.partner_shipping_id">
-                        <strong>Dirección de entrega:</strong>
-                        <div t-field="doc_sale.partner_shipping_id"
-                            t-options='{"widget": "contact", "fields": ["address", "name", "phone"], "no_marker": True, "phone_icons": True}'/>
-                    </div>
-
                 </t>
                 <t t-else="">
-                    <div style="font-size: 12px; background-color:ping;">
+                    <div name="div_outgoing_address" style="font-size: 12px; background-color:ping;">
                         <div t-if="o.move_ids_without_package and o.move_ids_without_package[0].partner_id">
-                            <span><strong>Dirección de entrega:</strong></span>
+                            <span><strong>Dirección de entrega2:</strong></span>
                             <div t-field="o.move_ids_without_package[0].partner_id"
                                 t-options='{"widget": "contact", "fields": ["address", "name", "phone"], "no_marker": True, "phone_icons": True}'/>
                         </div>
