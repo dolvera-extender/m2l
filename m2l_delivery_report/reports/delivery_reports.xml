@@ -38,7 +38,7 @@
         </xpath>
         <xpath expr="//div[@name='div_incoming_address']" position="attributes">
             <attribute name="class">col-6</attribute>
-            <attribute name="style">font-size: 12px; background-colo:red;</attribute>
+            <attribute name="style">font-size: 12px; background-color:red;</attribute>
         </xpath>
     </template>
 </odoo>
