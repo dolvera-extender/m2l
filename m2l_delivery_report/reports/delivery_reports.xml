@@ -36,9 +36,12 @@
 
             </div>
         </xpath>
+        <xpath expr="//div[@name='div_incoming_address']" position="before">
+            <div class="col-6" t-if="!o.sale_order_id and !o.picking_type_id.code=='outgoing'"/>
+        </xpath>
         <xpath expr="//div[@name='div_incoming_address']" position="attributes">
             <attribute name="class">col-6</attribute>
-            <attribute name="style">font-size: 12px; background-color:red;</attribute>
+            <attribute name="style">font-size: 12px; background-color:green;</attribute>
         </xpath>
     </template>
 </odoo>
