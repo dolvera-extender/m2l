@@ -37,7 +37,11 @@
             </div>
         </xpath>
         <xpath expr="//div[@name='div_incoming_address']" position="before">
-            <div class="col-6" t-if="!o.sale_order_id and !o.picking_type_id.code=='outgoing'"/>
+            <t t-if="o.sale_order_id and o.picking_type_id.code=='outgoing'"/>
+            <t t-else="">
+                <div class="col-6"/>
+            </t>
+
         </xpath>
         <xpath expr="//div[@name='div_incoming_address']" position="attributes">
             <attribute name="class">col-6</attribute>
