@@ -16,6 +16,10 @@
                             t-options='{"widget": "contact", "fields": ["address", "name", "phone"], "no_marker": True, "phone_icons": True}'/>
                     </div>
                 </t>
+                <t t-else="">
+                    <div class="col-6"/>
+                    <div class="col-6"/>
+                </t>
 <!--                <t t-else="">-->
 <!--                    <div class="col-6" t-if="o.move_ids_without_package and o.move_ids_without_package[0].partner_id">-->
 <!--                        <span><strong>Dirección de entrega:</strong></span>-->
