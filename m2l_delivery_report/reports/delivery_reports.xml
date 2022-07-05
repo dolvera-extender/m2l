@@ -35,7 +35,7 @@
             </div>
         </xpath>
         <xpath expr="//div[@name='div_incoming_address']" position="attributes">
-            <attribute name="class">col-5</attribute>
+            <attribute name="class">col-7</attribute>
             <attribute name="style">font-size: 12px; background-color:yellow; padding-right:0px;argin-right: 0px;</attribute>
         </xpath>
         <xpath expr="//div[@name='div_incoming_address']/.." position="attributes">
