@@ -5,31 +5,27 @@
             <div class="row" name="div_outgoing_address" style="font-size: 12px; background-color:yellow;">
                 <t t-if="o.sale_order_id and o.picking_type_id.code=='outgoing'">
                     <t t-set="doc_sale" t-value="o.sale_order_id"/>
-                    <div class="col-6" t-if="doc_sale.partner_invoice_id">
+                    <div class="col-4f" t-if="doc_sale.partner_invoice_id">
                         <strong>Dirección de facturación:</strong>
                         <div t-field="doc_sale.partner_invoice_id"
                             t-options='{"widget": "contact", "fields": ["address", "name", "phone"], "no_marker": True, "phone_icons": True}'/>
                     </div>
-                    <div class="col-6" t-if="doc_sale.partner_shipping_id">
+                    <div class="col-4" t-if="doc_sale.partner_shipping_id">
                         <strong>Dirección de entrega:</strong>
                         <div t-field="doc_sale.partner_shipping_id"
                             t-options='{"widget": "contact", "fields": ["address", "name", "phone"], "no_marker": True, "phone_icons": True}'/>
                     </div>
-                    <div class="col-6" t-if="o.picking_type_id.code != 'internal' and (not o.move_ids_without_package or not o.move_ids_without_package[0].partner_id) and o.picking_type_id.warehouse_id.partner_id">
-                    <span><strong>Warehouse Address:</strong></span>
-                    <div t-field="o.picking_type_id.warehouse_id.partner_id"
-                        t-options='{"widget": "contact", "fields": ["address", "name", "phone"], "no_marker": True, "phone_icons": True}'/>
-                </div>
+
                 </t>
                 <t t-else="">
-                    <div style="font-size: 12px; background-color:yellow;">
+                    <div style="font-size: 12px; background-color:ping;">
                         <div t-if="o.move_ids_without_package and o.move_ids_without_package[0].partner_id">
                             <span><strong>Dirección de entrega:</strong></span>
                             <div t-field="o.move_ids_without_package[0].partner_id"
                                 t-options='{"widget": "contact", "fields": ["address", "name", "phone"], "no_marker": True, "phone_icons": True}'/>
                         </div>
                         <div t-if="o.picking_type_id.code != 'internal' and (not o.move_ids_without_package or not o.move_ids_without_package[0].partner_id) and o.picking_type_id.warehouse_id.partner_id">
-                            <span><strong>W1111arehouse Address:</strong></span>
+                            <span><strong>Dirección de almacen:</strong></span>
                             <div t-field="o.picking_type_id.warehouse_id.partner_id"
                                 t-options='{"widget": "contact", "fields": ["address", "name", "phone"], "no_marker": True, "phone_icons": True}'/>
                         </div>
@@ -38,20 +34,18 @@
 
             </div>
         </xpath>
-<!--        <xpath expr="//div[@name='div_incoming_address']" position="attributes">-->
-<!--            <attribute name="style">font-size: 12px; background-color:green;</attribute>-->
-<!--        </xpath>-->
+
         <xpath expr="//div[@name='div_incoming_address']" position="replace">
             <t t-if="o.sale_order_id and o.picking_type_id.code=='outgoing'">
-                <div class="col-6" name="div_incoming_address" style="font-size: 12px; background-color:gray;">
+                <div class="col-4" name="div_incoming_address" style="font-size: 12px; background-color:gray;">
                     <div t-if="o.picking_type_id.code=='incoming' and partner">
-                        <span><strong>Vendor Address:</strong></span>
+                        <span><strong>Dirección de proveedor:</strong></span>
                     </div>
                     <div t-if="o.picking_type_id.code=='internal' and partner">
-                        <span><strong>Warehouse Address:</strong></span>
+                        <span><strong>Dirección de almacén:</strong></span>
                     </div>
                     <div t-if="o.picking_type_id.code=='outgoing' and partner">
-                        <span><strong>Customer Address:</strong></span>
+                        <span><strong>Dirección de clientef:</strong></span>
                     </div>
                     <div t-if="partner" name="partner_header">
                         <div t-field="partner.self"
