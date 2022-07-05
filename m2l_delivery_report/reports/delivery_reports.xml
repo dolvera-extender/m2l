@@ -1,0 +1,24 @@
+<odoo>
+    <template id="report_m2l_delivery_document" inherit_id="stock.report_delivery_document">
+<!--        <xpath expr="//t[@t-set='address']" position="after">-->
+        <xpath expr="//div[@name='div_outgoing_address']" position="inside">
+            <!--
+            Direccion de envio y facturación
+            -->
+            <t t-if="o.sale_order_id">
+                <t t-set="doc_sale" t-value="o.sale_order_id"/>
+                <div t-if="doc_sale.partner_invoice_id">
+                    <strong>Dirección de facturación:</strong>
+                    <div t-field="doc_sale.partner_invoice_id"
+                        t-options='{"widget": "contact", "fields": ["address", "name", "phone"], "no_marker": True, "phone_icons": True}'/>
+                </div>
+                <div t-if="doc_sale.partner_shipping_id">
+                    <strong>Dirección de entrega:</strong>
+                    <div t-field="doc_sale.partner_shipping_id"
+                        t-options='{"widget": "contact", "fields": ["address", "name", "phone"], "no_marker": True, "phone_icons": True}'/>
+                </div>
+            </t>
+        </xpath>
+    </template>
+</odoo>
+
