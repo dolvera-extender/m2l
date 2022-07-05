@@ -28,15 +28,15 @@
 <!--                    </div>-->
 <!--                </t>-->
                 <div class="col-6" t-if="o.picking_type_id.code != 'internal' and (not o.move_ids_without_package or not o.move_ids_without_package[0].partner_id) and o.picking_type_id.warehouse_id.partner_id">
-                    <span><strong>Warehouse Address:</strong></span>
+                    <span><strong>Dirección de almacén:</strong></span>
                     <div t-field="o.picking_type_id.warehouse_id.partner_id"
                         t-options='{"widget": "contact", "fields": ["address", "name", "phone"], "no_marker": True, "phone_icons": True}'/>
                 </div>
             </div>
         </xpath>
         <xpath expr="//div[@name='div_incoming_address']" position="attributes">
-            <attribute name="class">col-6</attribute>
-            <attribute name="style">font-size: 12px;</attribute>
+            <attribute name="class">col-10</attribute>
+            <attribute name="style">font-size: 12px; background-color:yellow;</attribute>
         </xpath>
     </template>
 </odoo>
