@@ -12,11 +12,11 @@
                     <div t-field="doc_sale.partner_invoice_id"
                         t-options='{"widget": "contact", "fields": ["address", "name", "phone"], "no_marker": True, "phone_icons": True}'/>
                 </div>
-                <div t-if="doc_sale.partner_shipping_id">
+                <!--<div t-if="doc_sale.partner_shipping_id">
                     <strong>Dirección de entrega:</strong>
                     <div t-field="doc_sale.partner_shipping_id"
                         t-options='{"widget": "contact", "fields": ["address", "name", "phone"], "no_marker": True, "phone_icons": True}'/>
-                </div>
+                </div>-->
             </t>
         </xpath>
     </template>
