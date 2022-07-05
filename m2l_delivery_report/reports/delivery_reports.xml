@@ -39,7 +39,7 @@
             <attribute name="style">font-size: 12px; background-color:yellow; padding-right:0px;argin-right: 0px;</attribute>
         </xpath>
         <xpath expr="//div[@name='div_incoming_address']/.." position="attributes">
-            <attribute name="style">background-color:green; padding-left:300px;</attribute>
+            <attribute name="style">background-color:green; padding-left:600px;</attribute>
         </xpath>
     </template>
 </odoo>
