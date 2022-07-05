@@ -17,6 +17,23 @@
                     <div t-field="doc_sale.partner_shipping_id"
                         t-options='{"widget": "contact", "fields": ["address", "name", "phone"], "no_marker": True, "phone_icons": True}'/>
                 </div>-->
+
+                <!-- ORI
+                <t t-set="address">
+                    <div name="div_outgoing_address">
+                        <div t-if="o.move_ids_without_package and o.move_ids_without_package[0].partner_id">
+                            <span><strong>Delivery Address:</strong></span>
+                            <div t-field="o.move_ids_without_package[0].partner_id"
+                                t-options='{"widget": "contact", "fields": ["address", "name", "phone"], "no_marker": True, "phone_icons": True}'/>
+                        </div>
+                        <div t-if="o.picking_type_id.code != 'internal' and (not o.move_ids_without_package or not o.move_ids_without_package[0].partner_id) and o.picking_type_id.warehouse_id.partner_id">
+                            <span><strong>Warehouse Address:</strong></span>
+                            <div t-field="o.picking_type_id.warehouse_id.partner_id"
+                                t-options='{"widget": "contact", "fields": ["address", "name", "phone"], "no_marker": True, "phone_icons": True}'/>
+                        </div>
+                    </div>
+                </t>
+                -->
             </t>
         </xpath>
     </template>
