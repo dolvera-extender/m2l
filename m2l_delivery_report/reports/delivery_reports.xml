@@ -3,8 +3,8 @@
         <xpath expr="//div[@name='div_outgoing_address']" position="replace">
 
             <div class="row" name="div_outgoing_address" style="font-size: 12px;">
-                <t t-if="o.sale_order_id and o.picking_type_id.code=='outgoing'">
-                    <t t-set="doc_sale" t-value="o.sale_order_id"/>
+                <t t-if="o.sale_id and o.picking_type_id.code=='outgoing'">
+                    <t t-set="doc_sale" t-value="o.sale_id"/>
                     <div class="col-6" t-if="doc_sale.partner_invoice_id">
                         <strong>Dirección de facturación:</strong>
                         <div t-field="doc_sale.partner_invoice_id"
