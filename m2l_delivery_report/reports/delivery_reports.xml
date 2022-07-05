@@ -17,8 +17,8 @@
                     </div>
                 </t>
                 <t t-else="">
-                    <div class="col-6"/>
-                    <div class="col-6"/>
+<!--                    <div class="col-6"/>-->
+<!--                    <div class="col-6"/>-->
                 </t>
 <!--                <t t-else="">-->
 <!--                    <div class="col-6" t-if="o.move_ids_without_package and o.move_ids_without_package[0].partner_id">-->
@@ -39,7 +39,7 @@
             <attribute name="style">font-size: 12px; background-color:yellow; padding-right:0px;argin-right: 0px;</attribute>
         </xpath>
         <xpath expr="//div[@name='div_incoming_address']/.." position="attributes">
-            <attribute name="style">background-color:green; padding-left:600px;</attribute>
+            <attribute name="style">background-color:green; padding-left:400px;</attribute>
         </xpath>
     </template>
 </odoo>
