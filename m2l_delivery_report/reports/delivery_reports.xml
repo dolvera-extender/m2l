@@ -42,7 +42,7 @@
             <attribute name="style">font-size: 12px;</attribute>
         </xpath>
         <xpath expr="//div[@name='div_incoming_address']/.." position="attributes">
-            <attribute name="style">padding-left:400px; padding-right:0px;</attribute>
+            <attribute name="style">padding-right:0px;</attribute>
         </xpath>
     </template>
 </odoo>
