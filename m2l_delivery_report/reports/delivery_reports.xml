@@ -42,7 +42,7 @@
         <xpath expr="//div[@name='div_incoming_address']" position="replace">
             <t t-if="o.sale_id and o.picking_type_id.code=='outgoing'"/>
             <t t-else="">
-                <div class="col-7 offset-6" style="font-size: 12px;" name="div_incoming_address">
+                <div class="col-7 offset-8" style="font-size: 12px;" name="div_incoming_address">
 
                     <div t-if="o.picking_type_id.code=='incoming' and partner">
                         <span><strong>Dirección de proveedor:</strong></span>
