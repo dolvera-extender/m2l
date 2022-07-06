@@ -40,9 +40,10 @@
 <!--            <attribute name="style">font-size: 12px;</attribute>-->
 <!--        </xpath>-->
         <xpath expr="//div[@name='div_incoming_address']" position="replace">
-            <div class="col-7 offset-1" style="font-size: 12px;" name="div_incoming_address">
-                <t t-if="o.sale_id and o.picking_type_id.code=='outgoing'"/>
-                <t t-else="">
+            <t t-if="o.sale_id and o.picking_type_id.code=='outgoing'"/>
+            <t t-else="">
+                <div class="col-7 offset-6" style="font-size: 12px;" name="div_incoming_address">
+
                     <div t-if="o.picking_type_id.code=='incoming' and partner">
                         <span><strong>Dirección de proveedor:</strong></span>
                     </div>
@@ -57,8 +58,9 @@
                             t-options='{"widget": "contact", "fields": ["address", "name", "phone"], "no_marker": True, "phone_icons": True}'/>
                         <p t-if="partner.sudo().vat"><t t-esc="o.company_id.country_id.vat_label or 'Tax ID'"/>: <span t-field="partner.sudo().vat"/></p>
                     </div>
-                </t>
-            </div>
+
+                </div>
+            </t>
         </xpath>
         <xpath expr="//div[@name='div_incoming_address']/.." position="attributes">
             <attribute name="style">padding-right:0px;</attribute>
