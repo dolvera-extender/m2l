@@ -38,7 +38,7 @@
 <!--           <div class="col-7" name="div_incoming_address_blank_space"/>-->
 <!--        </xpath>-->
         <xpath expr="//div[@name='div_incoming_address']" position="attributes">
-            <attribute name="class">col-7 offset-2</attribute>
+            <attribute name="class">col-7</attribute>
             <attribute name="style">font-size: 12px;</attribute>
         </xpath>
         <xpath expr="//div[@name='div_incoming_address']/.." position="attributes">
