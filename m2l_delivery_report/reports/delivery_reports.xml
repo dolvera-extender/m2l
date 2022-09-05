@@ -65,6 +65,39 @@
         <xpath expr="//div[@name='div_incoming_address']/.." position="attributes">
             <attribute name="style">padding-right:0px;</attribute>
         </xpath>
+
+         <!-- Sumatories table -->
+        <xpath expr="//table[@name='stock_move_line_table']" position="after">
+            <div t-if="o.picking_type_id.code in ['outgoing']">
+            
+                <strong>Totales por producto</strong>
+                <table class="table table-sm" name="stock_move_totals">
+                    <thead>
+                        <tr>
+                            <th name="th_sm_product_2group"><strong>Producto</strong></th>
+                            <th style="text-align: right;" name="th_sm_quantity_grouped"><strong>Cantidad</strong></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <t t-foreach="o.move_ids_without_package" t-as="m2lline">
+                            <tr>
+                                <td>
+                                    <span t-field="m2lline.product_id.name"/>
+                                </td>
+                                <td style="text-align: right;">
+                                    <span t-field="m2lline.quantity_done"/>
+                                </td>
+                            </tr>
+                        </t>
+                    </tbody>
+                </table>
+                <div style="text-align: right;">
+                    <strong>Total: </strong><span t-esc="sum(o.move_ids_without_package.mapped('quantity_done'))"/>
+                </div>
+            </div>
+        </xpath>
+
+
     </template>
 </odoo>
 
