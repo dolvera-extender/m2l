@@ -75,6 +75,7 @@
                     <thead>
                         <tr>
                             <th name="th_sm_product_2group"><strong>Producto</strong></th>
+                            <th name="th_sm_product_descr_2group"><strong>Descripción</strong></th>
                             <th style="text-align: right;" name="th_sm_quantity_grouped"><strong>Cantidad</strong></th>
                         </tr>
                     </thead>
@@ -83,6 +84,9 @@
                             <tr>
                                 <td>
                                     <span t-field="m2lline.product_id.name"/>
+                                </td>
+                                <td>
+                                    <span t-field="m2lline.product_id.description"/>
                                 </td>
                                 <td style="text-align: right;">
                                     <span t-field="m2lline.quantity_done"/>
