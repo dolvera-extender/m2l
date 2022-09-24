@@ -1,0 +1,7 @@
+<odoo>
+    <template id="external_layout_standard_m2l" inherit_id="web.external_layout_standard">
+        <xpath expr="//div[1]/div[1]" position="before">
+        -------------------HolaMundo!------------------
+        </xpath>
+    </template>
+</odoo>
