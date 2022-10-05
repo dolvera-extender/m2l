@@ -118,10 +118,10 @@
                                         </td>
                                         <td>
                                             <div class="row">
-                                                <div class="col-2">
+                                                <div class="col-1">
 
                                                 </div>
-                                                <div class="col-10">
+                                                <div class="col-11">
                                                     <strong>S/N: </strong><span t-field="move_lines_wp.lot_id"/>
                                                 </div>
                                             </div>
