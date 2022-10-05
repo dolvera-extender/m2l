@@ -42,7 +42,7 @@
         <xpath expr="//div[@name='div_incoming_address']" position="replace">
             <t t-if="o.sale_id and o.picking_type_id.code=='outgoing'"/>
             <t t-else="">
-                <div class="col-7 offset-8" style="font-size: 12px;" name="div_incoming_address">
+                <div class="col-7 offset-8" style="font-size: 14px;" name="div_incoming_address">
 
                     <div t-if="o.picking_type_id.code=='incoming' and partner">
                         <span><strong>Dirección de proveedor:</strong></span>
@@ -106,7 +106,7 @@
                                 </tr>
                                 <!-- Tabla de número de Número de lote/de serie  -->
                                 <t t-foreach="o.move_line_ids_without_package.filtered(lambda x: x.product_id.id == m2lline.product_id.id)" t-as="move_lines_wp">
-                                    <tr style="font-size: 12px;">
+                                    <tr style="font-size: 14px;">
                                         <td>
                                             <div class="row">
                                                 <div class="col-2">
@@ -126,7 +126,7 @@
                                                 </div>
                                             </div>
                                         </td>
-                                        <td style="text-align: right;">
+                                        <td style="text-align: left;">
                                             <span t-field="move_lines_wp.qty_done"/>
                                         </td>
                                     </tr>
