@@ -126,7 +126,7 @@
                                                 </div>
                                             </div>
                                         </td>
-                                        <td style="text-align: left;">
+                                        <td style="text-align: left; padding-left: 50px;">
                                             <span t-field="move_lines_wp.qty_done"/>
                                         </td>
                                     </tr>
