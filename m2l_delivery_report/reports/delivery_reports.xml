@@ -126,8 +126,16 @@
                                                 </div>
                                             </div>
                                         </td>
-                                        <td style="text-align: left; background-color:red;">
-                                            <span style="margin-left: 200px; background-color:green;" t-field="move_lines_wp.qty_done"/>
+                                        <td style="text-align: left;">
+                                            <div class="row">
+                                                <div class="col-11">
+                                                    <span t-field="move_lines_wp.qty_done"/>
+                                                </div>
+                                                <div class="col-1">
+
+                                                </div>
+                                            </div>
+
                                         </td>
                                     </tr>
                                 </t>
