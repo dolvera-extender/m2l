@@ -91,7 +91,7 @@
                             }
 
                             </style>
-                            <t t-foreach="o.move_ids_without_package" t-as="m2lline">
+                            <t t-foreach="o.move_ids_without_package.filtered(lambda l: l.quantity_done > 0)" t-as="m2lline">
                                 <tr style="opacity: 0.9; font-size: 14px;">
                                     <td>
                                         <span t-field="m2lline.product_id.name" style="color: black;"/>
