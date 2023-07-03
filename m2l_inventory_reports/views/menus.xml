@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem name="Reporte" id="menu_m2l_mainreport_root" sequence="1"
+              web_icon="m2l_inventory_reports,static/description/icon.png"/>
+    <menuitem name="Productos" id="menu_fm2l_mainreport_products"
+              sequence="1"
+              action="m2l_inventory_reports.action_m2l_product_product"
+              parent="m2l_inventory_reports.menu_m2l_mainreport_root"/>
+    <menuitem name="Movimientos" id="menu_fm2l_mainreport_stock_move_line"
+              sequence="2"
+              action="m2l_inventory_reports.action_m2l_stock_move_line"
+              parent="m2l_inventory_reports.menu_m2l_mainreport_root"/>
+</odoo>
