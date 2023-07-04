@@ -12,6 +12,7 @@
     'data': [
         'security/groups.xml',
         'views/views.xml',
+        'views/views_partner.xml',
         'views/actions.xml',
         'views/menus.xml',
     ],
