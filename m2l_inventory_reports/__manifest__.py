@@ -11,6 +11,7 @@
     'sequence': 88,
     'data': [
         'security/groups.xml',
+        'security/ir.model.access.csv',
         'views/views.xml',
         'views/views_partner.xml',
         'views/actions.xml',

@@ -2,9 +2,9 @@
 <odoo>
     <menuitem name="Reporte" id="menu_m2l_mainreport_root" sequence="1"
               web_icon="m2l_inventory_reports,static/description/icon.png"/>
-    <menuitem name="Productos" id="menu_fm2l_mainreport_products"
+    <menuitem name="Productos" id="menu_fm2l_mainreport_products2"
               sequence="1"
-              action="m2l_inventory_reports.action_m2l_product_product"
+              action="m2l_inventory_reports.server_action_m2l_product_filter"
               parent="m2l_inventory_reports.menu_m2l_mainreport_root"/>
     <menuitem name="Movimientos" id="menu_fm2l_mainreport_stock_move_line"
               sequence="2"
