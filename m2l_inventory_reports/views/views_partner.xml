@@ -3,11 +3,13 @@
     <record id="res_partner_m2l_filter_view_form" model="ir.ui.view">
         <field name="name">res.partner.form_2filter_m2l.inherit</field>
         <field name="model">res.partner</field>
-        <field name="inherit_id" ref="stock.view_partner_stock_form"/>
+        <field name="inherit_id" ref="base.view_partner_form"/>
         <field name="arch" type="xml">
-            <xpath expr="//group[@name='inventory']" position="after">
+            <xpath expr="//group[@name='container_row_2']" position="after">
                 <group>
-                    <field name="product_category_ids" widget="many2many_tags"/>
+                    <group string="Reporte">
+                        <field name="product_category_ids" widget="many2many_tags"/>
+                    </group>
                 </group>
             </xpath>
         </field>
