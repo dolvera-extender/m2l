@@ -9,6 +9,9 @@
                 <field name="id" invisible="1"/>
                 <field name="location_id" invisible="1"/>
                 <field name="location_dest_id" invisible="1"/>
+                <field name="product_category_id" invisible="1"/>
+                <field name="pol_invoice_ref" invisible="1"/>
+                <field name="pol_asn_ref" invisible="1"/>
                 <templates>
                     <t t-name="kanban-box">
                         <div t-attf-class="oe_kanban_card oe_kanban_global_click">
@@ -23,6 +26,9 @@
                                 </div>
                                 <div class="col-6 text-right">
                                     <field name="date"/>
+                                    <field name="product_category_id"/>
+                                    <field name="pol_invoice_ref"/>
+                                    <field name="pol_asn_ref"/>
                                 </div>
                             </div>
                         </div>
@@ -51,6 +57,9 @@
                             <field name="reference" string="Reference"/>
                             <field name="origin"/>
                             <field name="product_id"/>
+                            <field name="product_category_id"/>
+                            <field name="pol_asn_ref"/>
+                            <field name="pol_invoice_ref"/>
                             <field name="location_id" options="{'no_create': True}" groups="stock.group_stock_multi_locations"/>
                             <field name="location_dest_id" options="{'no_create': True}" groups="stock.group_stock_multi_locations"/>
                         </group>
@@ -86,6 +95,9 @@
                 <field name="date"/>
                 <field name="reference" string="Reference" invisible="context.get('no_reference', False)"/>
                 <field name="product_id"/>
+                <field name="product_category_id" optional="show"/>
+                <field name="pol_invoice_ref" optional="show"/>
+                <field name="pol_asn_ref" optional="show"/>
                 <field name="lot_id" groups="stock.group_production_lot"/>
                 <field name="location_id" groups="stock.group_stock_multi_locations"/>
                 <field name="location_dest_id" groups="stock.group_stock_multi_locations"/>
@@ -115,6 +127,7 @@
                 <field name="lst_price" optional="show" string="Sales Price"/>
                 <field name="standard_price" optional="show"/>
                 <field name="categ_id" optional="hide"/>
+                <field name="qty_available" optional="show"/>
                 <field name="type" optional="hide" readonly="1"/>
                 <field name="price" invisible="not context.get('pricelist',False)"/>
                 <field name="uom_id" options="{'no_open': True, 'no_create': True}" groups="uom.group_uom" optional="show" readonly="1"/>
