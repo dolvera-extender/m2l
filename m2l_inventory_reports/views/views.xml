@@ -5,7 +5,7 @@
         <field name="model">stock.move.line</field>
         <field name="arch" type="xml">
             <kanban create="false" class="oe_background_grey o_kanban_dashboard o_fe_kanban" js_class="family_eco_dashboard">
-<!--            <kanban create="false" class="oe_background_grey o_kanban_dashboard">-->
+                <!-- <kanban create="false" class="oe_background_grey o_kanban_dashboard"> -->
                 <field name="id" invisible="1"/>
                 <field name="location_id" invisible="1"/>
                 <field name="location_dest_id" invisible="1"/>
@@ -86,6 +86,60 @@
         </field>
     </record>
 
+    <record id="pcover_report_history_form_view" model="ir.ui.view">
+        <field name="name">pcover_report_history.form_view</field>
+        <field name="model">pcover.report.history</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <form string="Historial" create="0" edit="0">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="carrier_id"/>
+                            <field name="dest_location_id"/>
+                        </group>
+                        <group>
+                            <field name="remition_qty"/>
+                            <field name="hr_driver_id"/>
+                            <field name="vehicle_tag_id"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Remisiones">
+                            <field name="line_ids">
+                                <tree>
+                                    <field name="pcover_id" invisible="1"/>
+                                    <field name="remision_id"/>
+                                    <field name="is_critical"/>
+                                    <field name="retrab_transpa"/>
+                                    <field name="retrab_transpa_descr"/>
+                                    <field name="tarimas_m2l"/>
+                                    <field name="tarimas_m2l_descr"/>
+                                    <field name="out_date"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="pcover_report_history_tree_view" model="ir.ui.view">
+        <field name="name">pcover_report_history.tree_view</field>
+        <field name="model">pcover.report.history</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <tree string="Historial" create="0" edit="0">
+                <field name="name"/>
+                <field name="carrier_id"/>
+                <field name="hr_driver_id"/>
+                <button string="Descargar PDF" type="object" name="generate_pdf"/>
+            </tree>
+        </field>
+    </record>
+
     <record id="stock_move_line_m2l_tree_view" model="ir.ui.view">
         <field name="name">stock_move_line_m2l.dashboard.tree_view</field>
         <field name="model">stock.move.line</field>
@@ -134,6 +188,19 @@
                 <field name="product_tmpl_id" invisible="1" readonly="1"/>
                 <field name="active" invisible="1"/>
             </tree>
+        </field>
+    </record>
+
+    <!-- INHERED VIEWS -->
+
+    <record id="vehicle_configuration_form_view" model="ir.ui.view">
+        <field name="name">vehicle_configuration.form.view</field>
+        <field name="model">l10n_mx_edi.vehicle</field>
+        <field name="inherit_id" ref="l10n_mx_edi_stock.vehicle_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='vehicle_licence']" position="after">
+                <field name="vehicle_name"/>
+            </xpath>
         </field>
     </record>
 </odoo>

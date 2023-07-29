@@ -6,7 +6,7 @@
     "author": "Ing. Isaac Chávez Arroyo",
     'description': "",
     'website': 'https://isaaccv.ml',
-    'depends': ['base', 'stock'],
+    'depends': ['base', 'stock', "l10n_mx_edi_stock"],
     'category': 'Inventory/Inventory',
     'sequence': 88,
     'data': [
@@ -16,6 +16,8 @@
         'views/views_partner.xml',
         'views/actions.xml',
         'views/menus.xml',
+        'wizard/pcover_ref_wizard.xml',
+        'views/reports.xml'
     ],
     'assets': {
         'web.assets_qweb': [

@@ -5,6 +5,13 @@ import logging
 _log = logging.getLogger("\n =====[%s]===" % __name__)
 
 
+class StockPickingM2lr(models.Model):
+    _inherit = "stock.picking"
+
+
+    pcover_id = fields.Many2one('pcover.report.history', string="Reporte de portada")
+
+
 class StockMoveLineM2l(models.Model):
     _inherit = "stock.move.line"
 

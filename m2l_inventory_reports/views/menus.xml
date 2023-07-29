@@ -11,4 +11,9 @@
               sequence="2"
               action="m2l_inventory_reports.server_action_m2l_move_line_filter"
               parent="m2l_inventory_reports.menu_m2l_mainreport_root"/>
+    <menuitem id="menu_pcover_history_records"
+              name="Historial de portadas"
+              parent="stock.menu_stock_warehouse_mgmt"
+              action="m2l_inventory_reports.action_pcover_history"
+              sequence="9"/>
 </odoo>

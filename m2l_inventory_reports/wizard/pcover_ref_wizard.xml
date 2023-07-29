@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record model="ir.ui.view" id="wizard_pcover_form_view">
+            <field name="name">wizard_pcover_form_view</field>
+            <field name="model">pcover.report.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Warning">
+                    <group>
+                        <group>
+                            <field name="carrier_id"/>
+                            <field name="remition_qty"/>
+                        </group>
+                        <group>
+                            <field name="hr_driver_id"/>
+                            <field name="vehicle_tag_id"/>
+                            <field name="dest_location_id"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="line_ids">
+                            <tree editable="buttom">
+                                <field name="remision_id"/>
+                                <field name="is_critical"/>
+                                <field name="retrab_transpa"/>
+                                <field name="retrab_transpa_descr"/>
+                                <field name="tarimas_m2l"/>
+                                <field name="tarimas_m2l_descr"/>
+                                <field name="out_date"/>
+                            </tree>
+                        </field>
+                    </group>
+                    <footer>
+                        <button name="process_pcover_report" type="object" string="Aceptar" class="oe_highlight"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+    <record id="act_wizard_pcover_report" model="ir.actions.act_window">
+            <field name="name">Portada de envios</field>
+            <field name="res_model">pcover.report.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="wizard_pcover_form_view"/>
+            <field name="target">new</field>
+        </record>
+
+    <menuitem id="menu_report_pcover_wizard"
+              name="Generar portada"
+              parent="stock.menu_stock_warehouse_mgmt"
+              action="act_wizard_pcover_report"
+              sequence="9"/>
+</odoo>

@@ -34,6 +34,22 @@
      </record>
 -->
 
+    <record id="action_pcover_history" model="ir.actions.act_window">
+        <field name="name">Historial de portadas generadas</field>
+        <field name="res_model">pcover.report.history</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[]</field>
+        <field name="view_ids" eval="[(5, 0, 0),
+            (0, 0, {'view_mode': 'tree', 'view_id': ref('m2l_inventory_reports.pcover_report_history_tree_view')}),
+            (0, 0, {'view_mode': 'form', 'view_id': ref('m2l_inventory_reports.pcover_report_history_form_view')})
+            ]"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+            Sin historial
+            </p>
+        </field>
+     </record>
+
     <record id="server_action_m2l_product_filter" model="ir.actions.server">
         <field name="name">Filtro de productos por categoria</field>
         <field name="model_id" ref="model_m2l_filter_records"/>

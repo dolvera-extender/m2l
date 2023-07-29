@@ -1,2 +1,6 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 filterrecordsmngr,filterrecordsmngr,model_m2l_filter_records,,1,1,1,1
+pcover_wizard_usr,pcover_wizard_usr,model_pcover_report_wizard,,1,1,1,1
+pcover_line_wizard_usr,pcover_line_wizard_usr,model_pcover_report_wizard_line,,1,1,1,1
+pcover_history_usr,pcover_history_usr,model_pcover_report_history,,1,1,1,1
+pcover_history_line_usr,pcover_history_line_usr,model_pcover_report_history_line,,1,1,1,1
