@@ -12,6 +12,9 @@
                     </group>
                 </group>
             </xpath>
+            <xpath expr="//field[@name='category_id']" position="after">
+                <field name="is_carrier"/>
+            </xpath>
         </field>
     </record>
 </odoo>

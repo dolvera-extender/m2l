@@ -3,17 +3,121 @@
     <template id="report_pcover_document">
         <t t-call="web.html_container">
             <t t-call="web.external_layout">
+                <style>
+                    .miborder {
+                        border-style: solid;
+                        border-width: 2px;
+                        padding: 15px;
+                    }
+                    .ter {
+                        text-align: right;
+                    }
+                    .tel {
+                        text-align: left;
+                    }
+                    .unl {
+                        border-bottom: 2px solid;
+                        width: 100%;
+                    }
+                    .signspace{
+                        border-style: solid;
+                        border-width: 1px;
+                        height: 120px;
+                        maring: 10px;
+                    }
+                </style>
                 <div class="page">
-                    <h1>Hola mundo</h1>
+                    <div class="row">
+                        <div class="col-4 float-right">
+                            <strong>NOTA DE SALIDA</strong>
+                        </div>
+                        <div class="col-4 ter">
+                            <span t-esc="createdate"/>
+                        </div>
+                        <div class="col-4 ter">
+                            Folio: <span t-esc="name"/>
+                        </div>
+                    </div>
+                    <br/>
+                    <div class="miborder">
+                        <div class="row">
+                            <div class="col-6">
+                                <p>Transportista: <span t-esc="carrier"/></p>
+                                <p>NO. DE CAJA: <span t-esc="box_name"/></p>
+                                <p>B/L: <span t-esc="bl"/></p>
+                            </div>
+                            <div class="col-6">
+                                <p>CHOFER: <span t-esc="driver"/></p>
+                                <p>PLACAS: <span t-esc="vehicle_tag"/></p>
+                                <p>DESTINO: <span t-esc="destination"/></p>
+                            </div>
+                        </div>
+                    </div>
+                    <br/>
+                    <div class="miborder">
+                        <div class="row">
+                            <table class="table table-sm">
+                                <thead><tr>
+                                    <th>Remision</th>
+                                    <th>Embarque critico</th>
+                                    <th>Retrabajos/Tanspapeleos</th>
+                                    <th>Tarimas M2L</th>
+                                    <th>Fecha estimada</th>
+                                </tr></thead>
+                                <tbody>
+                                    <t t-foreach="lines" t-as="l">
+                                        <tr>
+                                            <td><span t-esc="l['remision_id']"/></td>
+                                            <td class="text-center">
+                                                <t t-if="l['is_critical'] == 1">
+                                                    <i class="fa fa-check" aria-hidden="true"></i>
+                                                </t>
+                                                <t t-else="">
+                                                    <i class="fa fa-times" aria-hidden="true"></i>
+                                                </t>
+                                            </td>
+                                            <!--<td><span t-esc="l['retrab_transpa']"/></td>-->
+                                            <td><span t-esc="l['retrab_transpa_descr']"/></td>
+                                            <!--<td><span t-esc="l['tarimas_m2l']"/></td>-->
+                                            <td><span t-esc="l['tarimas_m2l_descr']"/></td>
+                                            <td><span t-esc="l['out_date']"/></td>
+                                        </tr>
+                                    </t>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div style="padding: 1px; padding-top: 15px;">
+                        <div class="row">
+                            <div class="col-4 text-center">
+                                <div class="signspace"/>
+                                <br/>
+                                <span>FIRMA <span t-esc="supervisor"/> M2L</span>
+                            </div>
+                            <div class="col-4 text-center">
+                                <div class="signspace"/>
+                                <br/>
+                                <span>FIRMA/SELLO VIGILANCIA M2L</span>
+                            </div>
+                            <div class="col-4 text-center">
+                                <div class="signspace"/>
+                                <br/>
+                                <span>FIRMA/SELLO CLIENTE</span>
+                            </div>
+                            
+                        </div>
+                    </div>
                 </div>
             </t>
-         </t>
+        </t>
     </template>
 
-    <report id="report_pcover_pdf"
-        model="pcover.report.history"
-        string="Existencias"
-        report_type="qweb-pdf"
-        name="m2l_inventory_reports.report_pcover_document"
-        menu="False"/>
+    <record id="report_pcover_pdf" model="ir.actions.report">
+        <field name="name">Nota de salida</field>
+        <field name="model">pcover.report.history</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">m2l_inventory_reports.report_pcover_document</field>
+        <field name="report_file">m2l_inventory_reports.report_pcover_document</field>
+        <field name="print_report_name">'Nota_salida_%s' % (object.name)</field>
+    </record>
 </odoo>

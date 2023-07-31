@@ -9,6 +9,7 @@ class ResPartnerM2l(models.Model):
     _inherit = "res.partner"
 
     product_category_ids = fields.Many2many('product.category', string="Categorías de producto permitidas", help="Categorias de producto que el usuario puede visualizar en el reporte M2L")
+    is_carrier = fields.Boolean(string="Es transportista")
 
 
 class M2lFilterRecords(models.TransientModel):

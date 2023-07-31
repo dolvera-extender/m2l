@@ -96,13 +96,16 @@
                     <group>
                         <group>
                             <field name="name"/>
+                            <field name="folio" invisible="1"/>
                             <field name="carrier_id"/>
                             <field name="dest_location_id"/>
+                            <field name="supervisor_id"/> 
                         </group>
                         <group>
                             <field name="remition_qty"/>
                             <field name="hr_driver_id"/>
                             <field name="vehicle_tag_id"/>
+                            <field name="create_date" string="Fecha de creación"/>
                         </group>
                     </group>
                     <notebook>
@@ -112,9 +115,9 @@
                                     <field name="pcover_id" invisible="1"/>
                                     <field name="remision_id"/>
                                     <field name="is_critical"/>
-                                    <field name="retrab_transpa"/>
+                                    <field name="retrab_transpa" invisible="1"/>
                                     <field name="retrab_transpa_descr"/>
-                                    <field name="tarimas_m2l"/>
+                                    <field name="tarimas_m2l" invisible="1"/>
                                     <field name="tarimas_m2l_descr"/>
                                     <field name="out_date"/>
                                 </tree>
@@ -135,6 +138,7 @@
                 <field name="name"/>
                 <field name="carrier_id"/>
                 <field name="hr_driver_id"/>
+                <field name="create_date" string="Fecha de creación"/>
                 <button string="Descargar PDF" type="object" name="generate_pdf"/>
             </tree>
         </field>
