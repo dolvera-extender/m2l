@@ -108,18 +108,22 @@
                             <field name="create_date" string="Fecha de creación"/>
                         </group>
                     </group>
+                    <group>
+                        <group>
+                            <field name="retrab_transpa_descr"/>
+                            <field name="tarimas_m2l_descr"/>
+                        </group>
+                        <group>
+                            <field name="is_critical"/>
+                            <field name="out_date"/>
+                        </group>
+                    </group>
                     <notebook>
                         <page string="Remisiones">
                             <field name="line_ids">
                                 <tree>
                                     <field name="pcover_id" invisible="1"/>
                                     <field name="remision_id"/>
-                                    <field name="is_critical"/>
-                                    <field name="retrab_transpa" invisible="1"/>
-                                    <field name="retrab_transpa_descr"/>
-                                    <field name="tarimas_m2l" invisible="1"/>
-                                    <field name="tarimas_m2l_descr"/>
-                                    <field name="out_date"/>
                                 </tree>
                             </field>
                         </page>
@@ -207,4 +211,16 @@
             </xpath>
         </field>
     </record>
+
+    <record id="stock_picking_type_m2l_form_view" model="ir.ui.view">
+        <field name="name">spt_m2l.form.view</field>
+        <field name="model">stock.picking.type</field>
+        <field name="inherit_id" ref="stock.view_picking_type_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='show_reserved']" position="after">
+                <field name="to_pcover"/>
+            </xpath>
+        </field>
+    </record>
+
 </odoo>

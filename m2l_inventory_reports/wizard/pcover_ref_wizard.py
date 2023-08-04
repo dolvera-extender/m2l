@@ -10,21 +10,21 @@ class PcoverReportWizard(models.TransientModel):
     _name = "pcover.report.wizard"
     _description = "Generador de etiquetas cover para transpasos"
 
-    # name = fields.Char(string="Filename")
     carrier_id = fields.Many2one('res.partner', string="Transportista", required=True)
-    # box_num_id = fields.Many2one('l10n_mx_edi.vehicle', string="No. de caja") # Es el año, en la placa
-    remition_qty = fields.Integer(string="B/L", required=True)
+    remition_qty = fields.Integer(string="No. de bultos", compute="_compute_moves_qty", store=False)
     hr_driver_id = fields.Many2one('hr.employee', string="Chofer", required=True)
     vehicle_tag_id = fields.Many2one('l10n_mx_edi.vehicle', string="Placas", required=True)
     dest_location_id = fields.Many2one('res.partner', string="Destino", required=True)
     supervisor_id = fields.Many2one('hr.employee', string="Supervisor", required=True)
 
+    is_critical = fields.Boolean(string="Embarque crítico", default=False)
+    retrab_transpa_descr = fields.Char(string="Detalles RT")
+    tarimas_m2l_descr = fields.Char(string="Detalles Tarimas M2L")
+    out_date = fields.Datetime(string="Entrega estimada", required=True)
 
     line_ids = fields.One2many('pcover.report.wizard.line', 'pcover_id', string="Remisiones")
 
     def process_pcover_report(self):
-        _log.info(" CREANDO REGISTRO EN HISTORIAL ")
-
         cover_obj = self.env['pcover.report.history']
         last_cover = cover_obj.search([], order="folio asc")[-1:]
         last_folio = last_cover.folio + 1 if last_cover else 1
@@ -32,14 +32,7 @@ class PcoverReportWizard(models.TransientModel):
         lines = []
         for line in self.line_ids:
             lines.append((0, 0, {
-                'remision_id': line.remision_id.id,
-                'is_critical': line.is_critical,
-                'retrab_transpa': line.retrab_transpa,
-                'retrab_transpa_descr': line.retrab_transpa_descr,
-                'tarimas_m2l': line.tarimas_m2l,
-                'tarimas_m2l_descr': line.tarimas_m2l_descr,
-                'out_date': line.out_date,
-
+                'remision_id': line.remision_id.id
             }))
 
         pcover_data = {
@@ -47,7 +40,11 @@ class PcoverReportWizard(models.TransientModel):
             'remition_qty': self.remition_qty,
             'folio': last_folio,
             'line_ids': lines,
-            'supervisor_id': self.supervisor_id.id
+            'supervisor_id': self.supervisor_id.id,
+            'is_critical': self.is_critical,
+            'retrab_transpa_descr': self.retrab_transpa_descr,
+            'tarimas_m2l_descr': self.tarimas_m2l_descr,
+            'out_date': self.out_date,
         }
 
         if self.carrier_id:
@@ -61,18 +58,17 @@ class PcoverReportWizard(models.TransientModel):
         cover = cover_obj.create(pcover_data)
         return cover.generate_pdf()
 
+    @api.onchange('line_ids')
+    def _compute_moves_qty(self):
+        for reg in self:
+            qty = len(reg.line_ids.mapped('remision_id').mapped('move_line_ids_without_package'))
+            reg.remition_qty = qty
+
 
 class PcoverReportWizardLine(models.TransientModel):
     _name = "pcover.report.wizard.line"
     _description = "Lineas de reporte"
 
     pcover_id = fields.Many2one('pcover.report.wizard', string="Portada")
+    remision_id = fields.Many2one('stock.picking', string="Remision", required=True)
 
-    remision_id = fields.Many2one('stock.picking', string="Remision")
-
-    is_critical = fields.Boolean(string="Embarque crítico", default=False)
-    retrab_transpa = fields.Boolean(string="Retrabajos o Transpapeleos", default=False)
-    retrab_transpa_descr = fields.Char(string="Detalles RT")
-    tarimas_m2l = fields.Boolean(string="Tarimas M2L", default=False)
-    tarimas_m2l_descr = fields.Char(string="Detalles Tarimas M2L")
-    out_date = fields.Date(string="Entrega estimada", required=True)

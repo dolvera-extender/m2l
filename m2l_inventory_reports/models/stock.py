@@ -28,3 +28,9 @@ class StockMoveLineM2l(models.Model):
             else:
                 rec.pol_invoice_ref = ""
                 rec.pol_asn_ref = ""
+
+class StockPickingTypeRm2l(models.Model):
+    _inherit = "stock.picking.type"
+
+    to_pcover = fields.Boolean(string="Portada embarques", default=False)
+

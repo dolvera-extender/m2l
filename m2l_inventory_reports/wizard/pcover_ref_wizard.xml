@@ -9,25 +9,31 @@
                     <group>
                         <group>
                             <field name="carrier_id" domain="[('is_carrier', '=', True)]" options="{'no_create_edit': True, 'no_create': True}"/>
-                            <field name="remition_qty" invisible="1"/>
                             <field name="supervisor_id" options="{'no_create_edit': True, 'no_create': True}"/> 
                             <field name="hr_driver_id" options="{'no_create_edit': True, 'no_create': True}"/>
+                            <field name="is_critical"/>
+                            <field name="remition_qty" invisible="0"/>
                         </group>
                         <group>
                             <field name="vehicle_tag_id"  options="{'no_create_edit': True, 'no_create': True}"/>
                             <field name="dest_location_id" options="{'no_create_edit': True, 'no_create': True}"/>
+                            <field name="retrab_transpa_descr"/>
+                            <field name="tarimas_m2l_descr"/>
+                            <field name="out_date"/>
                         </group>
                     </group>
                     <group>
                         <field name="line_ids">
                             <tree editable="buttom">
-                                <field name="remision_id"/>
+                                <field name="remision_id" domain="[('picking_type_id.to_pcover', '=', True), ('state', 'in', ['assigned', 'done'])]"/>
+                                <!-- 
                                 <field name="is_critical"/>
                                 <field name="retrab_transpa" invisible="1"/>
                                 <field name="retrab_transpa_descr"/>
                                 <field name="tarimas_m2l" invisible="1"/>
                                 <field name="tarimas_m2l_descr"/>
                                 <field name="out_date"/>
+                                -->
                             </tree>
                         </field>
                     </group>
