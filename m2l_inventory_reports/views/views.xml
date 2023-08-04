@@ -219,6 +219,7 @@
         <field name="arch" type="xml">
             <xpath expr="//field[@name='show_reserved']" position="after">
                 <field name="to_pcover"/>
+                <field name="to_report_module"/>
             </xpath>
         </field>
     </record>

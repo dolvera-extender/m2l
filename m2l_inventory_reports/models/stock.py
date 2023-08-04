@@ -21,7 +21,7 @@ class StockMoveLineM2l(models.Model):
 
     def _compute_invoice_ref(self):
         for rec in self:
-            _log.info(" linea de compra :: %s -->> FACTURA :: %s" % (rec.move_id.purchase_line_id, rec.move_id.purchase_line_id.x_studio_no_factura))
+            # _log.info(" linea de compra :: %s -->> FACTURA :: %s" % (rec.move_id.purchase_line_id, rec.move_id.purchase_line_id.x_studio_no_factura))
             if rec.move_id and rec.move_id.purchase_line_id:
                 rec.pol_invoice_ref = rec.move_id.purchase_line_id.x_studio_no_factura
                 rec.pol_asn_ref = rec.move_id.purchase_line_id.x_studio_asn
@@ -33,4 +33,5 @@ class StockPickingTypeRm2l(models.Model):
     _inherit = "stock.picking.type"
 
     to_pcover = fields.Boolean(string="Portada embarques", default=False)
+    to_report_module = fields.Boolean(string="Mod. reporte", default=False)
 

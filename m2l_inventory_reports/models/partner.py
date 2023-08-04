@@ -72,7 +72,7 @@ class M2lFilterRecords(models.TransientModel):
             'res_model': 'stock.move.line',
             'type': 'ir.actions.act_window',
             'target': "current",
-            'domain': [('product_id.categ_id', 'in', ac_ids)],
+            'domain': [('product_id.categ_id', 'in', ac_ids), ('picking_id.picking_type_id.to_report_module', '=', True)],
             'views': [[tree_view.id, "tree"], [kanban_view.id, "kanban"], [form_view.id, "form"]],
             # 'context': {}
         }
