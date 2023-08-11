@@ -25,7 +25,7 @@ class PcoverReportHistory(models.Model):
     dest_location_id = fields.Many2one('res.partner', string="Destino")
     line_ids = fields.One2many('pcover.report.history.line', 'pcover_id', string="Remisiones")
     
-    is_critical = fields.Boolean(string="Embarque crítico", default=False)
+    is_critical = fields.Boolean(string="Embarque crítico")
     retrab_transpa_descr = fields.Char(string="Retrabajo/transpapeleo", help="Detalles retrabajos / transpapeleos")
     tarimas_m2l_descr = fields.Char(string="Tarimas M2L", help="Detalles de tarimas M2L")
     out_date = fields.Datetime(string="Entrega estimada", required=True)

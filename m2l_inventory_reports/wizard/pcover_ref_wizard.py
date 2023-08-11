@@ -17,7 +17,7 @@ class PcoverReportWizard(models.TransientModel):
     dest_location_id = fields.Many2one('res.partner', string="Destino", required=True)
     supervisor_id = fields.Many2one('hr.employee', string="Supervisor", required=True)
 
-    is_critical = fields.Boolean(string="Embarque crítico", default=False)
+    is_critical = fields.Boolean(string="Embarque crítico")
     retrab_transpa_descr = fields.Char(string="Detalles RT")
     tarimas_m2l_descr = fields.Char(string="Detalles Tarimas M2L")
     out_date = fields.Datetime(string="Entrega estimada", required=True)
