@@ -57,13 +57,14 @@
                     <div class="miborder">
                         <div class="row">
                             <div class="col-6">
-                                <p> Entrega critica: 
-                                    <t t-if="'is_critical' == 1">
+                                <p> Entrega critica: <span t-out="is_critical"/>
+                                    <!-- <t t-if="'is_critical' == 1">
                                         <i class="fa fa-check" aria-hidden="true"></i>
                                     </t>
-                                    <t t-else="">
+                                    <t t-else=""> -->
                                         <!-- <i class="fa fa-times" aria-hidden="true"></i> -->
-                                    </t>
+                                        <!-- <i> </i>
+                                    </t> -->
                                 </p>
                                 <p>Entrega estimada: <span t-esc="out_date"/></p>
                             </div>

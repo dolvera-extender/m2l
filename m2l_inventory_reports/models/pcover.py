@@ -53,7 +53,7 @@ class PcoverReportHistory(models.Model):
             'vehicle_tag': self.vehicle_tag_id.vehicle_licence,
             'destination': self.dest_location_id.display_name,
             'supervisor': self.supervisor_id.name.upper(),
-            'is_critical': 1 if self.is_critical else 0,
+            'is_critical': 'Si' if self.is_critical else 'No',
             'retrab_transpa_descr': self.retrab_transpa_descr,
             'tarimas_m2l_descr': self.tarimas_m2l_descr,
             'out_date': date_out.strftime('%d/%m/%Y %I:%M %p'),
