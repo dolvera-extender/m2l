@@ -41,10 +41,11 @@ class PcoverReportHistory(models.Model):
 
         user_tz = pytz.timezone(self.env.context.get('tz') or 'UTC')
         date_out = pytz.utc.localize(self.out_date).astimezone(user_tz)
+        createdate = pytz.utc.localize(self.create_date).astimezone(user_tz)
 
         data = {
             'name': self.name,
-            'createdate': self.create_date.strftime('%d/%m/%Y %I:%M %p'),
+            'createdate': createdate.strftime('%d/%m/%Y %I:%M %p'),
             'carrier': self.carrier_id.name,
             'box_name': self.vehicle_tag_id.vehicle_name,
             'bl': self.remition_qty,
