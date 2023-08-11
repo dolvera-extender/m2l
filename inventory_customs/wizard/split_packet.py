@@ -36,6 +36,7 @@ class SplitPacketWizard(models.TransientModel):
             return
         quants = self.env['stock.quant'].browse(sq_lines.mapped('quant_id_int'))
         start_index = self.package_id.current_split_squence
+        package_ids = []
         for sq in sq_lines:
             _log.info(" PRODUCTO  :: %s " % sq.product_id.name)
             quant = quants.filtered(lambda q: q.id == sq.quant_id_int)
@@ -66,7 +67,7 @@ class SplitPacketWizard(models.TransientModel):
                     product_qty = product_qty - over_qty
 
                 new_pack_data = {
-                    'name': "%s-%s" % (self.package_id.name, start_index),
+                    'name': "%s-%s" % (self.package_id.name, str(start_index).zfill(5)),
                     'location_id': self.package_id.location_id.id,
                     'quant_ids': [(0, 0, {
                         'product_id': quant.product_id.id,
@@ -80,6 +81,7 @@ class SplitPacketWizard(models.TransientModel):
                 # Creamos el paquete 
                 new_pack = self.env['stock.quant.package'].create(new_pack_data)
                 _log.info(" NUEVO PAQUETE :: %s " % new_pack)
+                package_ids.append(new_pack.id)
 
                 # ajustamos el quant del original
                 quant.quantity = quant.quantity - product_qty
@@ -87,7 +89,15 @@ class SplitPacketWizard(models.TransientModel):
                 # ajustamos el index en el paquete original. 
                 start_index = start_index + 1
                 self.package_id.current_split_squence = self.package_id.current_split_squence + 1
-
+        if len(package_ids) > 1:
+            return {
+                'name': 'Paquetes realizados',
+                'type': 'ir.actions.act_window',
+                'view_mode': 'tree,form',
+                'res_model': 'stock.quant.package',
+                'target': 'current',
+                'domain': str([('id','in', package_ids)])
+            }
 
     @api.onchange('package_id')
     def show_package_content(self):
