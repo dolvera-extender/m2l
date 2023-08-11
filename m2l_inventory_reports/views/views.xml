@@ -92,6 +92,9 @@
         <field name="priority">1</field>
         <field name="arch" type="xml">
             <form string="Historial" create="0" edit="0">
+                <header>
+                    <button string="Descargar PDF" type="object" name="generate_pdf"/>
+                </header>
                 <sheet>
                     <group>
                         <group>
