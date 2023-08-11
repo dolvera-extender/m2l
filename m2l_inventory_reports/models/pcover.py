@@ -50,7 +50,7 @@ class PcoverReportHistory(models.Model):
             'is_critical': 1 if self.is_critical else 0,
             'retrab_transpa_descr': self.retrab_transpa_descr,
             'tarimas_m2l_descr': self.tarimas_m2l_descr,
-            'out_date': self.out_date.strftime('%d/%m/%Y'),
+            'out_date': self.out_date.strftime('%d/%m/%Y %I:%M %p'),
             'lines': lines
         }
         report_action = self.env.ref('m2l_inventory_reports.report_pcover_pdf').report_action(self.ids, data=data)
