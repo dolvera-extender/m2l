@@ -40,7 +40,7 @@ class PcoverReportHistory(models.Model):
             })
 
         user_tz = pytz.timezone(self.env.context.get('tz') or 'UTC')
-        date_out = pytz.utc.localize(self.out_date-timedelta(hours=1)).astimezone(user_tz)
+        date_out = pytz.utc.localize(self.out_date).astimezone(user_tz)
 
         data = {
             'name': self.name,
