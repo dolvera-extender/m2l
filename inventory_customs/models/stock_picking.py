@@ -134,3 +134,9 @@ class StockMoveLineCu(models.Model):
 #         _log.info(" CREANDO NUEVA LINEA CON LOS VALORES:::  %s " % vals_list)
 #         result = super(StockMoveLineCu, self).create(vals_list)
 #         return result
+
+class StockQuantPackageM2l(models.Model):
+    _inherit = "stock.quant.package"
+
+    current_split_squence = fields.Integer(string="Ultimo split index", default=1)
+    

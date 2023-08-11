@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record model="ir.ui.view" id="wizard_packet_split_form_view">
+        <field name="name">wizard_split_packet_form_view</field>
+        <field name="model">split.packet.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Warning">
+                <group>
+                    <group>
+                        <field name="package_id" required="1" options="{'no_create': True, 'no_open': True}"/>
+                    </group>
+                    <group>
+                        <field name="split_indicator" required="1" widget="radio"/>
+                        <p attrs="{'invisible':[('split_indicator', '!=', 'qty_packs')]}">
+                            Se tomará el multiplo más cercano inferior al solicitado.
+                        </p>
+                    </group>
+                </group>
+                <group>
+                    <field name="line_ids">
+                        <tree editable="bottom" duplicate="false" create="false" delete="false">
+                            <field name="quant_id_int" invisible="1"/>
+                            <field name="product_id" readonly="1" force_save="1"/>
+                            <field name="product_qty" readonly="1" force_save="1"/>
+                            <field name="product_split_qty"/>
+                            <field name="product_packet_qty" attrs="{'column_invisible': [('parent.split_indicator', '!=', 'qty_product')]}"/>
+                            <field name="packet_qty"  attrs="{'column_invisible': [('parent.split_indicator', '!=', 'qty_packs')]}"/>
+                            <field name="split" widget="boolean_toggle"/>
+                        </tree>
+                    </field>
+                </group>                    
+                <footer>
+                    <button name="process_split_packet" type="object" string="Dividir" class="oe_highlight"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_quant_package_split_index_form" model="ir.ui.view">
+        <field name="name">stock.quant.package.split_index.form</field>
+        <field name="model">stock.quant.package</field>
+        <field name="inherit_id" ref="stock.view_quant_package_form"/>
+        <field name="arch" type="xml">
+            <field name="company_id" position="before">
+                <field name="current_split_squence" invisible="1"/>
+            </field>
+        </field>
+    </record>
+
+    <record id="act_wizard_split_packet" model="ir.actions.act_window">
+            <field name="name">Divisor de paquetes</field>
+            <field name="res_model">split.packet.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="wizard_packet_split_form_view"/>
+            <field name="target">new</field>
+        </record>
+
+    <menuitem id="menu_split_packet_wizard"
+              name="División de paquetes"
+              parent="stock.menu_stock_warehouse_mgmt"
+              action="act_wizard_split_packet"
+              sequence="9"/>
+</odoo>
