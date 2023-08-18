@@ -67,7 +67,7 @@ class SplitPacketWizard(models.TransientModel):
                     product_qty = product_qty - over_qty
 
                 new_pack_data = {
-                    'name': "%s-%s" % (self.package_id.name, str(start_index).zfill(5)),
+                    'name': "%s-%s" % (self.package_id.name, str(start_index).zfill(2)),
                     'location_id': self.package_id.location_id.id,
                     'quant_ids': [(0, 0, {
                         'product_id': quant.product_id.id,
