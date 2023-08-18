@@ -69,7 +69,7 @@
                                 <p>Entrega estimada: <span t-esc="out_date"/></p>
                             </div>
                             <div class="col-6">
-                                <p>Retrabajo o Transpaleo: <span t-esc="retrab_transpa_descr"/></p>
+                                <p>Flejes: <span t-esc="retrab_transpa_descr"/></p>
                                 <p>Tarimas M2L: <span t-esc="tarimas_m2l_descr"/></p>
                             </div>
                         </div>
