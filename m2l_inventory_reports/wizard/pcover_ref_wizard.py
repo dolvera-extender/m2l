@@ -10,10 +10,19 @@ class PcoverReportWizard(models.TransientModel):
     _name = "pcover.report.wizard"
     _description = "Generador de etiquetas cover para transpasos"
 
-    carrier_id = fields.Many2one('res.partner', string="Transportista", required=True)
+    carrier_id = fields.Many2one('res.partner', string="Transportista")
+    carrier_name = fields.Char(string="Transportista")
+    carrier_manual = fields.Boolean(string="Manual", default=False)
+    
+    hr_driver_id = fields.Many2one('hr.employee', string="Chofer")
+    hr_driver_name = fields.Char(string="Chofer")
+    hr_driver_manual = fields.Boolean(string="Entrada manual ", default=False)
+    
+    vehicle_tag_id = fields.Many2one('l10n_mx_edi.vehicle', string="Placas")
+    vehicle_tag_name = fields.Char(string="Placas")
+    vehicle_tag_manual = fields.Boolean(string="Entrada manual", default=False)
+    
     remition_qty = fields.Integer(string="No. de bultos", compute="_compute_moves_qty", store=False)
-    hr_driver_id = fields.Many2one('hr.employee', string="Chofer", required=True)
-    vehicle_tag_id = fields.Many2one('l10n_mx_edi.vehicle', string="Placas", required=True)
     dest_location_id = fields.Many2one('res.partner', string="Destino", required=True)
     supervisor_id = fields.Many2one('hr.employee', string="Supervisor", required=True)
 
@@ -49,10 +58,22 @@ class PcoverReportWizard(models.TransientModel):
 
         if self.carrier_id:
             pcover_data['carrier_id'] = self.carrier_id.id
+            pcover_data['carrier_name'] =  self.carrier_id.name
+        elif self.carrier_name and self.carrier_manual:
+            pcover_data['carrier_name'] = self.carrier_name
+        
         if self.hr_driver_id:
             pcover_data['hr_driver_id'] = self.hr_driver_id.id
+            pcover_data['hr_driver_name'] = self.hr_driver_id.name
+        elif self.hr_driver_name and self.hr_driver_manual:
+            pcover_data['hr_driver_name'] = self.hr_driver_name
+        
         if self.vehicle_tag_id:
             pcover_data['vehicle_tag_id'] = self.vehicle_tag_id.id
+            pcover_data['vehicle_tag_name'] = self.vehicle_tag_id.vehicle_licence
+        elif self.vehicle_tag_name and self.vehicle_tag_manual:
+            pcover_data['vehicle_tag_name'] = self.vehicle_tag_name
+
         if self.dest_location_id:
             pcover_data['dest_location_id'] = self.dest_location_id.id
         cover = cover_obj.create(pcover_data)

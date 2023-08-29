@@ -100,14 +100,17 @@
                         <group>
                             <field name="name"/>
                             <field name="folio" invisible="1"/>
-                            <field name="carrier_id"/>
+                            <field name="carrier_id" attrs="{'invisible': [('carrier_id', '=', False)]}"/>
+                            <field name="carrier_name" attrs="{'invisible': [('carrier_name', '=', False)]}"/>
                             <field name="dest_location_id"/>
                             <field name="supervisor_id"/> 
                         </group>
                         <group>
                             <field name="remition_qty"/>
-                            <field name="hr_driver_id"/>
-                            <field name="vehicle_tag_id"/>
+                            <field name="hr_driver_id" attrs="{'invisible': [('hr_driver_id', '=', False)]}"/>
+                            <field name="hr_driver_name" attrs="{'invisible': [('hr_driver_name', '=', False)]}"/>
+                            <field name="vehicle_tag_id" attrs="{'invisible': [('vehicle_tag_id', '=', False)]}"/>
+                            <field name="vehicle_tag_name" attrs="{'invisible': [('vehicle_tag_name', '=', False)]}"/>
                             <field name="create_date" string="Fecha de creación"/>
                         </group>
                     </group>
@@ -143,8 +146,10 @@
         <field name="arch" type="xml">
             <tree string="Historial" create="0" edit="0">
                 <field name="name"/>
-                <field name="carrier_id"/>
-                <field name="hr_driver_id"/>
+                <field name="carrier_id" optional="hide"/>
+                <field name="carrier_name"/>
+                <field name="hr_driver_id" optional="hide"/>
+                <field name="hr_driver_name"/>
                 <field name="create_date" string="Fecha de creación"/>
                 <button string="Descargar PDF" type="object" name="generate_pdf"/>
             </tree>

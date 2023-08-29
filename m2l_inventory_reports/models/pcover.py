@@ -16,12 +16,14 @@ class PcoverReportHistory(models.Model):
 
     name = fields.Char(string="Folio")
     folio = fields.Integer(string="Folio")
-    carrier_id = fields.Many2one('res.partner', string="Transportista")
-    # box_num_id= fields.Many2one('l10n_mx_edi.vehicle', string="No. de caja") # Es el año.
+    carrier_id = fields.Many2one('res.partner', string="Transportista relacionado") #  Manual
+    carrier_name = fields.Char(string="Transportista")
     remition_qty = fields.Integer(string="Número de bultos")
-    hr_driver_id = fields.Many2one('hr.employee', string="Chofer")
+    hr_driver_id = fields.Many2one('hr.employee', string="Chofer relacionado") # Manual
+    hr_driver_name = fields.Char(string="Chofer")
     supervisor_id = fields.Many2one('hr.employee', string="Supervisor")
-    vehicle_tag_id = fields.Many2one('l10n_mx_edi.vehicle', string="Placas")
+    vehicle_tag_id = fields.Many2one('l10n_mx_edi.vehicle', string="Placas relacionadas") # Manual 
+    vehicle_tag_name = fields.Char(string="Placas")
     dest_location_id = fields.Many2one('res.partner', string="Destino")
     line_ids = fields.One2many('pcover.report.history.line', 'pcover_id', string="Remisiones")
     
@@ -31,7 +33,6 @@ class PcoverReportHistory(models.Model):
     out_date = fields.Datetime(string="Entrega estimada", required=True)
 
     def generate_pdf(self):
-        _log.info("Generando PDF")
         # report = self.env.ref('account.account_invoices')._render_qweb_pdf(self.account_move.ids[0])
         lines = []
         for line in self.line_ids:
@@ -46,11 +47,11 @@ class PcoverReportHistory(models.Model):
         data = {
             'name': self.name,
             'createdate': createdate.strftime('%d/%m/%Y %I:%M %p'),
-            'carrier': self.carrier_id.name,
+            'carrier': self.carrier_name,
             'box_name': self.vehicle_tag_id.vehicle_name,
             'bl': self.remition_qty,
-            'driver': self.hr_driver_id.name,
-            'vehicle_tag': self.vehicle_tag_id.vehicle_licence,
+            'driver': self.hr_driver_name,
+            'vehicle_tag': self.vehicle_tag_name,
             'destination': self.dest_location_id.display_name,
             'supervisor': self.supervisor_id.name.upper(),
             'is_critical': 'Si' if self.is_critical else 'No',

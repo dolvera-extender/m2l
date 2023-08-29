@@ -8,14 +8,43 @@
                 <form string="Warning">
                     <group>
                         <group>
-                            <field name="carrier_id" domain="[('is_carrier', '=', True)]" options="{'no_create_edit': True, 'no_create': True}"/>
+                            <label for="carrier_id" class="oe_inline"/>
+                            <div class="row">
+                                <div class="col-9">
+                                    <field name="carrier_id"  attrs="{'invisible': [('carrier_manual', '=', True)], 'required': [('carrier_manual', '!=', True)]}" domain="[('is_carrier', '=', True)]" options="{'no_create_edit': True, 'no_create': True}"/>
+                                    <field name="carrier_name" attrs="{'invisible': [('carrier_manual', '=', False)], 'required': [('carrier_manual', '!=', False)]}"/>
+                                </div>
+                                <div class="col-3">
+                                    EM <field name="carrier_manual" string="EM"/> 
+                                </div>                          
+                                <!--  widget="boolean_toggle" -->
+                            </div>
+                            
                             <field name="supervisor_id" options="{'no_create_edit': True, 'no_create': True}"/> 
-                            <field name="hr_driver_id" options="{'no_create_edit': True, 'no_create': True}"/>
+                            <label for="hr_driver_id" class="oe_inline"/>
+                            <div class="row">
+                                <div class="col-9">
+                                    <field name="hr_driver_id" attrs="{'invisible': [('hr_driver_manual', '=', True)], 'required': [('hr_driver_manual', '!=', True)]}" options="{'no_create_edit': True, 'no_create': True}"/>
+                                    <field name="hr_driver_name" attrs="{'invisible': [('hr_driver_manual', '=', False)], 'required': [('hr_driver_manual', '!=', False)]}"/>
+                                </div>
+                                <div class="col-3">
+                                    EM <field name="hr_driver_manual" string="EM"/> 
+                                </div>                          
+                            </div>
                             <field name="is_critical"/>
                             <field name="remition_qty" invisible="0"/>
                         </group>
                         <group>
-                            <field name="vehicle_tag_id"  options="{'no_create_edit': True, 'no_create': True}"/>
+                            <label for="vehicle_tag_id" class="oe_inline"/>
+                            <div class="row">
+                                <div class="col-9">
+                                    <field name="vehicle_tag_id" attrs="{'invisible': [('vehicle_tag_manual', '=', True)], 'required': [('vehicle_tag_manual', '!=', True)]}" options="{'no_create_edit': True, 'no_create': True}"/>
+                                    <field name="vehicle_tag_name" attrs="{'invisible': [('vehicle_tag_manual', '=', False)], 'required': [('vehicle_tag_manual', '!=', False)]}"/>
+                                </div>
+                                <div class="col-3">
+                                    EM <field name="vehicle_tag_manual" string="EM"/> 
+                                </div>                          
+                            </div>
                             <field name="dest_location_id" options="{'no_create_edit': True, 'no_create': True}"/>
                             <field name="retrab_transpa_descr"/>
                             <field name="tarimas_m2l_descr"/>
