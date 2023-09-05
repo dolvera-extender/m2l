@@ -91,6 +91,7 @@
                             }
 
                             </style>
+                            <!-- Group packs by product and lot number -->
                             <t t-foreach="o.move_ids_without_package.filtered(lambda l: l.quantity_done > 0)" t-as="m2lline">
                                 <tr style="opacity: 0.9; font-size: 14px;">
                                     <td>
@@ -105,14 +106,18 @@
                                     </td>
                                 </tr>
                                 <!-- Tabla de número de Número de lote/de serie  -->
-                                <t t-foreach="o.move_line_ids_without_package.filtered(lambda x: x.product_id.id == m2lline.product_id.id)" t-as="move_lines_wp">
+                                <t t-set="glines" t-value="m2lline.group_movelines_wop()"/>
+                                <!-- <t t-foreach="o.move_line_ids_without_package.filtered(lambda x: x.product_id.id == m2lline.product_id.id)" t-as="move_lines_wp"> -->
+                                <t t-foreach="glines" t-as="gline">
+                                    
                                     <tr style="font-size: 14px;">
                                         <td>
                                             <div class="row">
                                                 <div class="col-2">
                                                 </div>
                                                 <div class="col=10">
-                                                    <span t-field="move_lines_wp.result_package_id"/>
+                                                    <!-- <span t-field="move_lines_wp.result_package_id"/> -->
+                                                    <span t-esc="gline_value.get('pname', '')"/> (<span t-esc="gline_value.get('pqty', '')"/>)
                                                 </div>
                                             </div>
                                         </td>
@@ -122,14 +127,16 @@
 
                                                 </div>
                                                 <div class="col-11">
-                                                    <strong>S/N: </strong><span t-field="move_lines_wp.lot_id"/>
+                                                    <!-- <strong>S/N: </strong><span t-field="move_lines_wp.lot_id"/> -->
+                                                    <span t-esc="gline_value.get('lot_names', '')"/>
                                                 </div>
                                             </div>
                                         </td>
                                         <td style="text-align: left;">
                                             <div class="row">
                                                 <div class="col-11">
-                                                    <span t-field="move_lines_wp.qty_done"/>
+                                                    <!-- <span t-field="move_lines_wp.qty_done"/> -->
+                                                    <span t-esc="gline_value.get('product_qty', '')"/>
                                                 </div>
                                                 <div class="col-1">
 
