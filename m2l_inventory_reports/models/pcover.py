@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from odoo import api, fields, models
+from odoo.exceptions import UserError
 import pytz
 from datetime import timedelta
 import logging
@@ -35,11 +36,14 @@ class PcoverReportHistory(models.Model):
 
     def generate_pdf(self):
         # report = self.env.ref('account.account_invoices')._render_qweb_pdf(self.account_move.ids[0])
+
         lines = []
         for line in self.line_ids:
             lines.append({
                 'remision_id': line.remision_id.name,
             })
+        if len(lines)<1:
+            raise UserError("Necesitas agregar lineas para generar la portada")
 
         user_tz = pytz.timezone(self.env.context.get('tz') or 'UTC')
         date_out = pytz.utc.localize(self.out_date).astimezone(user_tz)
@@ -59,6 +63,7 @@ class PcoverReportHistory(models.Model):
             'retrab_transpa_descr': self.retrab_transpa_descr,
             'tarimas_m2l_descr': self.tarimas_m2l_descr,
             'out_date': date_out.strftime('%d/%m/%Y %I:%M %p'),
+            'cover_type': self.cover_type,
             'lines': lines
         }
         report_action = self.env.ref('m2l_inventory_reports.report_pcover_pdf').report_action(self.ids, data=data)
@@ -69,7 +74,6 @@ class PcoverReportHistory(models.Model):
 
     @api.onchange('line_ids')
     def m2lcount_lines(self):
-        _log.info(" CONTANDO LINEAS ")
         self.remition_qty = len(self.line_ids)
 
 

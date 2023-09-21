@@ -27,8 +27,8 @@ class PcoverReportWizard(models.TransientModel):
     supervisor_id = fields.Many2one('hr.employee', string="Supervisor", required=True)
 
     is_critical = fields.Boolean(string="Embarque crítico")
-    retrab_transpa_descr = fields.Char(string="Detalles RT")
-    tarimas_m2l_descr = fields.Char(string="Detalles Tarimas M2L")
+    retrab_transpa_descr = fields.Char(string="Detalles RT", required=True)
+    tarimas_m2l_descr = fields.Char(string="Detalles Tarimas M2L", required=True)
     out_date = fields.Datetime(string="Entrega estimada", required=True)
     cover_type = fields.Selection([('in', 'Entrada'), ('out', 'Salida')], string="Tipo de portada")
 

@@ -30,7 +30,12 @@
                 <div class="page">
                     <div class="row">
                         <div class="col-4 float-right">
-                            <strong>NOTA DE SALIDA</strong>
+                            <t t-if="cover_type == 'out'">
+                                <strong>NOTA DE SALIDA</strong>
+                            </t>
+                            <t t-if="cover_type == 'in'">
+                                <strong>NOTA DE RECEPCION</strong>
+                            </t>
                         </div>
                         <div class="col-4 ter">
                             <span t-esc="createdate"/>
