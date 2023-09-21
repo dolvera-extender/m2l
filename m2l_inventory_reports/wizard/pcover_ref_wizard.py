@@ -30,6 +30,7 @@ class PcoverReportWizard(models.TransientModel):
     retrab_transpa_descr = fields.Char(string="Detalles RT")
     tarimas_m2l_descr = fields.Char(string="Detalles Tarimas M2L")
     out_date = fields.Datetime(string="Entrega estimada", required=True)
+    cover_type = fields.Selection([('in', 'Entrada'), ('out', 'Salida')], string="Tipo de portada")
 
     line_ids = fields.One2many('pcover.report.wizard.line', 'pcover_id', string="Remisiones")
 
@@ -45,8 +46,9 @@ class PcoverReportWizard(models.TransientModel):
             }))
 
         pcover_data = {
-            'name': str(last_folio).zfill(6),
+            'name': "%s-%s" % (self.cover_type.upper() ,str(last_folio).zfill(6)),
             'remition_qty': self.remition_qty,
+            'cover_type': self.cover_type,
             'folio': last_folio,
             'line_ids': lines,
             'supervisor_id': self.supervisor_id.id,
@@ -90,6 +92,14 @@ class PcoverReportWizardLine(models.TransientModel):
     _name = "pcover.report.wizard.line"
     _description = "Lineas de reporte"
 
+    @api.model
+    def _domain_pickin_id(self):
+        dom = [('state', 'in', ['assigned', 'done'])]
+        if 'default_cover_type' in self._context:
+            dom.append(('picking_type_id.type_cover', '=', self._context.get('default_cover_type')))
+        return dom
+
+
     pcover_id = fields.Many2one('pcover.report.wizard', string="Portada")
-    remision_id = fields.Many2one('stock.picking', string="Remision", required=True)
+    remision_id = fields.Many2one('stock.picking', string="Remision", domain=lambda self: self._domain_pickin_id(), required=True)
 

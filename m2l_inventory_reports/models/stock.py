@@ -32,6 +32,7 @@ class StockMoveLineM2l(models.Model):
 class StockPickingTypeRm2l(models.Model):
     _inherit = "stock.picking.type"
 
-    to_pcover = fields.Boolean(string="Portada embarques", default=False)
+    # to_pcover = fields.Boolean(string="Portada embarques", default=False)
+    type_cover = fields.Selection([('-', '-'), ('in','Entrada'), ('out', 'Salida')], string="Tipo de portada", default="-")
     to_report_module = fields.Boolean(string="Mod. reporte", default=False)
 

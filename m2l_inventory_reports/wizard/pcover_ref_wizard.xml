@@ -33,6 +33,7 @@
                             </div>
                             <field name="is_critical"/>
                             <field name="remition_qty" invisible="0"/>
+                            <field name="cover_type" invisible="1"/>
                         </group>
                         <group>
                             <label for="vehicle_tag_id" class="oe_inline"/>
@@ -54,15 +55,7 @@
                     <group>
                         <field name="line_ids">
                             <tree editable="buttom">
-                                <field name="remision_id" domain="[('picking_type_id.to_pcover', '=', True), ('state', 'in', ['assigned', 'done'])]"/>
-                                <!-- 
-                                <field name="is_critical"/>
-                                <field name="retrab_transpa" invisible="1"/>
-                                <field name="retrab_transpa_descr"/>
-                                <field name="tarimas_m2l" invisible="1"/>
-                                <field name="tarimas_m2l_descr"/>
-                                <field name="out_date"/>
-                                -->
+                                <field name="remision_id" options="{'no_create': True, 'no_open': True}"/>
                             </tree>
                         </field>
                     </group>
@@ -73,17 +66,37 @@
             </field>
         </record>
 
-    <record id="act_wizard_pcover_report" model="ir.actions.act_window">
-            <field name="name">Portada de envios</field>
-            <field name="res_model">pcover.report.wizard</field>
-            <field name="view_mode">form</field>
-            <field name="view_id" ref="wizard_pcover_form_view"/>
-            <field name="target">new</field>
-        </record>
+    <record id="act_wizard_in_pcover_report" model="ir.actions.act_window">
+        <field name="name">Portada embarques de entrada</field>
+        <field name="res_model">pcover.report.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="context">{
+                'default_cover_type': "in",
+            }</field>
+        <field name="view_id" ref="wizard_pcover_form_view"/>
+        <field name="target">new</field>
+    </record>
 
-    <menuitem id="menu_report_pcover_wizard"
-              name="Generar portada"
-              parent="stock.menu_stock_warehouse_mgmt"
-              action="act_wizard_pcover_report"
-              sequence="9"/>
+    <record id="act_wizard_out_pcover_report" model="ir.actions.act_window">
+        <field name="name">Portada de embarques de salida</field>
+        <field name="res_model">pcover.report.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="context">{
+                'default_cover_type': "out",
+            }</field>
+        <field name="view_id" ref="wizard_pcover_form_view"/>
+        <field name="target">new</field>
+    </record>
+
+    <menuitem id="menu_report_in_pcover_wizard"
+        name="Generar portada (Entradas)"
+        parent="stock.menu_stock_warehouse_mgmt"
+        action="act_wizard_in_pcover_report"
+        sequence="10"/>
+
+    <menuitem id="menu_report_out_pcover_wizard"
+        name="Generar portada (Salidas)"
+        parent="stock.menu_stock_warehouse_mgmt"
+        action="act_wizard_out_pcover_report"
+        sequence="10"/>
 </odoo>

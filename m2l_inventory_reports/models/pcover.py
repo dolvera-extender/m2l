@@ -26,6 +26,7 @@ class PcoverReportHistory(models.Model):
     vehicle_tag_name = fields.Char(string="Placas")
     dest_location_id = fields.Many2one('res.partner', string="Destino")
     line_ids = fields.One2many('pcover.report.history.line', 'pcover_id', string="Remisiones")
+    cover_type = fields.Selection([('in', 'Entrada'),('out', 'Salida')], string="Tipo de portada")
     
     is_critical = fields.Boolean(string="Embarque crítico")
     retrab_transpa_descr = fields.Char(string="Flejes", help="Detalle flejes")

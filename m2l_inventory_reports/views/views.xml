@@ -122,6 +122,7 @@
                         <group>
                             <field name="is_critical"/>
                             <field name="out_date"/>
+                            <field name="cover_type" invisible="1"/>
                         </group>
                     </group>
                     <notebook>
@@ -129,7 +130,7 @@
                             <field name="line_ids">
                                 <tree>
                                     <field name="pcover_id" invisible="1"/>
-                                    <field name="remision_id"/>
+                                    <field name="remision_id" options="{'no_create': True, 'no_open': False}"/>
                                 </tree>
                             </field>
                         </page>
@@ -150,6 +151,7 @@
                 <field name="carrier_name"/>
                 <field name="hr_driver_id" optional="hide"/>
                 <field name="hr_driver_name"/>
+                <field name="cover_type" optional="hide"/>
                 <field name="create_date" string="Fecha de creación"/>
                 <button string="Descargar PDF" type="object" name="generate_pdf"/>
             </tree>
@@ -207,6 +209,19 @@
         </field>
     </record>
 
+    <record id="pcover_report_history_search_view" model="ir.ui.view">
+        <field name="name">pcover_report_history.search_view</field>
+        <field name="model">pcover.report.history</field>
+        <field name="arch" type="xml">
+            <search string="Entrada/salida">
+                <field name="cover_type"/>
+                <separator/>
+                <filter string="Entradas" name="entradas" domain="[('cover_type', '=', 'in')]"/>
+                <filter string="Salidas" name="salidas" domain="[('cover_type', '=', 'out')]"/>
+            </search>
+        </field>
+    </record>
+
     <!-- INHERED VIEWS -->
 
     <record id="vehicle_configuration_form_view" model="ir.ui.view">
@@ -226,7 +241,7 @@
         <field name="inherit_id" ref="stock.view_picking_type_form"/>
         <field name="arch" type="xml">
             <xpath expr="//field[@name='show_reserved']" position="after">
-                <field name="to_pcover"/>
+                <field name="type_cover"/>
                 <field name="to_report_module"/>
             </xpath>
         </field>
