@@ -28,11 +28,14 @@ class PcoverReportHistory(models.Model):
     dest_location_id = fields.Many2one('res.partner', string="Destino")
     line_ids = fields.One2many('pcover.report.history.line', 'pcover_id', string="Remisiones")
     cover_type = fields.Selection([('in', 'Entrada'),('out', 'Salida')], string="Tipo de portada")
+    observations = fields.Text(string="Observaciones")
+    montacarguista_id = fields.Many2one('hr.employee', string="Montacarguista")
+    auditor_id = fields.Many2one('hr.employee', string="Auditor")
     
     is_critical = fields.Boolean(string="Embarque crítico")
     retrab_transpa_descr = fields.Char(string="Flejes", help="Detalle flejes")
     tarimas_m2l_descr = fields.Char(string="Tarimas M2L", help="Detalles de tarimas M2L")
-    out_date = fields.Datetime(string="Entrega estimada", required=True)
+    out_date = fields.Datetime(string="Entrega estimada")
 
     def generate_pdf(self):
         # report = self.env.ref('account.account_invoices')._render_qweb_pdf(self.account_move.ids[0])
@@ -46,7 +49,6 @@ class PcoverReportHistory(models.Model):
             raise UserError("Necesitas agregar lineas para generar la portada")
 
         user_tz = pytz.timezone(self.env.context.get('tz') or 'UTC')
-        date_out = pytz.utc.localize(self.out_date).astimezone(user_tz)
         createdate = pytz.utc.localize(self.create_date).astimezone(user_tz)
 
         data = {
@@ -62,10 +64,21 @@ class PcoverReportHistory(models.Model):
             'is_critical': 'Si' if self.is_critical else 'No',
             'retrab_transpa_descr': self.retrab_transpa_descr,
             'tarimas_m2l_descr': self.tarimas_m2l_descr,
-            'out_date': date_out.strftime('%d/%m/%Y %I:%M %p'),
+            'observations': self.observations,
             'cover_type': self.cover_type,
             'lines': lines
         }
+
+        if self.out_date:
+            date_out = pytz.utc.localize(self.out_date).astimezone(user_tz)
+            data['out_date'] = date_out.strftime('%d/%m/%Y %I:%M %p')
+        
+        if self.montacarguista_id:
+            data['montacarguista'] = self.montacarguista_id.name.upper()
+        
+        if self.auditor_id:
+            data['auditor'] = self.auditor_id.name.upper()
+
         report_action = self.env.ref('m2l_inventory_reports.report_pcover_pdf').report_action(self.ids, data=data)
         report_action.update({
             'close_on_report_download': True,

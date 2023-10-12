@@ -21,6 +21,8 @@
                             </div>
                             
                             <field name="supervisor_id" options="{'no_create_edit': True, 'no_create': True}"/> 
+                            <field name="montacarguista_id" options="{'no_create_edit': True, 'no_create': True}" attrs="{'invisible':[('cover_type', '!=', 'in')], 'required': [('cover_type', '=', 'in')]}"/>
+                            <field name="auditor_id" options="{'no_create_edit': True, 'no_create': True}" attrs="{'invisible':[('cover_type', '!=', 'in')], 'required': [('cover_type', '=', 'in')]}"/>
                             <label for="hr_driver_id" class="oe_inline"/>
                             <div class="row">
                                 <div class="col-9">
@@ -31,7 +33,7 @@
                                     EM <field name="hr_driver_manual" string="EM"/> 
                                 </div>                          
                             </div>
-                            <field name="is_critical"/>
+                            <field name="is_critical" attrs="{'invisible':[('cover_type', '=', 'in')]}"/>
                             <field name="remition_qty" invisible="0"/>
                             <field name="cover_type" invisible="1"/>
                         </group>
@@ -46,11 +48,16 @@
                                     EM <field name="vehicle_tag_manual" string="EM"/> 
                                 </div>                          
                             </div>
-                            <field name="dest_location_id" options="{'no_create_edit': True, 'no_create': True}"/>
-                            <field name="retrab_transpa_descr"/>
-                            <field name="tarimas_m2l_descr"/>
-                            <field name="out_date"/>
+                            <field name="dest_location_id" string="Destino" attrs="{'invisible':[('cover_type', '!=', 'out')]}" options="{'no_create_edit': True, 'no_create': True}"/>
+                            <field name="dest_location_id" string="Proveedor" attrs="{'invisible':[('cover_type', '!=', 'in')]}" options="{'no_create_edit': True, 'no_create': True}"/>
+                            <field name="retrab_transpa_descr" string="Detalles RT" attrs="{'invisible':[('cover_type', '!=', 'out')]}"/>
+                            <field name="retrab_transpa_descr" string="Número VL" attrs="{'invisible':[('cover_type', '!=', 'in')]}"/>
+                            <field name="tarimas_m2l_descr" attrs="{'invisible':[('cover_type', '=', 'in')], 'required': [('cover_type', '!=', 'in')]}"/>
+                            <field name="out_date" attrs="{'invisible':[('cover_type', '=', 'in')], 'required': [('cover_type', '!=', 'in')]}"/>
                         </group>
+                    </group>
+                    <group>
+                        <field name="observations"/>
                     </group>
                     <group>
                         <field name="line_ids">

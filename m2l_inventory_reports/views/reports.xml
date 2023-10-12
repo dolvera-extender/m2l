@@ -55,27 +55,29 @@
                             <div class="col-6">
                                 <p>CHOFER: <span t-esc="driver"/></p>
                                 <p>PLACAS: <span t-esc="vehicle_tag"/></p>
-                                <p>DESTINO: <span t-esc="destination"/></p>
+                                <p><span t-esc="'DESTINO: ' if cover_type == 'out' else 'PROVEDOR: '"/> <span t-esc="destination"/></p>
                             </div>
                         </div>
                     </div>
                     <div class="miborder">
                         <div class="row">
                             <div class="col-6">
-                                <p> Entrega critica: <span t-out="is_critical"/>
-                                    <!-- <t t-if="'is_critical' == 1">
-                                        <i class="fa fa-check" aria-hidden="true"></i>
-                                    </t>
-                                    <t t-else=""> -->
-                                        <!-- <i class="fa fa-times" aria-hidden="true"></i> -->
-                                        <!-- <i> </i>
-                                    </t> -->
-                                </p>
-                                <p>Entrega estimada: <span t-esc="out_date"/></p>
+                                <t t-if="cover_type == 'out'">
+                                    <p> Entrega critica: <span t-out="is_critical"/></p>
+                                </t>
+                                
+                                <t t-if="cover_type == 'out'"><p>Entrega estimada: <span t-esc="out_date"/></p></t>
                             </div>
                             <div class="col-6">
-                                <p>Flejes: <span t-esc="retrab_transpa_descr"/></p>
-                                <p>Tarimas M2L: <span t-esc="tarimas_m2l_descr"/></p>
+                                <p><span t-esc="'Flejes:' if cover_type == 'out' else 'Número VL: '"/><span t-esc="retrab_transpa_descr"/></p>
+                                <t t-if="cover_type == 'out'"><p>Tarimas M2L: <span t-esc="tarimas_m2l_descr"/></p></t>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <b>Observaciones</b>
+                                <br/>
+                                <p><span t-esc="observations"/></p>
                             </div>
                         </div>
                     </div>
@@ -96,7 +98,8 @@
                             </table>
                         </div>
                     </div>
-                    <div style="padding: 1px; padding-top: 15px;">
+
+                    <div style="padding: 1px; padding-top: 15px; page-break-inside: avoid;">
                         <div class="row">
                             <div class="col-4 text-center">
                                 <div class="signspace"/>
@@ -116,13 +119,33 @@
                             
                         </div>
                     </div>
+
+                    <t t-if="cover_type == 'in'">
+                        <div style="padding: 1px; padding-top: 15px; page-break-inside: avoid;">
+                            <div class="row">
+                                <div class="col-2 text-center"/>
+                                <div class="col-4 text-center">
+                                    <div class="signspace"/>
+                                    <br/>
+                                    <span>FIRMA <span t-esc="montacarguista"/> M2L</span>
+                                </div>
+                                <div class="col-4 text-center">
+                                    <div class="signspace"/>
+                                    <br/>
+                                    <span>FIRMA <span t-esc="auditor"/> M2L</span>
+                                </div>
+                                <div class="col-2 text-center"/>
+                            </div>
+                        </div>
+                    </t>
+
                 </div>
             </t>
         </t>
     </template>
 
     <record id="report_pcover_pdf" model="ir.actions.report">
-        <field name="name">Nota de salida</field>
+        <field name="name">Portada de embarque</field>
         <field name="model">pcover.report.history</field>
         <field name="report_type">qweb-pdf</field>
         <field name="report_name">m2l_inventory_reports.report_pcover_document</field>

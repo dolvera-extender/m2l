@@ -102,7 +102,8 @@
                             <field name="folio" invisible="1"/>
                             <field name="carrier_id" attrs="{'invisible': [('carrier_id', '=', False)]}"/>
                             <field name="carrier_name" attrs="{'invisible': [('carrier_name', '=', False)]}"/>
-                            <field name="dest_location_id"/>
+                            <field name="dest_location_id" string="Destino" attrs="{'invisible':[('cover_type', '!=', 'out')]}" options="{'no_create_edit': True, 'no_create': True}"/>
+                            <field name="dest_location_id" string="Proveedor" attrs="{'invisible':[('cover_type', '!=', 'in')]}" options="{'no_create_edit': True, 'no_create': True}"/>
                             <field name="supervisor_id"/> 
                         </group>
                         <group>
@@ -112,16 +113,19 @@
                             <field name="vehicle_tag_id" attrs="{'invisible': [('vehicle_tag_id', '=', False)]}"/>
                             <field name="vehicle_tag_name" attrs="{'invisible': [('vehicle_tag_name', '=', False)]}"/>
                             <field name="create_date" string="Fecha de creación"/>
+                            <field name="montacarguista_id" options="{'no_create_edit': True, 'no_create': True}" attrs="{'invisible':[('cover_type', '!=', 'in')], 'required': [('cover_type', '=', 'in')]}"/>
+                            <field name="auditor_id" options="{'no_create_edit': True, 'no_create': True}" attrs="{'invisible':[('cover_type', '!=', 'in')], 'required': [('cover_type', '=', 'in')]}"/>
                         </group>
                     </group>
                     <group>
                         <group>
-                            <field name="retrab_transpa_descr"/>
-                            <field name="tarimas_m2l_descr"/>
+                            <field name="retrab_transpa_descr" string="Detalles RT" attrs="{'invisible':[('cover_type', '!=', 'out')]}"/>
+                            <field name="retrab_transpa_descr" string="Número VL" attrs="{'invisible':[('cover_type', '!=', 'in')]}"/>
+                            <field name="tarimas_m2l_descr" attrs="{'invisible':[('cover_type', '=', 'in')], 'required': [('cover_type', '!=', 'in')]}"/>
                         </group>
                         <group>
-                            <field name="is_critical"/>
-                            <field name="out_date"/>
+                            <field name="is_critical" attrs="{'invisible':[('cover_type', '=', 'in')]}"/>
+                            <field name="out_date" attrs="{'invisible':[('cover_type', '=', 'in')], 'required': [('cover_type', '!=', 'in')]}"/>
                             <field name="cover_type" invisible="1"/>
                         </group>
                     </group>
@@ -133,6 +137,9 @@
                                     <field name="remision_id" options="{'no_create': True, 'no_open': False}"/>
                                 </tree>
                             </field>
+                        </page>
+                        <page string="Observaciones">
+                            <field name="observations"/>
                         </page>
                     </notebook>
                 </sheet>

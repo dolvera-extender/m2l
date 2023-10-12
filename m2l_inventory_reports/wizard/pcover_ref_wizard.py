@@ -25,12 +25,15 @@ class PcoverReportWizard(models.TransientModel):
     remition_qty = fields.Integer(string="No. de bultos", compute="_compute_moves_qty", store=False)
     dest_location_id = fields.Many2one('res.partner', string="Destino", required=True)
     supervisor_id = fields.Many2one('hr.employee', string="Supervisor", required=True)
+    montacarguista_id = fields.Many2one('hr.employee', string="Montacarguista")
+    auditor_id = fields.Many2one('hr.employee', string="Auditor")
 
     is_critical = fields.Boolean(string="Embarque crítico")
     retrab_transpa_descr = fields.Char(string="Detalles RT", required=True)
-    tarimas_m2l_descr = fields.Char(string="Detalles Tarimas M2L", required=True)
-    out_date = fields.Datetime(string="Entrega estimada", required=True)
+    tarimas_m2l_descr = fields.Char(string="Detalles Tarimas M2L")
+    out_date = fields.Datetime(string="Entrega estimada")
     cover_type = fields.Selection([('in', 'Entrada'), ('out', 'Salida')], string="Tipo de portada")
+    observations = fields.Text(string="Observaciones")
 
     line_ids = fields.One2many('pcover.report.wizard.line', 'pcover_id', string="Remisiones")
 
@@ -55,8 +58,16 @@ class PcoverReportWizard(models.TransientModel):
             'is_critical': self.is_critical,
             'retrab_transpa_descr': self.retrab_transpa_descr,
             'tarimas_m2l_descr': self.tarimas_m2l_descr,
-            'out_date': self.out_date,
+            'observations':  self.observations if self.observations else "",
         }
+        if self.out_date:
+            pcover_data['out_date'] = self.out_date
+
+        if self.montacarguista_id:
+            pcover_data['montacarguista_id'] = self.montacarguista_id.id
+        
+        if self.auditor_id:
+            pcover_data['auditor_id'] = self.auditor_id.id
 
         if self.carrier_id:
             pcover_data['carrier_id'] = self.carrier_id.id
