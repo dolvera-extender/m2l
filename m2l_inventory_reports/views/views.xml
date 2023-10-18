@@ -91,17 +91,17 @@
         <field name="model">pcover.report.history</field>
         <field name="priority">1</field>
         <field name="arch" type="xml">
-            <form string="Historial" create="0" edit="0">
+            <form string="Historial" create="0" edit="1">
                 <header>
                     <button string="Descargar PDF" type="object" name="generate_pdf"/>
                 </header>
                 <sheet>
                     <group>
                         <group>
-                            <field name="name"/>
-                            <field name="folio" invisible="1"/>
+                            <field name="name" readonly="1"/>
+                            <field name="folio" invisible="1" readonly="1"/>
                             <field name="carrier_id" attrs="{'invisible': [('carrier_id', '=', False)]}"/>
-                            <field name="carrier_name" attrs="{'invisible': [('carrier_name', '=', False)]}"/>
+                            <field name="carrier_name" attrs="{'invisible': ['|',('carrier_name', '=', False),('carrier_id', '!=', False)]}"/>
                             <field name="dest_location_id" string="Destino" attrs="{'invisible':[('cover_type', '!=', 'out')]}" options="{'no_create_edit': True, 'no_create': True}"/>
                             <field name="dest_location_id" string="Proveedor" attrs="{'invisible':[('cover_type', '!=', 'in')]}" options="{'no_create_edit': True, 'no_create': True}"/>
                             <field name="supervisor_id"/> 
@@ -109,9 +109,9 @@
                         <group>
                             <field name="remition_qty"/>
                             <field name="hr_driver_id" attrs="{'invisible': [('hr_driver_id', '=', False)]}"/>
-                            <field name="hr_driver_name" attrs="{'invisible': [('hr_driver_name', '=', False)]}"/>
+                            <field name="hr_driver_name" attrs="{'invisible': [('hr_driver_id', '!=', False)]}"/>
                             <field name="vehicle_tag_id" attrs="{'invisible': [('vehicle_tag_id', '=', False)]}"/>
-                            <field name="vehicle_tag_name" attrs="{'invisible': [('vehicle_tag_name', '=', False)]}"/>
+                            <field name="vehicle_tag_name" attrs="{'invisible': [('vehicle_tag_id', '!=', False)]}"/>
                             <field name="create_date" string="Fecha de creación"/>
                             <field name="montacarguista_id" options="{'no_create_edit': True, 'no_create': True}" attrs="{'invisible':[('cover_type', '!=', 'in')], 'required': [('cover_type', '=', 'in')]}"/>
                             <field name="auditor_id" options="{'no_create_edit': True, 'no_create': True}" attrs="{'invisible':[('cover_type', '!=', 'in')], 'required': [('cover_type', '=', 'in')]}"/>
@@ -125,7 +125,7 @@
                         </group>
                         <group>
                             <field name="is_critical" attrs="{'invisible':[('cover_type', '=', 'in')]}"/>
-                            <field name="out_date" attrs="{'invisible':[('cover_type', '=', 'in')], 'required': [('cover_type', '!=', 'in')]}"/>
+                            <field name="out_date" attrs="{'invisible':[('cover_type', '=', 'in')], 'required': [('cover_type', '!=', 'in')]}" readonly="1"/>
                             <field name="cover_type" invisible="1"/>
                         </group>
                     </group>

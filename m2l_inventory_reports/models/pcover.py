@@ -86,12 +86,35 @@ class PcoverReportHistory(models.Model):
         return report_action
 
     @api.onchange('line_ids')
-    def m2lcount_lines(self):
-        self.remition_qty = len(self.line_ids)
+    def _compute_moves_qty(self):
+        for reg in self:
+            qty = len(reg.line_ids.mapped('remision_id').mapped('move_line_ids_without_package'))
+            reg.remition_qty = qty
+    
+    @api.onchange('carrier_id')
+    def update_carrier_id(self):
+        if self.carrier_id:
+            self.carrier_name = self.carrier_id.name
 
+    @api.onchange('hr_driver_id')
+    def update_hr_driver_id(self):
+        if self.hr_driver_id:
+            self.hr_driver_name = self.hr_driver_id.name
+
+    @api.onchange("vehicle_tag_id")
+    def update_vehicle_tag_id(self):
+        if self.vehicle_tag_id:
+            self.vehicle_tag_name = self.vehicle_tag_id.name
 
 class PcoverReportHistoryLine(models.Model):
     _name = "pcover.report.history.line"
 
+    @api.model
+    def _domain_pickin_id(self):
+        dom = [('state', 'in', ['assigned', 'done'])]
+        if 'default_cover_type' in self._context:
+            dom.append(('picking_type_id.type_cover', '=', self._context.get('default_cover_type')))
+        return dom
+    
     pcover_id = fields.Many2one('pcover.report.history', string="Portada")
-    remision_id = fields.Many2one('stock.picking', string="Remision")
+    remision_id = fields.Many2one('stock.picking', string="Remision", domain=lambda self: self._domain_pickin_id(), required=True)
