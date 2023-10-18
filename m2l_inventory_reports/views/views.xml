@@ -120,7 +120,7 @@
                     <group>
                         <group>
                             <field name="retrab_transpa_descr" string="Detalles RT" attrs="{'invisible':[('cover_type', '!=', 'out')]}"/>
-                            <field name="retrab_transpa_descr" string="Número VL" attrs="{'invisible':[('cover_type', '!=', 'in')]}"/>
+                            <field name="retrab_transpa_descr" string="Número BL" attrs="{'invisible':[('cover_type', '!=', 'in')]}"/>
                             <field name="tarimas_m2l_descr" attrs="{'invisible':[('cover_type', '=', 'in')], 'required': [('cover_type', '!=', 'in')]}"/>
                         </group>
                         <group>

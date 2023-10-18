@@ -69,7 +69,7 @@
                                 <t t-if="cover_type == 'out'"><p>Entrega estimada: <span t-esc="out_date"/></p></t>
                             </div>
                             <div class="col-6">
-                                <p><span t-esc="'Flejes:' if cover_type == 'out' else 'Número VL: '"/><span t-esc="retrab_transpa_descr"/></p>
+                                <p><span t-esc="'Flejes:' if cover_type == 'out' else 'Número BL: '"/><span t-esc="retrab_transpa_descr"/></p>
                                 <t t-if="cover_type == 'out'"><p>Tarimas M2L: <span t-esc="tarimas_m2l_descr"/></p></t>
                             </div>
                         </div>
@@ -106,24 +106,7 @@
                                 <br/>
                                 <span>FIRMA <span t-esc="supervisor"/> M2L</span>
                             </div>
-                            <div class="col-4 text-center">
-                                <div class="signspace"/>
-                                <br/>
-                                <span>FIRMA/SELLO VIGILANCIA M2L</span>
-                            </div>
-                            <div class="col-4 text-center">
-                                <div class="signspace"/>
-                                <br/>
-                                <span>FIRMA/SELLO CLIENTE</span>
-                            </div>
-                            
-                        </div>
-                    </div>
-
-                    <t t-if="cover_type == 'in'">
-                        <div style="padding: 1px; padding-top: 15px; page-break-inside: avoid;">
-                            <div class="row">
-                                <div class="col-2 text-center"/>
+                            <t t-if="cover_type == 'in'">
                                 <div class="col-4 text-center">
                                     <div class="signspace"/>
                                     <br/>
@@ -134,10 +117,22 @@
                                     <br/>
                                     <span>FIRMA <span t-esc="auditor"/> M2L</span>
                                 </div>
-                                <div class="col-2 text-center"/>
-                            </div>
+                            </t>
+                            <t t-else="">
+                                <div class="col-4 text-center">
+                                    <div class="signspace"/>
+                                    <br/>
+                                    <span>FIRMA/SELLO VIGILANCIA M2L</span>
+                                </div>
+                                <div class="col-4 text-center">
+                                    <div class="signspace"/>
+                                    <br/>
+                                    <span>FIRMA/SELLO CLIENTE</span>
+                                </div>
+                            </t>
+                            
                         </div>
-                    </t>
+                    </div>
 
                 </div>
             </t>

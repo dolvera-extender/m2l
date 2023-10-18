@@ -51,7 +51,7 @@
                             <field name="dest_location_id" string="Destino" attrs="{'invisible':[('cover_type', '!=', 'out')]}" options="{'no_create_edit': True, 'no_create': True}"/>
                             <field name="dest_location_id" string="Proveedor" attrs="{'invisible':[('cover_type', '!=', 'in')]}" options="{'no_create_edit': True, 'no_create': True}"/>
                             <field name="retrab_transpa_descr" string="Detalles RT" attrs="{'invisible':[('cover_type', '!=', 'out')]}"/>
-                            <field name="retrab_transpa_descr" string="Número VL" attrs="{'invisible':[('cover_type', '!=', 'in')]}"/>
+                            <field name="retrab_transpa_descr" string="Número BL" attrs="{'invisible':[('cover_type', '!=', 'in')]}"/>
                             <field name="tarimas_m2l_descr" attrs="{'invisible':[('cover_type', '=', 'in')], 'required': [('cover_type', '!=', 'in')]}"/>
                             <field name="out_date" attrs="{'invisible':[('cover_type', '=', 'in')], 'required': [('cover_type', '!=', 'in')]}"/>
                         </group>
