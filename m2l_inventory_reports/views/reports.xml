@@ -104,18 +104,18 @@
                             <div class="col-4 text-center">
                                 <div class="signspace"/>
                                 <br/>
-                                <span>FIRMA <span t-esc="supervisor"/> M2L</span>
+                                <span>FIRMA SUPERVISOR M2L <span t-esc="supervisor"/></span>
                             </div>
                             <t t-if="cover_type == 'in'">
                                 <div class="col-4 text-center">
                                     <div class="signspace"/>
                                     <br/>
-                                    <span>FIRMA <span t-esc="montacarguista"/> M2L</span>
+                                    <span>FIRMA MONTACARGUISTA M2L <span t-esc="montacarguista"/></span>
                                 </div>
                                 <div class="col-4 text-center">
                                     <div class="signspace"/>
                                     <br/>
-                                    <span>FIRMA <span t-esc="auditor"/> M2L</span>
+                                    <span>FIRMA AUDITOR M2L<span t-esc="auditor"/></span>
                                 </div>
                             </t>
                             <t t-else="">
