@@ -165,6 +165,30 @@
         </field>
     </record>
 
+     <record id="pcover_report_history_graph_view" model="ir.ui.view">
+         <field name="name">pcover_report_history.graph_view</field>
+         <field name="model">pcover.report.history</field>
+         <field name="arch" type="xml">
+             <graph string="Analisis de portadas" type="pie" sample="0">
+                 <field name="carrier_id"/>
+                 <field name="create_date" interval="month"/>
+                 <field name="id" type="measure"/>
+                 <field name="cover_type"/>
+             </graph>
+         </field>
+    </record>
+
+    <record id="pcover_report_history_view_pivot" model="ir.ui.view">
+        <field name="name">pcover_report_history.pivot</field>
+        <field name="model">pcover.report.history</field>
+        <field name="arch" type="xml">
+            <pivot string="Appointments" display_quantity="1" sample="1">
+                <field name="create_date" type="row"/>
+                <field name="cover_type"/>
+            </pivot>
+        </field>
+    </record>
+
     <record id="stock_move_line_m2l_tree_view" model="ir.ui.view">
         <field name="name">stock_move_line_m2l.dashboard.tree_view</field>
         <field name="model">stock.move.line</field>
