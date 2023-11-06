@@ -104,7 +104,7 @@ class PcoverReportHistory(models.Model):
     @api.onchange("vehicle_tag_id")
     def update_vehicle_tag_id(self):
         if self.vehicle_tag_id:
-            self.vehicle_tag_name = self.vehicle_tag_id.name
+            self.vehicle_tag_name = self.vehicle_tag_id.vehicle_licence
 
 class PcoverReportHistoryLine(models.Model):
     _name = "pcover.report.history.line"
