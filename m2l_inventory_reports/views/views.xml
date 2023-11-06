@@ -99,7 +99,9 @@
                     <group>
                         <group>
                             <field name="name" readonly="1"/>
+                            <field name="name" readonly="0" groups="base.group_no_one"/>
                             <field name="folio" invisible="1" readonly="1"/>
+                            <field name="folio" groups="base.group_no_one"/>
                             <field name="carrier_id" attrs="{'invisible': [('carrier_id', '=', False)]}"/>
                             <field name="carrier_name" attrs="{'invisible': ['|',('carrier_name', '=', False),('carrier_id', '!=', False)]}"/>
                             <field name="dest_location_id" string="Destino" attrs="{'invisible':[('cover_type', '!=', 'out')]}" options="{'no_create_edit': True, 'no_create': True}"/>
@@ -112,6 +114,7 @@
                             <field name="hr_driver_name" attrs="{'invisible': [('hr_driver_id', '!=', False)]}"/>
                             <field name="vehicle_tag_id" attrs="{'invisible': [('vehicle_tag_id', '=', False)]}"/>
                             <field name="vehicle_tag_name" attrs="{'invisible': [('vehicle_tag_id', '!=', False)]}"/>
+                            <field name="vehicle_tag_name" groups="base.group_no_one"/>
                             <field name="create_date" string="Fecha de creación"/>
                             <field name="montacarguista_id" options="{'no_create_edit': True, 'no_create': True}" attrs="{'invisible':[('cover_type', '!=', 'in')], 'required': [('cover_type', '=', 'in')]}"/>
                             <field name="auditor_id" options="{'no_create_edit': True, 'no_create': True}" attrs="{'invisible':[('cover_type', '!=', 'in')], 'required': [('cover_type', '=', 'in')]}"/>
