@@ -41,7 +41,9 @@
         <field name="domain">[]</field>
         <field name="view_ids" eval="[(5, 0, 0),
             (0, 0, {'view_mode': 'tree', 'view_id': ref('m2l_inventory_reports.pcover_report_history_tree_view')}),
-            (0, 0, {'view_mode': 'form', 'view_id': ref('m2l_inventory_reports.pcover_report_history_form_view')})
+            (0, 0, {'view_mode': 'form', 'view_id': ref('m2l_inventory_reports.pcover_report_history_form_view')}),
+            (0, 0, {'view_mode': 'pivot', 'view_id': ref('m2l_inventory_reports.pcover_report_history_view_pivot')}),
+            (0, 0, {'view_mode': 'graph', 'view_id': ref('m2l_inventory_reports.pcover_report_history_graph_view')})
             ]"/>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
