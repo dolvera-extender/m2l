@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record model="ir.ui.view" id="ia_get_location_wizard_form_view">
+        <field name="name">wizard_get_location_form_view</field>
+        <field name="model">ia.get.location.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <field name="location_name"/>
+                </group>
+            </form>
+        </field>
+    </record>
+
+</odoo>
