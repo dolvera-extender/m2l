@@ -10,10 +10,8 @@ class PackagesAuditWizard(models.TransientModel):
     _description = "Leer paquetes a auditar"
 
     def _get_default_lines(self):
-        _log.info(" CONTEXTO :: %s " % self._context)
         package_arr_ids = [pack_id['id'] for pack_id in self._context.get('ai_package_ids', [])]
         package_ids = self.env['stock.quant.package'].browse(package_arr_ids)
-        _log.info(" LISTA DE IDS DISPONIBLES::: %s " % package_arr_ids);
         result = []
         for package in package_ids:
             line = (0,0,{
@@ -21,7 +19,6 @@ class PackagesAuditWizard(models.TransientModel):
                 'location_des_id': package.location_id.id
             })
             result.append(line)
-        
         if len(result)<=0:
             return False
         return result
@@ -29,6 +26,15 @@ class PackagesAuditWizard(models.TransientModel):
     location_id = fields.Many2one('stock.location', string="Ubicaciòn")
     package_name_read = fields.Char(string="Paquete leído")
     package_line_ids = fields.Many2many('ia.packages.audit.wizard.line', default=_get_default_lines)
+
+    def process_audit(self):
+        _log.info("PROCESANDO TRASPASO")
+        pass
+
+    @api.onchange('package_name_read')
+    def read_barcode(self):
+        _log.info(" lectura detectada en wizard ")
+        
 
 class PackageAuditWizardLine(models.TransientModel):
     _name = "ia.packages.audit.wizard.line"

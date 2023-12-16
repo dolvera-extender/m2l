@@ -6,16 +6,24 @@
         <field name="model">ia.packages.audit.wizard</field>
         <field name="arch" type="xml">
             <form>
+                
 
                 <group>
                     <group>
-                        <field name="location_id"/>
+                        <field name="location_id" class="lid"/>
                     </group>
                     <group>
-                        <field name="package_name_read"/>
+                        <field name="package_name_read" class="pnrf"/>
                     </group>
                 </group>
-
+                <!-- <script>
+                    $(document).on('keyup', '.pnrf', function(ev){
+                        if(ev.key === 'Enter'){
+                            $(".barcodemultiplier").focus();
+                            $(".barcodefieldc").focus();
+                        }
+                    });
+                </script> -->
                 <group>
                     <field name="package_line_ids">
                         <tree>
@@ -27,6 +35,9 @@
                         </tree>
                     </field>
                 </group>
+                <footer>
+                    <button name="process_audit" type="object" string="Aceptar" class="oe_highlight"/>
+                </footer>
             </form>
 
         </field>

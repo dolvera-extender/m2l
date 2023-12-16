@@ -36,6 +36,7 @@ class StockBarcodeController(http.Controller):
                     'res_model': 'ia.packages.audit.wizard',
                     'views': [(wizard_view_id, 'form')],
                     'type': 'ir.actions.act_window',
+                    'target':"new",
                     'domain': [],
                     'context': {
                         'default_location_id': location[0]['id'],
