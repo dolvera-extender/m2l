@@ -11,7 +11,20 @@ class PackagesAuditWizard(models.TransientModel):
 
     def _get_default_lines(self):
         _log.info(" CONTEXTO :: %s " % self._context)
-        return False
+        package_arr_ids = [pack_id['id'] for pack_id in self._context.get('ai_package_ids', [])]
+        package_ids = self.env['stock.quant.package'].browse(package_arr_ids)
+        _log.info(" LISTA DE IDS DISPONIBLES::: %s " % package_arr_ids);
+        result = []
+        for package in package_ids:
+            line = (0,0,{
+                'package_id': package.id,
+                'location_des_id': package.location_id.id
+            })
+            result.append(line)
+        
+        if len(result)<=0:
+            return False
+        return result
 
     location_id = fields.Many2one('stock.location', string="Ubicaciòn")
     package_name_read = fields.Char(string="Paquete leído")
@@ -25,6 +38,6 @@ class PackageAuditWizardLine(models.TransientModel):
     current_location_id = fields.Many2one('stock.location', string="Ubicación fisica actual")
     location_des_id = fields.Many2one('stock.location', string="Ubicación fisica esperada")
     to_move = fields.Boolean(string="A mover", default=False)
-    read_line = fields.Boolean(string="Escaneado")
+    read_line = fields.Boolean(string="Escaneado", default=False)
 
     

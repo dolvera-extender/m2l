@@ -38,7 +38,7 @@ class StockBarcodeController(http.Controller):
                     'type': 'ir.actions.act_window',
                     'domain': [],
                     'context': {
-                        'ai_location_id': location,
+                        'default_location_id': location[0]['id'],
                         'ai_package_ids': packages
                     }
                 }
