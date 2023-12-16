@@ -91,7 +91,7 @@ const MainMenu = AbstractAction.extend({
         if (!$.contains(document, this.el)) {
             return;
         }
-        Session.rpc('/stock_barcode/scan_from_main_menu', { barcode }).then(result => {
+        Session.rpc('/ia_package_barcode/scan_package_barcode', { barcode }).then(result => {
             if (result.action) {
                 this.do_action(result.action);
             } else if (result.warning) {

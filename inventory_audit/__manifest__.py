@@ -12,7 +12,7 @@
     'data': [
         'security/groups.xml',
         'security/ir.model.access.csv',
-        'wizard/get_location_wizard.xml',
+        # 'wizard/get_location_wizard.xml',
         'wizard/audit_packages_wizard.xml',
         'views/views.xml',
         'views/actions.xml',

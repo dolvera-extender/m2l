@@ -1,4 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
+    <record model="ir.ui.view" id="ai_packages_wizard_form_view">
+        <field name="name">wizard_get_location_form_view</field>
+        <field name="model">ia.packages.audit.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+
+                <group>
+                    <group>
+                        <field name="location_id"/>
+                    </group>
+                    <group>
+                        <field name="package_name_read"/>
+                    </group>
+                </group>
+
+                <group>
+                    <field name="package_line_ids">
+                        <tree>
+                            <field name="package_id"/>
+                            <field name="current_location_id"/>
+                            <field name="location_des_id"/>
+                            <field name="to_move"/>
+                            <field name="read_line"/>
+                        </tree>
+                    </field>
+                </group>
+            </form>
+
+        </field>
+    </record>
+
 </odoo>
