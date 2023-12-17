@@ -5,35 +5,55 @@
         <field name="name">wizard_get_location_form_view</field>
         <field name="model">ia.packages.audit.wizard</field>
         <field name="arch" type="xml">
-            <form>
-                
-
-                <group>
-                    <group>
-                        <field name="location_id" class="lid"/>
-                    </group>
-                    <group>
-                        <field name="package_name_read" class="pnrf"/>
-                    </group>
-                </group>
+            <form js_class="ia_barcodejs_form">
                 <!-- <script>
-                    $(document).on('keyup', '.pnrf', function(ev){
-                        if(ev.key === 'Enter'){
-                            $(".barcodemultiplier").focus();
-                            $(".barcodefieldc").focus();
+                    $(document).ready(function(ev){
+                        $(".pnrf").focus();
+                    });
+                    $(".pnrf").on('keyup', function(e){
+                        console.log("1 KEYUP");
+                        if(e.key === 'Enter'){
+                            console.log("ENTER PRESS");
+                            $(".lid").focus();
+                            $(".pnrf").focus();
                         }
+
                     });
                 </script> -->
                 <group>
-                    <field name="package_line_ids">
-                        <tree>
-                            <field name="package_id"/>
-                            <field name="current_location_id"/>
-                            <field name="location_des_id"/>
-                            <field name="to_move"/>
-                            <field name="read_line"/>
-                        </tree>
-                    </field>
+                    <group>
+                        <field name="package_name_read" class="pnrf"/>
+                    </group>
+                    <group>
+                        <field name="location_id" class="lid" readonly="1"/>                    
+                    </group>
+                </group>
+                
+                <group>
+                    <notebook>
+                        <!-- <page string="Paquetes fuera de lugar" name="package_wrong_location_line_ids">
+                            <field name="package_wrong_location_line_ids">
+                                <tree>
+                                    <field name="package_id"/>
+                                    <field name="current_location_id"/>
+                                    <field name="location_des_id"/>
+                                    <field name="to_move"/>
+                                    <field name="read_line"/>
+                                </tree>
+                            </field>
+                        </page> -->
+                        <page string="Paquetes en ubicacion" name="statement_line_ids">
+                            <field name="package_line_ids">
+                                <tree>
+                                    <field name="package_id"/>
+                                    <field name="current_location_id"/>
+                                    <field name="location_des_id"/>
+                                    <field name="to_move"/>
+                                    <field name="read_line"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>  
                 </group>
                 <footer>
                     <button name="process_audit" type="object" string="Aceptar" class="oe_highlight"/>

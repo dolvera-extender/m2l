@@ -25,7 +25,7 @@ class PackagesAuditWizard(models.TransientModel):
 
     location_id = fields.Many2one('stock.location', string="Ubicaciòn")
     package_name_read = fields.Char(string="Paquete leído")
-    package_line_ids = fields.Many2many('ia.packages.audit.wizard.line', default=_get_default_lines)
+    package_line_ids = fields.Many2many('ia.packages.audit.wizard.line', string="Paquetes de la ubicación", default=_get_default_lines)
 
     def process_audit(self):
         _log.info("PROCESANDO TRASPASO")
@@ -34,6 +34,8 @@ class PackagesAuditWizard(models.TransientModel):
     @api.onchange('package_name_read')
     def read_barcode(self):
         _log.info(" lectura detectada en wizard ")
+        self.package_name_read = ""
+        self.env.cr.commit()
         
 
 class PackageAuditWizardLine(models.TransientModel):
