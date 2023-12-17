@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from odoo import api, models, fields, _
+from odoo.exceptions import UserError
 import logging
 
 _log = logging.getLogger(__name__)
@@ -26,6 +27,7 @@ class PackagesAuditWizard(models.TransientModel):
     location_id = fields.Many2one('stock.location', string="Ubicaciòn")
     package_name_read = fields.Char(string="Paquete leído")
     package_line_ids = fields.Many2many('ia.packages.audit.wizard.line', string="Paquetes de la ubicación", default=_get_default_lines)
+  
 
     def process_audit(self):
         _log.info("PROCESANDO TRASPASO")
@@ -34,9 +36,24 @@ class PackagesAuditWizard(models.TransientModel):
     @api.onchange('package_name_read')
     def read_barcode(self):
         _log.info(" lectura detectada en wizard ")
+        if self.package_name_read == "" or not self.package_name_read:
+            return
+        code_read = self.package_name_read
         self.package_name_read = ""
-        self.env.cr.commit()
-        
+        _log.info(" CODIGO LEIDO %s " % code_read)
+        line = self.package_line_ids.filtered(lambda p: p.package_id.name == code_read)
+        if line:
+            line.read_line = True
+        else:
+            other_location_pack = self.env['stock.quant.package'].search([('name', '=', code_read)], limit=1)
+            if not other_location_pack:
+                raise UserError("No se encuentra en el sistema el paquete %s " % code_read)
+            
+            self.package_line_ids = [(0,0,{
+                'package_id': other_location_pack.id,
+                'current_location_id': self.location_id.id,
+                'to_move': True
+            })]
 
 class PackageAuditWizardLine(models.TransientModel):
     _name = "ia.packages.audit.wizard.line"

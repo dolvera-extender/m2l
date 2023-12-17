@@ -12,10 +12,10 @@ const MainMenu = AbstractAction.extend({
     contentTemplate: 'ia_main_menu',
 
     events: {
-        // "click .button_ia_location": function () {
-        //     console.log("CLICK en el boton");
-        //     this.do_action('stock_barcode.stock_picking_type_action_kanban');
-        // },
+        "click .o_stock_barcode_menu": function () {
+            this.trigger_up('toggle_fullscreen');
+            this.trigger_up('show_home_menu');
+        },
         "click .o_stock_mobile_barcode": async function() {
             console.log(" CHECANDO ANDO .. ");
             const barcode = await BarcodeScanner.scanBarcode();

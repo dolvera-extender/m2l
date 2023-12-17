@@ -6,45 +6,20 @@
         <field name="model">ia.packages.audit.wizard</field>
         <field name="arch" type="xml">
             <form js_class="ia_barcodejs_form">
-                <!-- <script>
-                    $(document).ready(function(ev){
-                        $(".pnrf").focus();
-                    });
-                    $(".pnrf").on('keyup', function(e){
-                        console.log("1 KEYUP");
-                        if(e.key === 'Enter'){
-                            console.log("ENTER PRESS");
-                            $(".lid").focus();
-                            $(".pnrf").focus();
-                        }
-
-                    });
-                </script> -->
                 <group>
                     <group>
                         <field name="package_name_read" class="pnrf"/>
                     </group>
                     <group>
-                        <field name="location_id" class="lid" readonly="1"/>                    
+                        <field name="location_id" class="lid" readonly="1" options="{'no_open': True, 'no_create': True}"/>                    
                     </group>
                 </group>
                 
                 <group>
                     <notebook>
-                        <!-- <page string="Paquetes fuera de lugar" name="package_wrong_location_line_ids">
-                            <field name="package_wrong_location_line_ids">
-                                <tree>
-                                    <field name="package_id"/>
-                                    <field name="current_location_id"/>
-                                    <field name="location_des_id"/>
-                                    <field name="to_move"/>
-                                    <field name="read_line"/>
-                                </tree>
-                            </field>
-                        </page> -->
-                        <page string="Paquetes en ubicacion" name="statement_line_ids">
+                        <page string="Paquetes" name="package_wrong_location">
                             <field name="package_line_ids">
-                                <tree>
+                                <tree decoration-warning="to_move" decoration-success="read_line">
                                     <field name="package_id"/>
                                     <field name="current_location_id"/>
                                     <field name="location_des_id"/>

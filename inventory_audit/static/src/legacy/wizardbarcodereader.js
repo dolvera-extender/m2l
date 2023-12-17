@@ -9,18 +9,10 @@ odoo.define('inventory_audit.IaBarcodeReaderFormView', function (require) {
     
     var IaBarcodeFormViewRenderer = FormRenderer.extend({
         events: _.extend({}, FormRenderer.prototype.events, {
-            'document ready': function (){
-                $(".pnrf").focus();
-            },
             'keyup .pnrf':'_onKeyupPnrf'
         }),
         init: function () {
-            this._super.apply(this, arguments);
-            console.log("THIS INIT 1");
-            console.log(this);
-            // var isMobileBcScanner = BarcodeScanner.isBarcodeScannerSupported();
-            // console.log(isMobileBcScanner);
-            
+            this._super.apply(this, arguments);            
         },
         _onKeyupPnrf: function (e){
             if(e.key === 'Enter'){
