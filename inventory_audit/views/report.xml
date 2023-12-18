@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+    <odoo>
+    <template id="report_pcover_document">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+                <style>
+                    .miborder {
+                        border-style: solid;
+                        border-width: 2px;
+                        padding: 15px;
+                        margin-bottom: 15px;
+                    }
+                    .ter {
+                        text-align: right;
+                    }
+                    .tel {
+                        text-align: left;
+                    }
+                    .unl {
+                        border-bottom: 2px solid;
+                        width: 100%;
+                    }
+                    .signspace{
+                        border-style: solid;
+                        border-width: 1px;
+                        height: 120px;
+                        maring: 10px;
+                    }
+                </style>
+                <div class="page">
+                    <div class="row">
+                        <div class="col-4 float-right">
+                            <t t-if="cover_type == 'out'">
+                                <strong>NOTA DE SALIDA</strong>
+                            </t>
+                            <t t-if="cover_type == 'in'">
+                                <strong>NOTA DE RECEPCION</strong>
+                            </t>
+                        </div>
+                        <div class="col-4 ter">
+                            <span t-esc="createdate"/>
+                        </div>
+                        <div class="col-4 ter">
+                            Folio: <span t-esc="name"/>
+                        </div>
+                    </div>
+                    <br/>
+                    <div class="miborder">
+                        <div class="row">
+                            <div class="col-6">
+                                <p>Transportista: <span t-esc="carrier"/></p>
+                                <p>NO. DE UNIDAD: <span t-esc="box_name"/></p>
+                                <p>Nùmero de bultos: <span t-esc="bl"/></p>
+                            </div>
+                            <div class="col-6">
+                                <p>CHOFER: <span t-esc="driver"/></p>
+                                <p>PLACAS: <span t-esc="vehicle_tag"/></p>
+                                <p><span t-esc="'DESTINO: ' if cover_type == 'out' else 'PROVEDOR: '"/> <span t-esc="destination"/></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="miborder">
+                        <div class="row">
+                            <div class="col-6">
+                                <t t-if="cover_type == 'out'">
+                                    <p> Entrega critica: <span t-out="is_critical"/></p>
+                                </t>
+                                
+                                <t t-if="cover_type == 'out'"><p>Entrega estimada: <span t-esc="out_date"/></p></t>
+                            </div>
+                            <div class="col-6">
+                                <p><span t-esc="'Flejes:' if cover_type == 'out' else 'Número BL: '"/><span t-esc="retrab_transpa_descr"/></p>
+                                <t t-if="cover_type == 'out'"><p>Tarimas M2L: <span t-esc="tarimas_m2l_descr"/></p></t>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <b>Observaciones</b>
+                                <br/>
+                                <p><span t-esc="observations"/></p>
+                            </div>
+                        </div>
+                    </div>
+                    <br/>
+                    <div class="miborder">
+                        <div class="row">
+                            <table class="table table-sm">
+                                <thead><tr>
+                                    <th>Remision</th>
+                                </tr></thead>
+                                <tbody>
+                                    <t t-foreach="lines" t-as="l">
+                                        <tr>
+                                            <td><span t-esc="l['remision_id']"/></td>
+                                        </tr>
+                                    </t>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div style="padding: 1px; padding-top: 15px; page-break-inside: avoid;">
+                        <div class="row">
+                            <div class="col-4 text-center">
+                                <div class="signspace"/>
+                                <br/>
+                                <span>FIRMA SUPERVISOR M2L <span t-esc="supervisor"/></span>
+                            </div>
+                            <t t-if="cover_type == 'in'">
+                                <div class="col-4 text-center">
+                                    <div class="signspace"/>
+                                    <br/>
+                                    <span>FIRMA MONTACARGUISTA M2L <span t-esc="montacarguista"/></span>
+                                </div>
+                                <div class="col-4 text-center">
+                                    <div class="signspace"/>
+                                    <br/>
+                                    <span>FIRMA AUDITOR M2L<span t-esc="auditor"/></span>
+                                </div>
+                            </t>
+                            <t t-else="">
+                                <div class="col-4 text-center">
+                                    <div class="signspace"/>
+                                    <br/>
+                                    <span>FIRMA/SELLO VIGILANCIA M2L</span>
+                                </div>
+                                <div class="col-4 text-center">
+                                    <div class="signspace"/>
+                                    <br/>
+                                    <span>FIRMA/SELLO CLIENTE</span>
+                                </div>
+                            </t>
+                            
+                        </div>
+                    </div>
+
+                </div>
+            </t>
+        </t>
+    </template>
+
+    <record id="report_pcover_pdf" model="ir.actions.report">
+        <field name="name">Portada de embarque</field>
+        <field name="model">pcover.report.history</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">m2l_inventory_reports.report_pcover_document</field>
+        <field name="report_file">m2l_inventory_reports.report_pcover_document</field>
+        <field name="print_report_name">'Nota_salida_%s' % (object.name)</field>
+    </record>
+</odoo>

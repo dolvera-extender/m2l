@@ -6,33 +6,44 @@
         <field name="model">ia.packages.audit.wizard</field>
         <field name="arch" type="xml">
             <form js_class="ia_barcodejs_form">
-                <group>
+                <sheet>
                     <group>
-                        <field name="package_name_read" class="pnrf"/>
+                        <group>
+                            <field name="package_name_read" class="pnrf"/>
+                        </group>
+                        <group>
+                            <field name="location_id" class="lid" readonly="1" options="{'no_open': True, 'no_create': True}"/>                    
+                        </group>
                     </group>
+                    
                     <group>
-                        <field name="location_id" class="lid" readonly="1" options="{'no_open': True, 'no_create': True}"/>                    
+                        <notebook>
+                            <page string="Paquetes fuera de ubicación" name="package_wrong_location">
+                                <field name="package_wrong_location_line_ids">
+                                    <tree decoration-warning="to_move" editable="top" duplicate="false" create="false" delete="false">
+                                        <field name="package_id" readonly="1" force_save="1" options="{'no_open': True, 'no_create': True}"/>
+                                        <field name="location_id" readonly="1" force_save="1"/>
+                                        <field name="to_move" widget="boolean_toggle"/>
+                                        <field name="read_line" invisible="1"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Paquetes" name="all_packages">
+                                <field name="package_line_ids">
+                                    <tree decoration-warning="to_move" decoration-success="read_line" editable="top" duplicate="false" create="false" delete="false">
+                                        <field name="package_id" readonly="1" force_save="1" options="{'no_open': True, 'no_create': True}"/>
+                                        <field name="location_id" readonly="1" force_save="1"/>
+                                        <field name="to_move" invisible="1"/>
+                                        <field name="read_line" invisible="1"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>  
                     </group>
-                </group>
-                
-                <group>
-                    <notebook>
-                        <page string="Paquetes" name="package_wrong_location">
-                            <field name="package_line_ids">
-                                <tree decoration-warning="to_move" decoration-success="read_line">
-                                    <field name="package_id"/>
-                                    <field name="current_location_id"/>
-                                    <field name="location_des_id"/>
-                                    <field name="to_move"/>
-                                    <field name="read_line"/>
-                                </tree>
-                            </field>
-                        </page>
-                    </notebook>  
-                </group>
-                <footer>
-                    <button name="process_audit" type="object" string="Aceptar" class="oe_highlight"/>
-                </footer>
+                    <footer>
+                        <button name="process_audit" type="object" string="Aceptar" class="oe_highlight"/>
+                    </footer>
+                </sheet>
             </form>
 
         </field>
