@@ -58,10 +58,8 @@ class PackagesAuditWizard(models.TransientModel):
             'audit_date': fields.Datetime.now()
         }
 
-        _log.info(" --------------------  AUDIT DATA :: %s " % audit_data)
-
         audit_record = self.env['stock.package.audit'].create(audit_data)
-        # audit_record.generate_move()
+        audit_record.generate_move()
         # return audit_record.generate_pdf_report()
 
     
