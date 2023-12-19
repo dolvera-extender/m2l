@@ -17,6 +17,7 @@
         'views/views.xml',
         'views/actions.xml',
         'views/menu.xml',
+        'views/report.xml'
         
     ],
     'assets': {

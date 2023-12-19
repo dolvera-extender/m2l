@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 from odoo import api, models, fields, _
 from odoo.exceptions import UserError
+import pytz
+from datetime import timedelta
 import logging
 
 _log = logging.getLogger(__name__)
@@ -51,8 +53,10 @@ class PackagesAuditWizard(models.TransientModel):
                 'location_id': line.location_id.id if line.to_move else False
             }))
 
-        
+        user_tz = pytz.timezone(self.env.context.get('tz') or 'UTC')
+        createdate = pytz.utc.localize(fields.Datetime.now()).astimezone(user_tz)
         audit_data = {
+            'name': "Revision de inventario : %s " % createdate.strftime('%d-%m-%Y'),
             'location_id': self.location_id.id,
             'audit_line_ids':audit_lines,
             'audit_date': fields.Datetime.now()
@@ -60,7 +64,7 @@ class PackagesAuditWizard(models.TransientModel):
 
         audit_record = self.env['stock.package.audit'].create(audit_data)
         audit_record.generate_move()
-        # return audit_record.generate_pdf_report()
+        return audit_record.generate_pdf_report()
 
     
     @api.onchange('package_name_read')

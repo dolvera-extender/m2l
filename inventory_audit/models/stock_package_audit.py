@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 from odoo import api, models, fields, _
 from odoo.exceptions import UserError
+import pytz
+from datetime import timedelta
 import logging
 
 _log = logging.getLogger(__name__)
@@ -63,7 +65,27 @@ class StockPackageAudit(models.Model):
         # Revisar la asignación de paquetes en las lineas de movimiento. 
 
     def generate_pdf_report(self):
-        pass
+        user_tz = pytz.timezone(self.env.context.get('tz') or 'UTC')
+        createdate = pytz.utc.localize(self.audit_date).astimezone(user_tz)
+        lines = []
+        for line in self.audit_line_ids:
+            lines.append({
+                'package_name': line.package_id.name,
+                'location': line.location_id.name if line.moved else self.location_id.name,
+                'moved': "Transferido" if line.moved else ""
+            })
+        data = {
+            'name': self.name,
+            'location_id': self.location_id.name,
+            'audit_date': createdate.strftime('%d/%m/%Y %I:%M %p'),
+            'lines':lines
+        }
+        _log.info(" DATOS PARA EL REPORTE :: %s" % data )
+        report_action = self.env.ref('inventory_audit.report_inventory_audit_pdf').report_action(self, data=data)
+        report_action.update({
+            'close_on_report_download': True,
+        })
+        return report_action
 
 
 class StockPackageAuditLine(models.Model):
