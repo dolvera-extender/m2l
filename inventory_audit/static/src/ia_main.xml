@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="ia_main_menu">
+        <div class="o_stock_barcode_main_menu_container o_home_menu_background">
+            <div class="o_stock_barcode_main_menu position-relative">
+                <a href="#" class="o_stock_barcode_menu d-block float-left"><i class="fa fa-chevron-left"></i></a>
+                <h1 class="mb-4">Barcode Scanning</h1>
+
+                <div class="o_stock_barcode_container position-relative d-inline-block mt-4 mb-5">
+                    <div t-if='widget.mobileScanner' class="o_stock_mobile_barcode_container">
+                        <button class="btn btn-primary o_stock_mobile_barcode"><i class="fa fa-camera fa-2x o_mobile_barcode_camera"></i>Toca pa escanear</button>
+                        <img src="/barcodes/static/img/barcode.png" alt="Barcode" class="img-fluid mb-1 mt-1"/>
+                    </div>
+                    <t t-else="">
+                        <img src="/barcodes/static/img/barcode.png" alt="Barcode" class="img-fluid mb-1 mt-1"/>
+                    </t>
+                    <span class="o_stock_barcode_laser"/>
+                </div>
+
+                <p>
+                    Escanea una ubicación
+                </p>
+
+                <hr class="mb-4 d-none d-sm-block"/>
+
+                <div class="row">
+                    <!-- <div class="col">
+                        <button class="button_ia_location btn btn-block btn-primary mb-4">Ubicaciones</button>
+                    </div> -->
+                </div>
+            </div>
+        </div>
+    </t>
+
+</templates>

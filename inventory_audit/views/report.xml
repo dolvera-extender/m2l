@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+    <odoo>
+    <template id="report_package_audit_document">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+                <style>
+
+                </style>
+                <div class="page">
+                    
+
+                    <div style="padding: 1px; padding-top: 15px; page-break-inside: avoid;">
+                        <div class="row">
+                            <div class="col-6">
+                                <span t-esc="name"/><br/>
+                                <span t-esc="location_id"/>        
+                            </div>
+                            <div class="col-6">
+                                <span t-esc="audit_date"/>
+                            </div>
+                        </div>
+
+
+                        <!-- Inicio de la tabla  -->
+                        <table class="table table-sm table-striped mt-4">
+                            <thead>
+                                <tr>
+                                    <th>Paquete</th>
+                                    <th>Ubicacion</th>
+                                    <th>Transferido</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr t-foreach="lines" t-as="line">
+                                    <td><span t-esc="line['package_name']"/></td>
+                                    <td><span t-esc="line['location']"/></td>
+                                    <td><span t-esc="line['moved']"/></td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <!-- Fin de la tabla -->
+
+                    </div>
+
+                </div>
+            </t>
+        </t>
+    </template>
+
+    <record id="report_inventory_audit_pdf" model="ir.actions.report">
+        <field name="name">Reporte de auditoria</field>
+        <field name="model">stock.package.audit</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">inventory_audit.report_package_audit_document</field>
+        <field name="report_file">inventory_audit.report_package_audit_document</field>
+        <field name="print_report_name">'Revision_inventario_%s' % (object.name)</field>
+    </record>
+</odoo>

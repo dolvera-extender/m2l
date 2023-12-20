@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record model="ir.ui.view" id="ai_packages_audit_tree_view">
+        <field name="name">wizard_package_audit_tree_view</field>
+        <field name="model">stock.package.audit</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name" readonly="1"/>
+                <field name="picking_id" readonly="1"/>
+                <field name="audit_date" readonly="1"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="ai_packages_audit_form_view">
+        <field name="name">wizard_package_audit_form_view</field>
+        <field name="model">stock.package.audit</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <group>
+                        <field name="name"/>
+                        <field name="picking_id"/>
+                    </group>
+                    <group>
+                        <field name="audit_date" readonly="1"/>
+                        <field name="location_id" readonly="1" options="{'no_open': True, 'no_create': True}"/>                    
+                    </group>
+                </group>
+                
+                <group>
+                    <notebook>
+                        <page string="Paquetes fuera de ubicación" name="package_list">
+                            <field name="audit_line_ids">
+                                <tree decoration-warning="moved" editable="top" duplicate="false" create="false" delete="false">
+                                    <field name="package_id" options="{'no_open': True, 'no_create': True}"/>
+                                    <field name="location_id"/>
+                                    <field name="moved"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>  
+                </group>
+
+            </form>
+
+        </field>
+    </record>
+
+</odoo>

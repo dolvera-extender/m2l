@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="action_package_audit_history" model="ir.actions.act_window">
+        <field name="name">Inventory Audit: history</field>
+        <field name="res_model">stock.package.audit</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{
+        }</field>
+        <!-- <field name="view_id" ref="inventory_audit.ai_packages_audit_tree_view"/> -->
+        <field name="view_ids" eval="[(5, 0, 0),
+            (0, 0, {'view_mode': 'tree', 'view_id': ref('inventory_audit.ai_packages_audit_tree_view')}),
+            (0, 0, {'view_mode': 'form', 'view_id': ref('inventory_audit.ai_packages_audit_form_view')})]"/>
+        <!-- <field name="target">fullscreen</field> -->
+    </record>
+
+    <record id="ia_getlocation_barcode_action_main_menu" model="ir.actions.client">
+        <field name="name">Auditoria de paquetes</field>
+        <field name="tag">ia_getlocation_barcode_main_menu</field>
+        <field name="target">fullscreen</field>
+    </record>
+
+</odoo>

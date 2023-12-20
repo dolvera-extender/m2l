@@ -1,0 +1,36 @@
+# -*- coding: utf-8 -*-
+{
+    'name': 'Inventory package count',
+    'version': '0.1b',
+    'summary': 'Conteo y revision de paquetes en una ubicación',
+    "author": "Ing. Isaac Chávez Arroyo",
+    'description': "",
+    'website': 'https://isaaccv.ml',
+    'depends': ['barcodes_gs1_nomenclature', 'stock', 'web_tour', 'web_mobile'],
+    'category': 'Inventory/Inventory',
+    'sequence': 98,
+    'data': [
+        'security/groups.xml',
+        'security/ir.model.access.csv',
+        # 'wizard/get_location_wizard.xml',
+        'wizard/audit_packages_wizard.xml',
+        'views/views.xml',
+        'views/actions.xml',
+        'views/menu.xml',
+        'views/report.xml'
+        
+    ],
+    'assets': {
+        'web.assets_backend': [
+            'inventory_audit/static/src/*.js',
+            'inventory_audit/static/src/legacy/*.js',
+        ],
+        'web.assets_qweb': [
+            'inventory_audit/static/src/*.xml',
+        ]
+    },
+    'installable': True,
+    'application': True,
+    'auto_install': False,
+    'license': 'LGPL-3'
+}
