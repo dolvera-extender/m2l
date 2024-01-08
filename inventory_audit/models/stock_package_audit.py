@@ -69,8 +69,18 @@ class StockPackageAudit(models.Model):
         createdate = pytz.utc.localize(self.audit_date).astimezone(user_tz)
         lines = []
         for line in self.audit_line_ids:
+            pkg_lines = []
+            for pline in line.package_id.quant_ids:
+                pkg_lines.append({
+                    'name': pline.product_id.name,  #numero de parte
+                    'description': pline.product_id.description_sale, # descripciòn 
+                    'product_categ': pline.product_id.categ_id.name, # categoria del producto 
+                    'quantity': pline.quantity, # cantidad
+                    'uom': pline.product_uom_id.name
+                })
             lines.append({
                 'package_name': line.package_id.name,
+                'package_lines': pkg_lines,
                 'location': line.location_id.name if line.moved else self.location_id.name,
                 'moved': "Transferido" if line.moved else ""
             })

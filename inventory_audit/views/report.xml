@@ -19,8 +19,6 @@
                                 <span t-esc="audit_date"/>
                             </div>
                         </div>
-
-
                         <!-- Inicio de la tabla  -->
                         <table class="table table-sm table-striped mt-4">
                             <thead>
@@ -28,14 +26,33 @@
                                     <th>Paquete</th>
                                     <th>Ubicacion</th>
                                     <th>Transferido</th>
+
+                                    <th>Codigo</th>
+                                    <th>Descripcioón</th>
+                                    <th>Categoria</th>
+                                    <th>cantidad</th>
+                                    <th/>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr t-foreach="lines" t-as="line">
-                                    <td><span t-esc="line['package_name']"/></td>
-                                    <td><span t-esc="line['location']"/></td>
-                                    <td><span t-esc="line['moved']"/></td>
-                                </tr>
+                                <t t-foreach="lines" t-as="line"> 
+                                    <tr>
+                                        <td><span t-esc="line['package_name']"/></td>                                    
+                                        <td><span t-esc="line['location']"/></td>
+                                        <td><span t-esc="line['moved']"/></td>
+                                        <td/><td/><td/><td/>
+                                           
+                                    </tr>
+                                    <t t-foreach="line['package_lines']" t-as="pline">
+                                        <tr>
+                                            <td/><td/><td/>
+                                            <td><span t-esc="pline['name']"/></td>
+                                            <td><span t-esc="pline['description']"/></td>
+                                            <td><span t-esc="pline['product_categ']"/></td>
+                                            <td><span t-esc="pline['quantity']"/> <span t-esc="pline['uom']"/></td>
+                                        </tr>
+                                    </t>
+                                </t>
                             </tbody>
                         </table>
 
