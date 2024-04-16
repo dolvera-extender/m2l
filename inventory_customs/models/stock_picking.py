@@ -3,6 +3,8 @@
 from cgitb import reset
 from odoo import models, fields, api
 import time
+import pytz
+from datetime import timedelta
 import logging
 _log = logging.getLogger("___name: %s" % __name__)
 
@@ -140,3 +142,13 @@ class StockQuantPackageM2l(models.Model):
 
     current_split_squence = fields.Integer(string="Ultimo split index", default=1)
     
+
+class StockQuantM2l(models.Model):
+    _inherit = "stock.quant"
+
+    @api.model
+    def get_report_date(self):
+        user_tz = pytz.timezone(self.env.context.get('tz') or 'UTC')
+        printdate = fields.Datetime.now()
+        printdate = pytz.utc.localize(printdate).astimezone(user_tz)
+        return printdate.strftime('%d/%m/%Y %I:%M %p')

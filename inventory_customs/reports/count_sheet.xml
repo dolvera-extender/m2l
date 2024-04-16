@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="report_inventory_m2l" inherit_id="stock.report_inventory">
+            <xpath expr="//div[hasclass('page')]/table[1]" position="before">
+                <div>Fecha de impresión: <t t-esc="docs.get_report_date()"/></div> 
+            </xpath>
+            <xpath expr="//div[hasclass('page')]/table[1]" position="attributes">
+                <attribute name="style">font-size:14px;</attribute>
+            </xpath>
+
+            <!--  Ocultar lote y cantidad disponible -->
+            <xpath expr="//th[3]" position="attributes">
+                <attribute name="style">display:none;</attribute>
+            </xpath>
+            <xpath expr="//tbody[1]/t/tr[2]/td[3]" position="attributes">
+                <attribute name="style">display:none;</attribute>
+            </xpath>
+
+            <xpath expr="//th[5]" position="attributes">
+                <attribute name="style">display:none;</attribute>
+            </xpath>
+            <xpath expr="//tbody[1]/t/tr[2]/td[5]" position="attributes">
+                <attribute name="style">display:none;</attribute>
+            </xpath>
+
+            <!-- Categoria de producto (primer col) -->
+
+            <xpath expr="//th[1]" position="before">
+                <th class="text-right"><strong>Categoria de producto</strong></th>
+            </xpath>
+            <xpath expr="//tbody[1]/t/tr[2]/td[1]" position="before">
+                <td><span t-field="line.product_id.categ_id"/></td>
+            </xpath>
+
+            <!-- Columna diferencia -->
+
+            <xpath expr="//th[7]" position="before">
+                <th class="text-right"><strong>Diferencia</strong></th>
+            </xpath>
+            <xpath expr="//tbody[1]/t/tr[2]/td[7]" position="before">
+                <td><span t-field="line.inventory_diff_quantity"/></td>
+            </xpath>
+
+        </template>
+    </data>
+
+</odoo>

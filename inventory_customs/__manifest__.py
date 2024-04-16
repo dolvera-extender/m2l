@@ -8,7 +8,8 @@
     "data": [
         "security/ir.model.access.csv",
         "views/stock_picking.xml",
-        "wizard/split_packet.xml"
+        "wizard/split_packet.xml",
+        "reports/count_sheet.xml"
     ],
     'application': False,
     'installable': True,
