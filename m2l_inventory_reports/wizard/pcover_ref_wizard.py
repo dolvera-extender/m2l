@@ -24,7 +24,7 @@ class PcoverReportWizard(models.TransientModel):
     
     remition_qty = fields.Integer(string="No. de bultos", compute="_compute_moves_qty", store=False)
     dest_location_id = fields.Many2one('res.partner', string="Destino", required=True)
-    supervisor_id = fields.Many2one('hr.employee', string="Supervisor", required=True)
+    supervisor_id = fields.Many2one('hr.employee', string="Lider de Operaciones", required=True)
     montacarguista_id = fields.Many2one('hr.employee', string="Montacarguista")
     auditor_id = fields.Many2one('hr.employee', string="Auditor")
 

@@ -22,7 +22,7 @@ class PcoverReportHistory(models.Model):
     remition_qty = fields.Integer(string="Número de bultos")
     hr_driver_id = fields.Many2one('hr.employee', string="Chofer relacionado") # Manual
     hr_driver_name = fields.Char(string="Chofer")
-    supervisor_id = fields.Many2one('hr.employee', string="Supervisor")
+    supervisor_id = fields.Many2one('hr.employee', string="Lider de Operaciones")
     vehicle_tag_id = fields.Many2one('l10n_mx_edi.vehicle', string="Placas relacionadas") # Manual 
     vehicle_tag_name = fields.Char(string="Placas")
     dest_location_id = fields.Many2one('res.partner', string="Destino")
