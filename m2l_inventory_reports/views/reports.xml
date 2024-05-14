@@ -104,7 +104,7 @@
                             <div class="col-4 text-center">
                                 <div class="signspace"/>
                                 <br/>
-                                <span>FIRMA SUPERVISOR M2L <span t-esc="supervisor"/></span>
+                                <span>FIRMA LIDER DE OPERACIONES M2L <span t-esc="supervisor"/></span>
                             </div>
                             <t t-if="cover_type == 'in'">
                                 <div class="col-4 text-center">
