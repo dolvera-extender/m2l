@@ -12,17 +12,17 @@ Hide Discussion Menu and chatter from Odoo Tray""",
         Hide Discussion Menu and chatter from Odoo Tray
         
     """,
-    'version': "15.0",
+    'version': "17.0.0.1",
     'author': "David Montero Crespo",
     'support': 'softwareescarlata@gmail.com',
     'images': ['static/description/img.png'],
     'category' : 'tools',
-    'depends': ['base'],
+    'depends': ['base','mail'],
     'data':[
 
     ],
     'assets': {
-        'web.assets_qweb': [
+        'web.assets_backend': [
             'remove_chat_inbox/static/src/xml/*.xml',
         ],
     },
