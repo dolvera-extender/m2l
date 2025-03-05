@@ -12,7 +12,7 @@
 							<field name="warehouse_id" invisible="1"/>
 							<field name="mps_product_domain" widget="many2many_tags" invisible="1"/>
 							<field name="mps_product_id"
-								   attrs="{'invisible': [('state', '!=', 'draft')]}"
+								   invisible="state != 'draft'"
 								   options="{'no_create': True}"
 								   domain="[('id', 'in', mps_product_domain)]"/>
 						</group>
@@ -28,7 +28,7 @@
 											<field name="package_id" readonly="1" force_save="1"/>
 											<field name="product_id" readonly="1" force_save="1"/>
 											<field name="product_qty"/>
-											<button name="mps_select" string="Añadir" type="object" attrs="{'invisible': [('parent.state', '!=', 'draft')]}"/>
+											<button name="mps_select" string="Añadir" type="object" invisible="parent.state != 'draft'"/>
 										</tree>
 									</field>
 								</div>

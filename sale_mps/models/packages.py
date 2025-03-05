@@ -84,12 +84,15 @@ class StockPickingMps(models.Model):
         also impact the state of the picking as it is computed based on move's states.
         @return: True
         """
+
+        self.mapped('package_level_ids').filtered(lambda pl: pl.state == 'draft' and not pl.move_ids)._generate_moves()
         self.filtered(lambda picking: picking.state == 'draft').action_confirm()
-        moves = self.mapped('move_lines').filtered(lambda move: move.state not in ('draft', 'cancel', 'done')).sorted(
+        moves = self.move_ids.filtered(lambda move: move.state not in ('draft', 'cancel', 'done')).sorted(
             key=lambda move: (-int(move.priority), not bool(move.date_deadline), move.date_deadline, move.date, move.id)
         )
         if not moves:
             raise UserError(_('Nothing to check the availability for.'))
+
         # If a package level is done when confirmed its location can be different than where it will be reserved.
         # So we remove the move lines created when confirmed to set quantity done to the new reserved ones.
         package_level_done = self.mapped('package_level_ids').filtered(lambda pl: pl.is_done and pl.state == 'confirmed')
@@ -101,6 +104,8 @@ class StockPickingMps(models.Model):
         #     _log.info("con sale")
         #     self.mps_manual_reserve()
         package_level_done.write({'is_done': True})
+
+        return True
 
     def mps_manual_reserve(self):
         self.move_line_ids_without_package = False

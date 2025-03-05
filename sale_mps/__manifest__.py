@@ -2,7 +2,7 @@
 # Ing. Isaac Chavez Arroyo: www.isaaccv.ml
 {
     "name": "Sale MPS",
-    'version': '0.01b',
+    'version': '17.0.0.1',
     'summary': 'Sale Manual package selection',
     'description': "Selección manual de paquetes en el pedido de venta.",
     'author': 'Ing. Isaac Chávez Arroyo',
