@@ -1,5 +1,5 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-wizard_package_audit_mngr,wizard_getlocation_mngr,model_ia_packages_audit_wizard,,1,1,1,1
-wizard_package_audit_line_mngr,wizard_package_audit_line_mngr,model_ia_packages_audit_wizard_line,,1,1,1,1
-package_audit_mngr,package_audit_mngr,model_stock_package_audit,,1,1,1,1
-package_audit_line_mngr,package_audit_line_mngr,model_stock_package_audit_line,,1,1,1,1
+wizard_package_audit_mngr,wizard_getlocation_mngr,model_ia_packages_audit_wizard,base.group_user,1,1,1,1
+wizard_package_audit_line_mngr,wizard_package_audit_line_mngr,model_ia_packages_audit_wizard_line,base.group_user,1,1,1,1
+package_audit_mngr,package_audit_mngr,model_stock_package_audit,base.group_user,1,1,1,1
+package_audit_line_mngr,package_audit_line_mngr,model_stock_package_audit_line,base.group_user,1,1,1,1

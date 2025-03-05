@@ -1,36 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <templates xml:space="preserve">
+    <div t-name="ia_main_menu" class="o_stock_barcode_main_menu_container o_home_menu_background">
+        <div class="o_stock_barcode_main_menu position-relative bg-view">
+            <a href="#" class="o_stock_barcode_menu d-block float-start" t-on-click="() => this.home.toggle(true)">
+                <i class="oi oi-chevron-left"/>
+            </a>
+            <h1 class="mb-4">Escaneo de código de barras</h1>
 
-    <t t-name="ia_main_menu">
-        <div class="o_stock_barcode_main_menu_container o_home_menu_background">
-            <div class="o_stock_barcode_main_menu position-relative">
-                <a href="#" class="o_stock_barcode_menu d-block float-left"><i class="fa fa-chevron-left"></i></a>
-                <h1 class="mb-4">Barcode Scanning</h1>
 
-                <div class="o_stock_barcode_container position-relative d-inline-block mt-4 mb-5">
-                    <div t-if='widget.mobileScanner' class="o_stock_mobile_barcode_container">
-                        <button class="btn btn-primary o_stock_mobile_barcode"><i class="fa fa-camera fa-2x o_mobile_barcode_camera"></i>Toca pa escanear</button>
-                        <img src="/barcodes/static/img/barcode.png" alt="Barcode" class="img-fluid mb-1 mt-1"/>
-                    </div>
-                    <t t-else="">
-                        <img src="/barcodes/static/img/barcode.png" alt="Barcode" class="img-fluid mb-1 mt-1"/>
-                    </t>
-                    <span class="o_stock_barcode_laser"/>
+            <div class="o_stock_barcode_container position-relative d-inline-block mt-4 mb-5">
+                <div t-if="mobileScanner" class="o_stock_mobile_barcode_container">
+                    <button class="btn btn-primary o_stock_mobile_barcode" t-on-click="onClickBarcode">
+                        <i class="fa fa-camera fa-2x o_mobile_barcode_camera"/> Toca para escanear
+                    </button>
+                    <img src="/barcodes/static/img/barcode.png" alt="Barcode" class="img-fluid mb-1 mt-1"/>
                 </div>
-
-                <p>
-                    Escanea una ubicación
-                </p>
-
-                <hr class="mb-4 d-none d-sm-block"/>
-
-                <div class="row">
-                    <!-- <div class="col">
-                        <button class="button_ia_location btn btn-block btn-primary mb-4">Ubicaciones</button>
-                    </div> -->
-                </div>
+                <img t-else="" src="/barcodes/static/img/barcode.png" alt="Barcode" class="img-fluid mb-1 mt-1"/>
+                <span class="o_stock_barcode_laser"/>
             </div>
-        </div>
-    </t>
 
+        </div>
+    </div>
 </templates>

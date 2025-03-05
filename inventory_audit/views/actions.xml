@@ -16,7 +16,7 @@
 
     <record id="ia_getlocation_barcode_action_main_menu" model="ir.actions.client">
         <field name="name">Auditoria de paquetes</field>
-        <field name="tag">ia_getlocation_barcode_main_menu</field>
+        <field name="tag">inventory_audit.ia_getlocation_barcode_main_menu</field>
         <field name="target">fullscreen</field>
     </record>
 
