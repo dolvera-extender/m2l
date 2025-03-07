@@ -12,7 +12,8 @@
                     </group>
                     <group>
                         <field name="split_indicator" required="1" widget="radio"/>
-                        <p attrs="{'invisible':[('split_indicator', '!=', 'qty_packs')]}">
+                        <!-- <p attrs="{'invisible':[('split_indicator', '!=', 'qty_packs')]}"> -->
+                        <p invisible="split_indicator != 'qty_packs'">
                             Se tomará el multiplo más cercano inferior al solicitado.
                         </p>
                     </group>
@@ -24,8 +25,8 @@
                             <field name="product_id" readonly="1" force_save="1"/>
                             <field name="product_qty" readonly="1" force_save="1"/>
                             <field name="product_split_qty"/>
-                            <field name="product_packet_qty" attrs="{'column_invisible': [('parent.split_indicator', '!=', 'qty_product')]}"/>
-                            <field name="packet_qty"  attrs="{'column_invisible': [('parent.split_indicator', '!=', 'qty_packs')]}"/>
+                            <field name="product_packet_qty" column_invisible="parent.split_indicator != 'qty_product'"/>
+                            <field name="packet_qty"  column_invisible="parent.split_indicator != 'qty_packs'"/>
                             <field name="split" widget="boolean_toggle"/>
                         </tree>
                     </field>
@@ -49,12 +50,12 @@
     </record>
 
     <record id="act_wizard_split_packet" model="ir.actions.act_window">
-            <field name="name">Divisor de paquetes</field>
-            <field name="res_model">split.packet.wizard</field>
-            <field name="view_mode">form</field>
-            <field name="view_id" ref="wizard_packet_split_form_view"/>
-            <field name="target">new</field>
-        </record>
+        <field name="name">Divisor de paquetes</field>
+        <field name="res_model">split.packet.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="wizard_packet_split_form_view"/>
+        <field name="target">new</field>
+    </record>
 
     <menuitem id="menu_split_packet_wizard"
               name="División de paquetes"

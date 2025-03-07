@@ -19,9 +19,10 @@
                             <field name="picking_id"/>
                             <div class="row">
                                 <div class="col-6">
-                                    <field name="lot_id" invisible="not context.get('show_lots_m2o')" groups="stock.group_production_lot" context="{'default_product_id': product_id, 'active_picking_id': picking_id}"/>
+                                    <field name="lot_id" invisible="not context.get('show_lots_m2o')" groups="stock.group_production_lot" 
+                                        context="{'default_product_id': product_id, 'active_picking_id': picking_id}"/>
                                     <field name="lot_name" invisible="not context.get('show_lots_text')" groups="stock.group_production_lot"/>
-                                    <field name="qty_done" string="Quantity Done"/>
+                                    <field name="quantity" string="Quantity Done"/>
                                     <field name="product_uom_id" string="Unit of Measure" groups="uom.group_uom"/>
                                 </div>
                                 <div class="col-6 text-right">
@@ -61,21 +62,28 @@
                             <field name="pol_asn_ref"/>
                             <field name="pol_invoice_ref"/>
                             <field name="location_id" options="{'no_create': True}" groups="stock.group_stock_multi_locations"/>
+                            <field name="location_id" invisible="1"/>
                             <field name="location_dest_id" options="{'no_create': True}" groups="stock.group_stock_multi_locations"/>
+                            <field name="location_dest_id" invisible="1"/>
                         </group>
                         <group>
-                            <label for="product_uom_qty" string="Quantity Reserved" attrs="{'invisible': [('state', '=', 'done')]}"/>
-                            <div class="o_row" attrs="{'invisible': [('state', '=', 'done')]}">
-                                <field name="product_uom_qty" readonly="1"/>
+                            <label for="quantity_product_uom"
+                                invisible="state == 'done'"
+                                string="Quantity Reserved"/>
+                            <div class="o_row" invisible="state == 'done'">
+                                <field name="quantity_product_uom" readonly="1"/>
                                 <field name="product_uom_id" options="{'no_create': True}" string="Unit of Measure" groups="uom.group_uom"/>
                             </div>
-                            <label for="qty_done" string="Quantity Done"/>
+                            <label for="quantity" string="Quantity Done"/>
                             <div class="o_row">
-                                <field name="qty_done"/>
+                                <field name="quantity"/>
                                 <field name="product_uom_id" options="{'no_create': True}" string="Unit of Measure" groups="uom.group_uom"/>
                             </div>
-                            <field name="lot_id" groups="stock.group_production_lot" context="{'default_product_id': product_id, 'active_picking_id': picking_id, 'default_company_id': company_id}" attrs="{'invisible': [('lot_id', '=', False),('lot_name', '!=', False)]}"/>
-                            <field name="lot_name" groups="stock.group_production_lot" attrs="{'invisible': ['|',('lot_id', '!=', False),('lot_name', '=', False)]}"/>
+                            <field name="lot_id" groups="stock.group_production_lot" 
+                                context="{'default_product_id': product_id, 'active_picking_id': picking_id, 'default_company_id': company_id}"
+                                invisible="not lot_id and lot_name"/>
+                            <field name="lot_name" groups="stock.group_production_lot"
+                                invisible="lot_id or not lot_name"/>
                             <field name="package_id" string="Source Package" groups="stock.group_tracking_lot"/>
                             <field name="result_package_id" string="Destination Package" groups="stock.group_tracking_lot"/>
                             <field name="owner_id" string="Owner" groups="stock.group_tracking_owner"/>
@@ -102,33 +110,39 @@
                             <field name="name" readonly="0" groups="base.group_no_one"/>
                             <field name="folio" invisible="1" readonly="1"/>
                             <field name="folio" groups="base.group_no_one"/>
-                            <field name="carrier_id" attrs="{'invisible': [('carrier_id', '=', False)]}"/>
-                            <field name="carrier_name" attrs="{'invisible': ['|',('carrier_name', '=', False),('carrier_id', '!=', False)]}"/>
-                            <field name="dest_location_id" string="Destino" attrs="{'invisible':[('cover_type', '!=', 'out')]}" options="{'no_create_edit': True, 'no_create': True}"/>
-                            <field name="dest_location_id" string="Proveedor" attrs="{'invisible':[('cover_type', '!=', 'in')]}" options="{'no_create_edit': True, 'no_create': True}"/>
+                            <field name="carrier_id" invisible="not carrier_id"/>
+                            <field name="carrier_name" invisible="not carrier_name or carrier_id"/>
+                            <field name="dest_location_id" string="Destino" invisible="cover_type != 'out'" options="{'no_create_edit': True, 'no_create': True}"/>
+                            <field name="dest_location_id" string="Proveedor" invisible="cover_type != 'in'" options="{'no_create_edit': True, 'no_create': True}"/>
                             <field name="supervisor_id"/> 
                         </group>
                         <group>
                             <field name="remition_qty"/>
-                            <field name="hr_driver_id" attrs="{'invisible': [('hr_driver_id', '=', False)]}"/>
-                            <field name="hr_driver_name" attrs="{'invisible': [('hr_driver_id', '!=', False)]}"/>
-                            <field name="vehicle_tag_id" attrs="{'invisible': [('vehicle_tag_id', '=', False)]}"/>
-                            <field name="vehicle_tag_name" attrs="{'invisible': [('vehicle_tag_id', '!=', False)]}"/>
+                            <field name="hr_driver_id" invisible="not hr_driver_id"/>
+                            <field name="hr_driver_name" invisible="hr_driver_id"/>
+                            <field name="vehicle_tag_id" invisible="not vehicle_tag_id"/>
+                            <field name="vehicle_tag_name" invisible="vehicle_tag_id"/>
                             <field name="vehicle_tag_name" groups="base.group_no_one"/>
                             <field name="create_date" string="Fecha de creación"/>
-                            <field name="montacarguista_id" options="{'no_create_edit': True, 'no_create': True}" attrs="{'invisible':[('cover_type', '!=', 'in')], 'required': [('cover_type', '=', 'in')]}"/>
-                            <field name="auditor_id" options="{'no_create_edit': True, 'no_create': True}" attrs="{'invisible':[('cover_type', '!=', 'in')], 'required': [('cover_type', '=', 'in')]}"/>
+                            <field name="montacarguista_id" 
+                                options="{'no_create_edit': True, 'no_create': True}"
+                                invisible="cover_type != 'in'"
+                                required="cover_type == 'in'"/>
+                            <field name="auditor_id" 
+                                options="{'no_create_edit': True, 'no_create': True}" 
+                                invisible="cover_type != 'in'"
+                                required="cover_type == 'in'"/>
                         </group>
                     </group>
                     <group>
                         <group>
-                            <field name="retrab_transpa_descr" string="Detalles RT" attrs="{'invisible':[('cover_type', '!=', 'out')]}"/>
-                            <field name="retrab_transpa_descr" string="Número BL" attrs="{'invisible':[('cover_type', '!=', 'in')]}"/>
-                            <field name="tarimas_m2l_descr" attrs="{'invisible':[('cover_type', '=', 'in')], 'required': [('cover_type', '!=', 'in')]}"/>
+                            <field name="retrab_transpa_descr" string="Detalles RT" invisible="cover_type != 'out'"/>
+                            <field name="retrab_transpa_descr" string="Número BL" invisible="cover_type != 'in'"/>
+                            <field name="tarimas_m2l_descr" invisible="cover_type == 'in'" required="cover_type != 'in'"/>
                         </group>
                         <group>
-                            <field name="is_critical" attrs="{'invisible':[('cover_type', '=', 'in')]}"/>
-                            <field name="out_date" attrs="{'invisible':[('cover_type', '=', 'in')], 'required': [('cover_type', '!=', 'in')]}" readonly="1"/>
+                            <field name="is_critical" invisible="cover_type == 'in'"/>
+                            <field name="out_date" invisible="cover_type == 'in'" required="cover_type != 'in'" readonly="1"/>
                             <field name="cover_type" invisible="1"/>
                         </group>
                     </group>
@@ -207,7 +221,7 @@
                 <field name="lot_id" groups="stock.group_production_lot"/>
                 <field name="location_id" groups="stock.group_stock_multi_locations"/>
                 <field name="location_dest_id" groups="stock.group_stock_multi_locations"/>
-                <field name="qty_done" string="Quantity Done"/>
+                <field name="quantity" string="Quantity Done"/>
                 <field name="product_uom_id" options="{'no_open': True, 'no_create': True}" string="Unit of Measure" groups="uom.group_uom"/>
                 <field name="company_id" groups="base.group_multi_company" force_save="1"/>
                 <field name="state" widget="badge" decoration-success="state == 'done'" decoration-info="state not in ('done', 'cancel')"/>
@@ -235,7 +249,7 @@
                 <field name="categ_id" optional="hide"/>
                 <field name="qty_available" optional="show"/>
                 <field name="type" optional="hide" readonly="1"/>
-                <field name="price" invisible="not context.get('pricelist',False)"/>
+                <field name="list_price" invisible="not context.get('pricelist',False)"/>
                 <field name="uom_id" options="{'no_open': True, 'no_create': True}" groups="uom.group_uom" optional="show" readonly="1"/>
                 <field name="product_tmpl_id" invisible="1" readonly="1"/>
                 <field name="active" invisible="1"/>
@@ -274,7 +288,7 @@
         <field name="model">stock.picking.type</field>
         <field name="inherit_id" ref="stock.view_picking_type_form"/>
         <field name="arch" type="xml">
-            <xpath expr="//field[@name='show_reserved']" position="after">
+            <xpath expr="//field[@name='create_backorder']" position="after">
                 <field name="type_cover"/>
                 <field name="to_report_module"/>
             </xpath>

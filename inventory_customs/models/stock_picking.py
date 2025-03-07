@@ -32,7 +32,7 @@ class StockPickingCustom(models.Model):
         if self.product_qty_pack <= 0:
             return
         move_id_multiply = self.move_ids_without_package.filtered(lambda li: li.product_id.id == self.product_to_multiply.id)
-        qty_for_done = move_id_multiply.product_uom_qty - move_id_multiply.quantity_done
+        qty_for_done = move_id_multiply.product_uom_qty - move_id_multiply.quantity # antes quantity_done
         if qty_for_done <= 0:
             return
         qty_iterations = int(qty_for_done/self.product_qty_pack)
@@ -75,7 +75,8 @@ class StockPickingCustom(models.Model):
                 'location_dest_id': self.location_dest_id.id,
                 'lot_name': "%s-%s-%s" % (fields.Datetime.now().strftime("%y"), julian_today, picking_seq),
                 # 'result_package_id': package_id.id,
-                'qty_done': qty_done,
+                # 'qty_done': qty_done,
+                'quantity': qty_done,
                 'company_id': self.company_id.id,
                 'product_id': move_id_multiply.product_id.id,
                 'product_uom_id': move_id_multiply.product_uom.id,
@@ -101,12 +102,14 @@ class StockPickingCustom(models.Model):
             line_data['result_package_id'] = package_id.id
             moves_for_add.append((0, 0, line_data))
         moves_for_add.reverse()
-        move_id_multiply.move_line_nosuggest_ids = moves_for_add
+        # move_id_multiply.move_line_nosuggest_ids = moves_for_add
+        move_id_multiply.move_line_ids = moves_for_add
         self.product_to_multiply = False
         self.product_qty_pack = 0
 
     def _get_product_mult_domain(self):
-        move_product_ids = self.move_ids_without_package.filtered(lambda x: x.product_uom_qty-x.quantity_done > 0).mapped('product_id').ids
+        # move_product_ids = self.move_ids_without_package.filtered(lambda x: x.product_uom_qty-x.quantity_done > 0).mapped('product_id').ids
+        move_product_ids = self.move_ids_without_package.filtered(lambda x: x.product_uom_qty-x.quantity > 0).mapped('product_id').ids
         if len(move_product_ids) > 0:
             self.product_tm_domain = [(6, 0, move_product_ids)]
         else:
@@ -131,11 +134,6 @@ class StockMoveLineCu(models.Model):
     julian_day = fields.Integer(string="Dia juliano")
     julian_day_seq = fields.Integer(string="Secuencia del día")
 
-#     @api.model_create_multi
-#     def create(self, vals_list):
-#         _log.info(" CREANDO NUEVA LINEA CON LOS VALORES:::  %s " % vals_list)
-#         result = super(StockMoveLineCu, self).create(vals_list)
-#         return result
 
 class StockQuantPackageM2l(models.Model):
     _inherit = "stock.quant.package"

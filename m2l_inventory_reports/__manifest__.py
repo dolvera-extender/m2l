@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 {
     'name': 'Inventory user reports',
-    'version': '0.1b',
+    'version': '17.0.0.0.1',
     'summary': 'Reportes de movimientos de inventario y productos',
     "author": "Ing. Isaac Chávez Arroyo",
     'description': "",
