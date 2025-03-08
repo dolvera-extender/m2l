@@ -22,7 +22,7 @@
     'assets': {
         'web.assets_backend': [
             'inventory_audit/static/src/*.js',
-            #'inventory_audit/static/src/legacy/*.js',
+            'inventory_audit/static/src/legacy/*.js',
             'inventory_audit/static/src/*.xml',
         ],
     },
