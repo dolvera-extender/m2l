@@ -1,26 +1,27 @@
 /** @odoo-module **/
 
-import { registry } from '@web/core/registry';
-import { useState } from '@odoo/owl';
-import { useBus, useService } from "@web/core/utils/hooks";
+import {registry} from '@web/core/registry';
+import {useState} from '@odoo/owl';
+import {useBus, useService} from "@web/core/utils/hooks";
 
 
-import { session } from '@web/session';
-import { showNotification } from '@web/core/notifications/notification_service';
+import {session} from '@web/session';
+import {showNotification} from '@web/core/notifications/notification_service';
 import * as BarcodeScanner from "@web/webclient/barcode/barcode_scanner";
-import { Component, onWillStart } from "@odoo/owl";
-import { serializeDate, today } from "@web/core/l10n/dates";
+import {Component, onWillStart} from "@odoo/owl";
+import {serializeDate, today} from "@web/core/l10n/dates";
 
 class MainMenu extends Component {
     setup() {
         const displayDemoMessage = this.props.action.params.message_demo_barcodes;
         const user = useService('user');
+        this.orm = useService("orm");
         this.actionService = useService('action');
         this.dialogService = useService('dialog');
         this.home = useService("home_menu");
         this.notificationService = useService("notification");
         this.rpc = useService('rpc');
-        this.state = useState({ displayDemoMessage });
+        this.state = useState({displayDemoMessage});
         this.barcodeService = useService('barcode');
         useBus(this.barcodeService.bus, "barcode_scanned", (ev) => this._onBarcodeScanned(ev.detail.barcode));
         const orm = useService('orm');
@@ -58,11 +59,14 @@ class MainMenu extends Component {
     }
 
     _onBarcodeScanned(barcode) {
-        this.orm.call('/ia_package_barcode/scan_package_barcode', { barcode }).then(result => {
+
+        this.orm.call('ia.packages.audit.wizard', 'obtain_action',[], {
+            barcode: barcode,
+        }).then(result => {
             if (result.action) {
                 this.actionService.doAction(result.action);
             } else if (result.warning) {
-                showNotification({ title: result.warning, type: 'danger' });
+                showNotification({title: result.warning, type: 'danger'});
             }
         });
     }

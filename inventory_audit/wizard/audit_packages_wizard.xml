@@ -5,7 +5,7 @@
         <field name="name">wizard_get_location_form_view</field>
         <field name="model">ia.packages.audit.wizard</field>
         <field name="arch" type="xml">
-            <form js_class="ia_barcodejs_form">
+            <form>
                 <sheet>
                     <group>
                         <group>
