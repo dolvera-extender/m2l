@@ -87,6 +87,33 @@ class PackagesAuditWizard(models.TransientModel):
                 'to_move': True
             })]
 
+    @api.model
+    def obtain_action(self,barcode):
+        barcode = barcode.replace("'", "-")
+        _log.info(" LECTURA HECHA ... %s  " % barcode)
+        location = self.env['stock.location'].search_read([('name', '=like', barcode)], ['id'], limit=1)
+        if len(location) <= 0:
+            return {'warning': _('No existe una ubicación para el código leído %(bcode)s') % {'bcode': barcode}}
+        packages = self.env['stock.quant.package'].search_read([('location_id', '=', location[0]['id'])], ['id'])
+        if len(packages) <= 0:
+            return {'warning': _('La ubicaciòn %(bcode)s no contiene paquetes ') % {'bcode': barcode}}
+        _log.info(" PAQUETES EN ESA UBICACIÓN. %s " % packages)
+        wizard_view_id = self.env.ref('inventory_audit.ai_packages_wizard_form_view').id
+        return {
+            'action': {
+                'name': "Verificacion de paquetes",
+                'res_model': 'ia.packages.audit.wizard',
+                'views': [(wizard_view_id, 'form')],
+                'type': 'ir.actions.act_window',
+                'target': "new",
+                'domain': [],
+                'context': {
+                    'default_location_id': location[0]['id'],
+                    'ai_package_ids': packages
+                }
+            }
+        }
+
 class PackageAuditWizardLine(models.TransientModel):
     _name = "ia.packages.audit.wizard.line"
     _description = "Paquetes a verificar"
