@@ -32,6 +32,7 @@ class StockPickingCustom(models.Model):
         if self.product_qty_pack <= 0:
             return
         move_id_multiply = self.move_ids_without_package.filtered(lambda li: li.product_id.id == self.product_to_multiply.id)
+        move_id_multiply = move_id_multiply[0] if len(move_id_multiply)>1 else move_id_multiply
         qty_for_done = move_id_multiply.product_uom_qty - move_id_multiply.quantity # antes quantity_done
         if qty_for_done <= 0:
             return
