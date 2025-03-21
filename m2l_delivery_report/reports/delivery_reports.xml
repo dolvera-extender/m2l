@@ -92,7 +92,7 @@
 
                             </style>
                             <!-- Group packs by product and lot number -->
-                            <t t-foreach="o.move_ids_without_package.filtered(lambda l: l.quantity_done > 0)" t-as="m2lline">
+                            <t t-foreach="o.move_ids_without_package.filtered(lambda l: l.quantity > 0)" t-as="m2lline">
                                 <tr style="opacity: 0.9; font-size: 14px;">
                                     <td>
                                         <span t-field="m2lline.product_id.name" style="color: black;"/>
@@ -102,7 +102,7 @@
 <!--                                        [<span t-field="m2lline.product_id.categ_id.name"/>]<span t-raw="m2lline.product_id.description"/>-->
                                     </td>
                                     <td style="text-align: right;">
-                                        <span t-field="m2lline.quantity_done"/>
+                                        <span t-field="m2lline.quantity"/>
                                     </td>
                                 </tr>
                                 <!-- Tabla de número de Número de lote/de serie  -->
@@ -150,7 +150,7 @@
                         </tbody>
                     </table>
                     <div style="text-align: right;">
-                        <strong>Total: </strong><span t-esc="sum(o.move_ids_without_package.mapped('quantity_done'))"/>
+                        <strong>Total: </strong><span t-esc="sum(o.move_ids_without_package.mapped('quantity'))"/>
                     </div>
                 </div>
             </t>
