@@ -67,7 +67,7 @@ class SaleOrderInherit(models.Model):
         self.mps_product_id = False
 
     def action_confirm(self):
-        self = self.with_context(mps_sale_id=self.id,mps_sale = self)
+        #self = self.with_context(mps_sale_id=self.id,mps_sale = self)
         res = super(SaleOrderInherit, self).action_confirm()
 
         return res
