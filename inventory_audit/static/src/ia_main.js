@@ -6,7 +6,8 @@ import {useBus, useService} from "@web/core/utils/hooks";
 
 
 import {session} from '@web/session';
-import {showNotification} from '@web/core/notifications/notification_service';
+import { _t } from "@web/core/l10n/translation";
+
 import * as BarcodeScanner from "@web/webclient/barcode/barcode_scanner";
 import {Component, onWillStart} from "@odoo/owl";
 import {serializeDate, today} from "@web/core/l10n/dates";
@@ -19,7 +20,7 @@ class MainMenu extends Component {
         this.actionService = useService('action');
         this.dialogService = useService('dialog');
         this.home = useService("home_menu");
-        this.notificationService = useService("notification");
+        this.notification = useService("notification");
         this.rpc = useService('rpc');
         this.state = useState({displayDemoMessage});
         this.barcodeService = useService('barcode');
@@ -51,11 +52,12 @@ class MainMenu extends Component {
                 window.navigator.vibrate(100);
             }
         } else {
-            showNotification({
-                type: 'warning',
-                message: "Please, Scan again!",
-            });
+            this.displayNotification(_t("Por favor, escanea de nuevo"))
         }
+    }
+
+    displayNotification(text){
+        this.notification.add(text, { type: "warning" });
     }
 
     _onBarcodeScanned(barcode) {
@@ -66,7 +68,7 @@ class MainMenu extends Component {
             if (result.action) {
                 this.actionService.doAction(result.action);
             } else if (result.warning) {
-                showNotification({title: result.warning, type: 'danger'});
+                this.displayNotification(_t(result.warning))
             }
         });
     }
