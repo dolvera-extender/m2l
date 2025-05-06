@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Vista del wizard -->
+    <record id="view_purchase_xlsx_wizard_form" model="ir.ui.view">
+        <field name="name">purchase.xlsx.wizard.form</field>
+        <field name="model">purchase.xlsx.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Creación de compra desde Excel">
+                <sheet>
+                    <group>
+                        <field name="excel_file" filename="excel_file_name"
+                               options="{'filename': 'excel_file_name'}"/>
+                        <field name="excel_file_name" readonly="1" invisible="1" force_save="1"/>
+                        <field name="xlsx_validated" readonly="1" invisible="1" force_save="1"/>
+                        <field name="partner_id" options="{'no_open': True, 'no_create': True}"/>
+                    </group>
+
+                    <!-- Se muestra la vista previa solo si existe contenido -->
+                    <group>
+                        <field name="preview_html" widget="html" readonly="1" force_save="1"/>
+                    </group>
+
+                    <footer>
+                        <!-- Botón para validar el Excel --><!-- Botón para crear la compra (sólo se usará si el Excel fue validado sin errores) -->
+                        <button name="action_create_purchase" type="object" string="Crear Compra" class="btn-primary"/>
+                        <button string="Cancelar" class="btn-secondary" special="cancel"/>
+                    </footer>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Acción para abrir el wizard -->
+    <record id="action_purchase_xlsx_wizard" model="ir.actions.act_window">
+        <field name="name">Creación de compras desde Excel</field>
+        <field name="res_model">purchase.xlsx.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <!-- Menú para acceder al wizard -->
+    <menuitem id="menu_purchase_xlsx_wizard" name="Creación de compras desde Excel" sequence="45"
+              parent="purchase.menu_procurement_management" action="action_purchase_xlsx_wizard"/>
+</odoo>

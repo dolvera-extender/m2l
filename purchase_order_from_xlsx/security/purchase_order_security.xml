@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record model="ir.module.category" id="purchase_order_from_xlsx_category">
+        <field name="name">Importar excel de compra</field>
+        <field name="description">Importar excel de compra</field>
+        <field name="sequence">1</field>
+    </record>
+
+
+    <record id="purchase_order_create_xlsx_group" model="res.groups">
+        <field name="name">Crear compra desde Excel</field>
+        <field name="category_id" ref="purchase_order_from_xlsx_category"/>
+        <field name="comment">Crear compra desde Excel</field>
+    </record>
+
+
+</odoo>
