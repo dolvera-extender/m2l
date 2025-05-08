@@ -13,6 +13,8 @@ class PurchaseXlsxWizardModel(models.TransientModel):
     excel_file = fields.Binary(string='Archivo Excel', required=True)
     excel_file_name = fields.Char(string='Nombre del archivo')
     partner_id = fields.Many2one('res.partner', string="Proveedor", required=True)
+    asn = fields.Char('ASN')
+    no_factura = fields.Char('No. Factura')
     preview_html = fields.Html(string="Vista previa de líneas", readonly=True)
     xlsx_validated = fields.Boolean(string="Excel Válido", default=False)
 
@@ -177,6 +179,8 @@ class PurchaseXlsxWizardModel(models.TransientModel):
                 'product_uom': product.uom_po_id.id,
                 'price_unit': price_unit,
                 'order_id': purchase.id,
+                'x_studio_asn':self.asn,
+                "x_studio_no_factura":self.no_factura,
             }
             if line_num not in order_lines_by_package:
                 order_lines_by_package[line_num] = {}
@@ -211,7 +215,7 @@ class PurchaseXlsxWizardModel(models.TransientModel):
                 line_id = line['line_id']
                 peso_por_pallet = line['peso_por_pallet']
                 letra = self.int_to_letter(i + 1)  # empieza desde A
-                pallet_name_new = f"{pallet_name}{letra}"
+                pallet_name_new = f"{pallet_name}"
 
 
                 for stock_move in line_id.move_ids:
@@ -221,8 +225,9 @@ class PurchaseXlsxWizardModel(models.TransientModel):
                         package_id = self.env['stock.quant.package'].create({
                             'location_id': stock_move.location_dest_id.id,
                             'name': pallet_name_new,
-                            'shipping_weight': peso_por_pallet
+                            'shipping_weight': 0
                         })
+                    package_id.shipping_weight +=float(peso_por_pallet)
                     stock_move.write({
                         'move_line_ids':[
                             (6,0,[]),

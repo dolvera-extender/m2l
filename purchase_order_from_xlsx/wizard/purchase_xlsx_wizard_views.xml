@@ -13,6 +13,8 @@
                         <field name="excel_file_name" readonly="1" invisible="1" force_save="1"/>
                         <field name="xlsx_validated" readonly="1" invisible="1" force_save="1"/>
                         <field name="partner_id" options="{'no_open': True, 'no_create': True}"/>
+                        <field name="asn" required="1"/>
+                        <field name="no_factura" required="1"/>
                     </group>
 
                     <!-- Se muestra la vista previa solo si existe contenido -->
