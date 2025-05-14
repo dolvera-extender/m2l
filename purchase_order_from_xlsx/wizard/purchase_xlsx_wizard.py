@@ -50,6 +50,7 @@ class PurchaseXlsxWizardModel(models.TransientModel):
               <tr>
                 <th style="padding:4px;">Línea</th>
                 <th style="padding:4px;">Pallet</th>
+                <th style="padding:4px;">Lote</th>
                 <th style="padding:4px;">Producto</th>
                 <th style="padding:4px;">Cantidad</th>
                 <th style="padding:4px;">Unidad de Medida</th>
@@ -65,6 +66,7 @@ class PurchaseXlsxWizardModel(models.TransientModel):
             product_name = str(row['numero de articulo ']).strip()
             qty = row['Cantidad']
             uom_name = str(row['UM']).strip()
+            lote = str(row['Lote Serie']).strip()
 
             estado = "OK"
             uom_name_odoo = ''
@@ -84,6 +86,7 @@ class PurchaseXlsxWizardModel(models.TransientModel):
               <tr>
                 <td style="padding:4px;">{line_num}</td>
                 <td style="padding:4px;">{pallet}</td>
+                <td style="padding:4px;">{lote}</td>
                 <td style="padding:4px;">{product_name}</td>
                 <td style="padding:4px;">{qty}</td>
                 <td style="padding:4px;">{uom_name}</td>
