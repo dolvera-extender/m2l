@@ -135,7 +135,7 @@ class PurchaseXlsxWizardModel(models.TransientModel):
 
         df.fillna('', inplace=True)
         df['pallet'] = df['pallet'].replace('', pd.NA).fillna(method='ffill')
-        expected_columns = ['pallet','numero de articulo ','Nombre del producto', 'Cantidad', 'UM']
+        expected_columns = ['pallet','numero de articulo ','Nombre del producto', 'Cantidad', 'UM','Lote Serie']
         for col in expected_columns:
             if col not in df.columns:
                 raise ValidationError(f"Falta la columna obligatoria: '{col}'")
@@ -153,10 +153,11 @@ class PurchaseXlsxWizardModel(models.TransientModel):
         for index, row in df.iterrows():
             line_num = index + 2
             pallet_name = str(row['pallet']).strip()
+            lote = str(row['Lote Serie']).strip()
             product_name = str(row['numero de articulo ']).strip()
             qty = row['Cantidad']
             uom_name = str(row['UM']).strip()
-            peso_por_pallet = str(row['Peso por Pallet']).strip()
+            peso_por_pallet = str(0)
 
             if not product_name or pd.isna(qty):
                 errores.append(f"Línea {line_num}: Datos incompletos.")
@@ -186,6 +187,7 @@ class PurchaseXlsxWizardModel(models.TransientModel):
                 order_lines_by_package[line_num] = {}
             order_lines_by_package[line_num]['data'] = data
             order_lines_by_package[line_num]['pallet'] = pallet_name
+            order_lines_by_package[line_num]['lote'] = lote
             order_lines_by_package[line_num]['peso_por_pallet'] = peso_por_pallet
 
         if errores:
@@ -199,6 +201,7 @@ class PurchaseXlsxWizardModel(models.TransientModel):
             data_create = order_lines_by_package[line_num]['data']
             pallet_name = order_lines_by_package[line_num]['pallet']
             peso_por_pallet = order_lines_by_package[line_num]['peso_por_pallet']
+            lote = order_lines_by_package[line_num]['lote']
 
             line_id = self.env['purchase.order.line'].create(data_create)
             if pallet_name not in purchase_line_by_pallet:
@@ -206,6 +209,7 @@ class PurchaseXlsxWizardModel(models.TransientModel):
             purchase_line_by_pallet[pallet_name].append({
                 'line_id':line_id,
                 'peso_por_pallet':peso_por_pallet,
+                'lote':lote,
             })
 
         purchase.button_confirm()
@@ -214,6 +218,7 @@ class PurchaseXlsxWizardModel(models.TransientModel):
             for i, line in enumerate(array_lines):
                 line_id = line['line_id']
                 peso_por_pallet = line['peso_por_pallet']
+                lote = line['lote']
                 letra = self.int_to_letter(i + 1)  # empieza desde A
                 pallet_name_new = f"{pallet_name}"
 
@@ -228,6 +233,7 @@ class PurchaseXlsxWizardModel(models.TransientModel):
                             'shipping_weight': 0
                         })
                     package_id.shipping_weight +=float(peso_por_pallet)
+
                     stock_move.write({
                         'move_line_ids':[
                             (6,0,[]),
@@ -239,6 +245,7 @@ class PurchaseXlsxWizardModel(models.TransientModel):
                                 'quantity':stock_move.product_uom_qty,
                                 'product_uom_id':stock_move.product_id.uom_po_id.id,
                                 'picking_id':stock_move.picking_id.id,
+                                'lot_name':lote,
                             })
                         ]
                     })
