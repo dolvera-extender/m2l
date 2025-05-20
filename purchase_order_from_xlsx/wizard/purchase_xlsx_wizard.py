@@ -207,6 +207,8 @@ class PurchaseXlsxWizardModel(models.TransientModel):
             lote = order_lines_by_package[line_num]['lote']
 
             line_id = self.env['purchase.order.line'].create(data_create)
+            if 'SSMX-2329' in pallet_name:
+                print("AQUI")
             if pallet_name not in purchase_line_by_pallet:
                 purchase_line_by_pallet[pallet_name] = []
             purchase_line_by_pallet[pallet_name].append({
@@ -218,24 +220,23 @@ class PurchaseXlsxWizardModel(models.TransientModel):
         purchase.button_confirm()
 
         for pallet_name, array_lines in purchase_line_by_pallet.items():
+            if pallet_name =='SSMX-2329':
+                print("AQUI")
+            location_id = line_id.move_ids.picking_id.location_id
+            package_id = self.env['stock.quant.package'].search(
+                [('name', '=', pallet_name), ('location_id', '=', location_id.id)], limit=1)
+            if not package_id:
+                package_id = self.env['stock.quant.package'].create({
+                    'location_id': location_id.id,
+                    'name': pallet_name,
+                    'shipping_weight': 0
+                })
+
             for i, line in enumerate(array_lines):
                 line_id = line['line_id']
-                peso_por_pallet = line['peso_por_pallet']
                 lote = line['lote']
-                letra = self.int_to_letter(i + 1)  # empieza desde A
-                pallet_name_new = f"{pallet_name}"
-
 
                 for stock_move in line_id.move_ids:
-                    package_id = self.env['stock.quant.package'].search(
-                        [('name', '=', pallet_name_new), ('location_id', '=',stock_move.location_id.id)], limit=1)
-                    if not package_id:
-                        package_id = self.env['stock.quant.package'].create({
-                            'location_id': stock_move.location_dest_id.id,
-                            'name': pallet_name_new,
-                            'shipping_weight': 0
-                        })
-                    package_id.shipping_weight +=float(peso_por_pallet)
 
                     stock_move.write({
                         'move_line_ids':[
