@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="stock_location_m2l_view_form" model="ir.ui.view">
+        <field name="name">stock.location.form_2filter_m2l.inherit</field>
+        <field name="model">stock.location</field>
+        <field name="inherit_id" ref="stock.view_location_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='replenish_location']" position="before">
+                <field name="total_rack"/>
+                <field name="percentage_ocupado"/>
+                <field name="qty_rack_free"/>
+            </xpath>
+
+        </field>
+    </record>
+</odoo>
