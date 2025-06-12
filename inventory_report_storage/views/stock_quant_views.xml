@@ -25,4 +25,19 @@
             </xpath>
         </field>
     </record>
+
+    <!--
+    <record id="stock_quant_package?editable_m2l_view_list" model="ir.ui.view">
+        <field name="name">stock.quant.package.editable_2filter_m2l.inherit</field>
+        <field name="model">stock.quant.package</field>
+        <field name="inherit_id" ref="stock.view_quant_package_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='location_id']" position="after">
+                <field name="total_rack" readonly="1" optional="show"/>
+                <field name="percentage_ocupado" optional="show"/>
+                <field name="qty_rack_free" optional="show"/>
+            </xpath>
+        </field>
+    </record>
+    !-->
 </odoo>

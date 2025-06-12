@@ -7,8 +7,8 @@
         <field name="arch" type="xml">
             <xpath expr="//field[@name='replenish_location']" position="before">
                 <field name="total_rack"/>
-                <field name="percentage_ocupado"/>
-                <field name="qty_rack_free"/>
+                <field name="percentage_ocupado" readonly="1" force_save="1"/>
+                <field name="qty_rack_free" readonly="1" force_save="1"/>
             </xpath>
 
         </field>
