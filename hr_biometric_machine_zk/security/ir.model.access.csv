@@ -1,7 +1,9 @@
 id,name,model_id/id,group_id/id,perm_read,perm_write,perm_create,perm_unlink
 access_zk_machine_location_manager,zk.machine.location,hr_biometric_machine_zk.model_zk_machine_location,hr_biometric_machine_zk.group_zk_manager,1,1,1,1
 access_zk_machine_manager,zk.machine,hr_biometric_machine_zk.model_zk_machine,hr_biometric_machine_zk.group_zk_manager,1,1,1,1
+access_zk_machine_manager_user,zk.machine.user,hr_biometric_machine_zk.model_zk_machine,base.group_user,1,0,0,0
 access_zk_employee_location_line_manager,zk.employee.location.line,hr_biometric_machine_zk.model_zk_employee_location_line,hr_biometric_machine_zk.group_zk_manager,1,1,1,1
+access_zk_employee_location_line_user_2,zk.employee.location.line.user,hr_biometric_machine_zk.model_zk_employee_location_line,base.group_user,1,0,0,0
 access_zk_create_user_manager,zk.create.user,hr_biometric_machine_zk.model_zk_create_user,hr_biometric_machine_zk.group_zk_manager,1,1,1,1
 access_zk_machine_location_user,zk.machine.location,hr_biometric_machine_zk.model_zk_machine_location,hr_biometric_machine_zk.group_zk_user,1,1,1,0
 access_zk_machine_user,zk.machine,hr_biometric_machine_zk.model_zk_machine,hr_biometric_machine_zk.group_zk_user,1,1,1,0
