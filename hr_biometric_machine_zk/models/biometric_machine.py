@@ -161,7 +161,7 @@ class zkMachine(models.Model):
                         ("zk_num", "=", int(attendance.user_id)),
                         ('location_id', '=', machine.location_id.id),
                         ('machine_id', '=', machine.id)
-                    ])
+                    ],limit=1)
                     if employee_location_line:
                         employee_id = employee_location_line.employee_id
                         date = attendance.timestamp
