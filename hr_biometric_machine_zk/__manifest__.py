@@ -6,7 +6,7 @@
     "website": "https://www.youtube.com/channel/UCTj66IUz5M-QV15Mtbx_7yg",
     "description": "Module for the integration between ZK Biometric Machines and Odoo.",
     'license': 'AGPL-3',
-    "depends": ["base", "hr", 'hr_attendance'],
+    "depends": ["base", "hr", 'hr_attendance','hr_work_entry_contract_attendance'],
     "data": [
             "security/res_groups.xml",
             "wizard/zk_create_users_wizard.xml",
