@@ -309,9 +309,18 @@ class SaleExcelImport(models.TransientModel):
                     "package_id": line["package_id"],
                     "product_id": line["product_id"],
                 })
-                line.update_qty_selected()
+                #COMENTADO POR QUE ACTUALIZA TODAS LAS LINEAS DEL MISMO PRODUCTO
+                #line.update_qty_selected()
 
         order.action_confirm()
+        return {
+            "type": "ir.actions.act_window",
+            "name": _("Orden de venta"),
+            "res_model": "sale.order",
+            "view_mode": "form",
+            "res_id": order.id,
+            "target": "current",
+        }
 
     def action_download_template(self):
         headers = [
