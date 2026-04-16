@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!--
+            Hereda el reporte "Operaciones de Recolección" (stock.report_picking)
+            y reemplaza la tabla de líneas para que se muestre agrupada por paquete.
+            Las líneas con mismo paquete y mismo producto se fusionan.
+        -->
+        <template id="report_picking_by_package" inherit_id="stock.report_picking">
+
+            <xpath expr="//table[contains(@t-if, 'move_ids_without_package')]" position="replace">
+
+                <table class="table table-sm" t-if="o.move_line_ids and o.move_ids_without_package">
+
+                    <!-- Mismas variables del reporte original -->
+                    <t t-set="has_barcode" t-value="any(ml.product_id and ml.product_id.sudo().barcode or ml.package_id for ml in o.move_line_ids)"/>
+                    <t t-set="has_serial_number" t-value="any(ml.lot_id or ml.lot_name for ml in o.move_line_ids)" groups="stock.group_production_lot"/>
+
+                    <thead>
+                        <tr>
+                            <th name="th_product">
+                                <strong>Producto</strong>
+                            </th>
+                            <th>
+                                <strong>Cantidad</strong>
+                            </th>
+                            <th name="th_from"
+                                t-if="o.picking_type_id.code != 'incoming'"
+                                align="left"
+                                groups="stock.group_stock_multi_locations">
+                                <strong>Desde</strong>
+                            </th>
+                            <th name="th_to"
+                                t-if="o.picking_type_id.code != 'outgoing'"
+                                groups="stock.group_stock_multi_locations">
+                                <strong>Hacia</strong>
+                            </th>
+                            <th name="th_serial_number"
+                                class="text-center"
+                                t-if="has_serial_number">
+                                <strong>Lote/No. Serie</strong>
+                            </th>
+                            <th name="th_barcode"
+                                class="text-center"
+                                t-if="has_barcode">
+                                <strong>Código de barras</strong>
+                            </th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr t-foreach="o.get_picking_lines_by_package()" t-as="line">
+
+                                <!-- Producto -->
+                                <td>
+                                    <span t-esc="line['product_id'].display_name"/>
+                                    <t t-set="desc" t-value="line['product_id'].description_picking"/>
+                                    <br t-if="desc"/>
+                                    <span t-if="desc" t-out="desc"/>
+                                </td>
+
+                                <!-- Cantidad -->
+                                <td>
+                                    <span t-esc="'%.2f' % line['quantity']"/>
+                                    <span groups="uom.group_uom"> <t t-esc="line['product_uom_id'].name"/></span>
+                                </td>
+
+                                <!-- Desde -->
+                                <td t-if="o.picking_type_id.code != 'incoming'"
+                                    groups="stock.group_stock_multi_locations">
+                                    <span t-esc="line['location_id'].display_name"/>
+                                </td>
+
+                                <!-- Hacia -->
+                                <td t-if="o.picking_type_id.code != 'outgoing'"
+                                    groups="stock.group_stock_multi_locations">
+                                    <span t-esc="line['location_dest_id'].display_name"/>
+                                </td>
+
+                                <!-- Lote / No. Serie -->
+                                <td class="text-center h6" t-if="has_serial_number">
+                                    <t t-foreach="line['lot_ids']" t-as="lot">
+                                        <span t-esc="lot.name"
+                                              t-options="{'widget': 'barcode', 'humanreadable': 1, 'width': 400, 'height': 100, 'img_style': 'width:100%;height:35px;'}"/>
+                                        <br t-if="not lot_last"/>
+                                    </t>
+                                    <t t-foreach="line['lot_names']" t-as="lname">
+                                        <span t-esc="lname"/>
+                                        <br t-if="not lname_last"/>
+                                    </t>
+                                </td>
+
+                                <!-- Código de barras del producto -->
+                                <td class="text-center" t-if="has_barcode">
+                                    <t t-set="product" t-value="line['product_id']"/>
+                                    <span t-if="product and product.barcode">
+                                        <div t-field="product.barcode"
+                                             t-options="{'widget': 'barcode', 'symbology': 'auto', 'width': 400, 'height': 100, 'quiet': 0, 'img_style': 'height:35px;'}"/>
+                                    </span>
+                                </td>
+
+                            </tr>
+
+                    </tbody>
+
+                </table>
+
+            </xpath>
+        </template>
+
+    </data>
+</odoo>
