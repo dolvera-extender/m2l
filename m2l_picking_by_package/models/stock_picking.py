@@ -7,7 +7,7 @@ class StockPicking(models.Model):
 
     def get_picking_lines_by_package(self):
         """
-        Devuelve las líneas de movimiento agrupadas por (paquete, producto),
+        Devuelve las líneas de movimiento agrupadas por paquete, producto y ubicaciones,
         fusionando cantidades de líneas con misma combinación.
 
         Orden de salida: primero por nombre de producto, luego por nombre de paquete.
@@ -20,6 +20,8 @@ class StockPicking(models.Model):
                 'product_uom_id': uom.uom,
                 'location_id': stock.location,
                 'location_dest_id': stock.location,
+                'package_id': stock.quant.package | False,
+                'result_package_id': stock.quant.package | False,
                 'lot_ids': stock.lot (recordset),
                 'lot_names': list[str],
                 'package': stock.quant.package | False,
@@ -27,20 +29,23 @@ class StockPicking(models.Model):
             ...
         ]
         """
-        # (pkg_id, prod_id) -> datos acumulados
+        # (producto, unidad, ubicaciones y paquetes) -> datos acumulados
         grouped = {}
-        # pkg_id -> registro de paquete (o False)
-        packages_map = {}
 
         for ml in self.move_line_ids_without_package:
-            pkg = ml.result_package_id or ml.package_id
-            pkg_id = pkg.id if pkg else 0
+            package = ml.package_id
+            result_package = ml.result_package_id
+            pkg = result_package or package
             prod_id = ml.product_id.id
 
-            if pkg_id not in packages_map:
-                packages_map[pkg_id] = pkg if pkg else False
-
-            key = (pkg_id, prod_id)
+            key = (
+                prod_id,
+                ml.product_uom_id.id,
+                ml.location_id.id,
+                ml.location_dest_id.id,
+                package.id if package else 0,
+                result_package.id if result_package else 0,
+            )
             if key not in grouped:
                 grouped[key] = {
                     'product_id': ml.product_id,
@@ -48,6 +53,8 @@ class StockPicking(models.Model):
                     'product_uom_id': ml.product_uom_id,
                     'location_id': ml.location_id,
                     'location_dest_id': ml.location_dest_id,
+                    'package_id': package if package else False,
+                    'result_package_id': result_package if result_package else False,
                     'lot_ids': self.env['stock.lot'].browse(),
                     'lot_names': [],
                     'package': pkg if pkg else False,
