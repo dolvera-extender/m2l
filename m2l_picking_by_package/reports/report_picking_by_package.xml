@@ -70,12 +70,20 @@
                                 <td t-if="o.picking_type_id.code != 'incoming'"
                                     groups="stock.group_stock_multi_locations">
                                     <span t-esc="line['location_id'].display_name"/>
+                                    <t t-if="line['package_id']">
+                                        <span t-esc="line['package_id'].name"/>
+                                    </t>
                                 </td>
 
                                 <!-- Hacia -->
                                 <td t-if="o.picking_type_id.code != 'outgoing'"
                                     groups="stock.group_stock_multi_locations">
-                                    <span t-esc="line['location_dest_id'].display_name"/>
+                                    <div>
+                                        <span t-esc="line['location_dest_id'].display_name"/>
+                                        <t t-if="line['result_package_id']">
+                                            <span t-esc="line['result_package_id'].name"/>
+                                        </t>
+                                    </div>
                                 </td>
 
                                 <!-- Lote / No. Serie -->
